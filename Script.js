@@ -384,7 +384,7 @@ const menuData = [
     },
     { 
         section:"الايدامات", 
-        sectionImg: "/Dirty55/ed00.webp",
+        sectionImg: "ed00.webp",
         items:[
             // الوجبة 1
             {id:"eid1", img:"ed01.webp", name:"ملوخيه", basePrice:10, availableIn: ['branch1', 'branch2', 'branch3'], options:[{name:"صحن", price:0}]},
