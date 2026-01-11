@@ -1290,65 +1290,55 @@ setTimeout(() => {
     }
   });
 
-}, 1500);
-/* ====== 📱 نظام إشعارات iOS الموحد والذكي ====== */
+}, 1500);/* ================================================= */
+/* 🔔 نظام الإشعارات الذكي (نسخة موحدة ونظيفة) 🔔 */
+/* ================================================= */
 
-async function setupSmartPushButton() {
+async function initSmartPushSystem() {
     const enableBtn = document.getElementById("enableIosPush");
     const helpBtn = document.getElementById("iosHelpBtn");
     
-    if (!enableBtn && !helpBtn) return;
+    // فحص المتصفح والنظام
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const isStandalone = window.navigator.standalone === true;
 
-    const ua = navigator.userAgent.toLowerCase();
-    const isIOS = /iphone|ipad|ipod/.test(ua);
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-
-    // 1. منطق إظهار الأزرار بناءً على حالة التثبيت
-    if (isIOS) {
-        if (isStandalone) {
-            // التطبيق مثبت: نظهر زر طلب الإذن
-            if (enableBtn) enableBtn.style.display = "block";
-        } else {
-            // التطبيق ليس مثبتاً: نظهر زر المساعدة في التثبيت
-            if (helpBtn) helpBtn.style.display = "inline-flex";
-        }
-    }
-
-    // 2. فحص حالة الاشتراك فور تحميل الصفحة لإخفاء الزر إذا كان مفعلاً
+    // تهيئة OneSignal والتحقق من حالة الاشتراك
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     window.OneSignalDeferred.push(async function(OneSignal) {
+        
+        // 1. التحقق: هل المستخدم مشترك حالياً؟
         const isSubscribed = await OneSignal.User.PushSubscription.optedIn;
-        if (isSubscribed && enableBtn) {
-            enableBtn.style.display = "none"; 
-        }
-    });
-
-    // 3. برمجة عملية الضغط على زر التفعيل
-    enableBtn?.addEventListener("click", async () => {
-        try {
-            if (window.OneSignal?.Notifications) {
-                await window.OneSignal.Notifications.requestPermission();
-                enableBtn.style.display = "none"; // إخفاء فوري بعد الضغط
-                alert("تم طلب إذن الإشعارات بنجاح 🔔");
-            } else {
-                alert("نظام الإشعارات غير جاهز بعد");
+        
+        if (isSubscribed) {
+            // إذا كان مشتركاً، نخفي الأزرار تماماً
+            if (enableBtn) enableBtn.style.display = "none";
+        } else {
+            // إذا لم يكن مشتركاً، نظهر الزر المناسب حسب الحالة
+            if (isIOS) {
+                if (isStandalone && enableBtn) {
+                    enableBtn.style.display = "block"; // إظهار زر التفعيل المباشر
+                } else if (!isStandalone && helpBtn) {
+                    helpBtn.style.display = "inline-flex"; // إظهار زر المساعدة للتثبيت
+                }
             }
-        } catch (e) {
-            console.error("خطأ في تفعيل الإشعارات:", e);
         }
-    });
-}
 
-// تشغيل الوظيفة الموحدة عند تحميل الصفحة
-document.addEventListener("DOMContentLoaded", setupSmartPushButton);
-
-/* ====== 🛠️ تسجيل الـ Service Worker ====== */
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js').then(reg => {
-            console.log('Service Worker Registered!', reg.scope);
-        }).catch(err => {
-            console.error('Service Worker Registration failed:', err);
+        // 2. برمجة زر "تفعيل الإشعارات"
+        enableBtn?.addEventListener("click", async () => {
+            try {
+                if (OneSignal.Notifications) {
+                    await OneSignal.Notifications.requestPermission();
+                    // إخفاء الزر بعد النقر بنجاح
+                    enableBtn.style.display = "none"; 
+                    alert("شكراً لك! تم طلب إذن الإشعارات بنجاح 🔔");
+                }
+            } catch (e) {
+                console.error("خطأ في نظام الإشعارات:", e);
+            }
         });
     });
 }
+
+// تشغيل النظام فور جاهزية الصفحة
+document.addEventListener("DOMContentLoaded", initSmartPushSystem);
+
