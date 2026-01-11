@@ -1291,29 +1291,31 @@ setTimeout(() => {
   });
 
 }, 1500);
-// ===== FORCE DEBUG ON SCREEN =====
+// ===== iOS Enable Push Button =====
 setTimeout(() => {
-  const info = document.createElement("div");
-  info.style.position = "fixed";
-  info.style.bottom = "10px";
-  info.style.left = "10px";
-  info.style.right = "10px";
-  info.style.zIndex = "9999";
-  info.style.background = "#000";
-  info.style.color = "#fff";
-  info.style.padding = "10px";
-  info.style.fontSize = "14px";
-  info.style.borderRadius = "8px";
 
   const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
   const isStandalone = window.navigator.standalone === true;
 
-  info.innerHTML = `
-    iOS: ${isIOS} <br>
-    Standalone: ${isStandalone} <br>
-    Script Loaded: YES
-  `;
+  const enableBtn = document.getElementById("enableIosPush");
 
-  document.body.appendChild(info);
+  // يظهر الزر فقط إذا آيفون + التطبيق مثبت
+  if (isIOS && isStandalone && enableBtn) {
+    enableBtn.style.display = "block";
+  }
+
+  // عند الضغط يطلب الإذن (وهذا الوحيد اللي يطلع النافذة)
+  enableBtn?.addEventListener("click", async () => {
+    try {
+      if (window.OneSignal?.Notifications) {
+        await OneSignal.Notifications.requestPermission();
+      } else {
+        alert("نظام الإشعارات غير جاهز بعد");
+      }
+    } catch (e) {
+      alert("حدث خطأ أثناء تفعيل الإشعارات");
+    }
+  });
+
 }, 1000);
 // ------------------------------------------
