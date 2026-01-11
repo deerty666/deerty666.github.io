@@ -1,13 +1,16 @@
 // اسم الكاش الخاص بنا
-const CACHE_NAME = 'deerty-menu-v1';
+const CACHE_NAME = 'deerty-menu-v2';
 
-// الملفات الأساسية التي يجب تخزينها مؤقتاً لتمكين التثبيت (PWA requirement)
+// الملفات الأساسية التي يجب تخزينها مؤقتاً لتمكين التثبيت (PWA) من المجلد الرئيسي مباشرة
 const urlsToCache = [
-    '/Dirty55/', 
-    '/Dirty55/menu.html',
-    '/Dirty55/style.css',
-    '/Dirty55/Script.js',
-    '/Dirty55/manifest.json'
+    '/', 
+    'index.html',
+    'menu.html',
+    'branch_selector.html',
+    'style.css',
+    'Script.js',
+    'manifest.json',
+    'logo-bg.webp' // أضفنا شعار الموقع لضمان ظهوره دائماً
 ];
 
 self.addEventListener('install', (evt) => {
@@ -15,7 +18,7 @@ self.addEventListener('install', (evt) => {
     evt.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
-                console.log('Opened cache and caching essential files for PWA install.');
+                console.log('تم فتح الكاش وتخزين الملفات الأساسية بنجاح 📦');
                 return cache.addAll(urlsToCache);
             })
             .then(() => self.skipWaiting()) // تفعيل العامل الخدمي فوراً
@@ -23,12 +26,12 @@ self.addEventListener('install', (evt) => {
 });
 
 self.addEventListener('activate', (evt) => {
-    // السيطرة على العميل ومسح أي كاش قديم (مهم)
+    // السيطرة على العميل ومسح أي كاش قديم لضمان تحديث البيانات
     evt.waitUntil(
         caches.keys().then(keys =>
             Promise.all(keys.map(k => {
                 if (k !== CACHE_NAME) {
-                    console.log('Deleting old cache:', k);
+                    console.log('حذف الكاش القديم:', k);
                     return caches.delete(k);
                 }
             }))
@@ -37,11 +40,10 @@ self.addEventListener('activate', (evt) => {
 });
 
 self.addEventListener('fetch', (evt) => {
-    // استراتيجية "الشبكة أولاً مع العودة للكاش"
-    // هذا يضمن أن يتم جلب جميع البيانات (بما في ذلك menuData من Script.js) من الشبكة دائماً
+    // استراتيجية "الشبكة أولاً" لضمان تحديث قائمة الطعام دائماً
     evt.respondWith(
         fetch(evt.request).catch(function() {
-            // إذا فشل جلب البيانات من الشبكة، نرجع النسخة المخزنة مؤقتاً فقط للملفات الأساسية
+            // إذا كان المستخدم أوفلاين، نرجع النسخة المخزنة مؤقتاً
             return caches.match(evt.request);
         })
     );
