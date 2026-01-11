@@ -1291,72 +1291,47 @@ setTimeout(() => {
   });
 
 }, 1500);
-// ===== iOS Enable Push Button =====
-setTimeout(() => {
-
-  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  const isStandalone = window.navigator.standalone === true;
-
-  const enableBtn = document.getElementById("enableIosPush");
-
-  // يظهر الزر فقط إذا آيفون + التطبيق مثبت
-  if (isIOS && isStandalone && enableBtn) {
-    enableBtn.style.display = "block";
-  }
-
-  // عند الضغط يطلب الإذن (وهذا الوحيد اللي يطلع النافذة)
-  enableBtn?.addEventListener("click", async () => {
-    try {
-      if (window.OneSignal?.Notifications) {
-        await OneSignal.Notifications.requestPermission();
-      } else {
-        alert("نظام الإشعارات غير جاهز بعد");
-      }
-    } catch (e) {
-      alert("حدث خطأ أثناء تفعيل الإشعارات");
-    }
-  });
-
-}, 1000);
-// --- كود تفعيل وإخفاء زر الإشعارات الذكي ---
+/* ====== 📱 نظام إشعارات iOS الموحد والذكي ====== */
 
 async function setupSmartPushButton() {
     const enableBtn = document.getElementById("enableIosPush");
-    if (!enableBtn) return;
+    const helpBtn = document.getElementById("iosHelpBtn");
+    
+    if (!enableBtn && !helpBtn) return;
 
-    // 1. فحص حالة الاشتراك عند تحميل الصفحة
+    const ua = navigator.userAgent.toLowerCase();
+    const isIOS = /iphone|ipad|ipod/.test(ua);
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+    // 1. منطق إظهار الأزرار بناءً على حالة التثبيت
+    if (isIOS) {
+        if (isStandalone) {
+            // التطبيق مثبت: نظهر زر طلب الإذن
+            if (enableBtn) enableBtn.style.display = "block";
+        } else {
+            // التطبيق ليس مثبتاً: نظهر زر المساعدة في التثبيت
+            if (helpBtn) helpBtn.style.display = "inline-flex";
+        }
+    }
+
+    // 2. فحص حالة الاشتراك فور تحميل الصفحة لإخفاء الزر إذا كان مفعلاً
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     window.OneSignalDeferred.push(async function(OneSignal) {
-        
-        // التحقق: هل المستخدم مشترك حالياً؟
         const isSubscribed = await OneSignal.User.PushSubscription.optedIn;
-        
-        if (isSubscribed) {
-            // إذا كان مشتركاً، نخفي الزر تماماً
+        if (isSubscribed && enableBtn) {
             enableBtn.style.display = "none"; 
-        } else {
-            // إذا لم يكن مشتركاً، نتأكد من إظهار الزر (فقط لمستخدمي آيفون وتطبيق مثبت)
-            const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-            const isStandalone = window.navigator.standalone === true;
-            if (isIOS && isStandalone) {
-                enableBtn.style.display = "block";
-            }
         }
     });
 
-    // 2. برمجة عملية الضغط على الزر
-    enableBtn.addEventListener("click", async () => {
+    // 3. برمجة عملية الضغط على زر التفعيل
+    enableBtn?.addEventListener("click", async () => {
         try {
-            if (window.OneSignal && window.OneSignal.Notifications) {
-                // طلب إذن الإشعارات
+            if (window.OneSignal?.Notifications) {
                 await window.OneSignal.Notifications.requestPermission();
-                
-                // إخفاء الزر فوراً بعد النقر بنجاح
-                enableBtn.style.display = "none"; 
-                
+                enableBtn.style.display = "none"; // إخفاء فوري بعد الضغط
                 alert("تم طلب إذن الإشعارات بنجاح 🔔");
             } else {
-                alert("نظام الإشعارات غير جاهز بعد، يرجى المحاولة مرة أخرى.");
+                alert("نظام الإشعارات غير جاهز بعد");
             }
         } catch (e) {
             console.error("خطأ في تفعيل الإشعارات:", e);
@@ -1364,7 +1339,16 @@ async function setupSmartPushButton() {
     });
 }
 
-// تشغيل الوظيفة
-setupSmartPushButton();
+// تشغيل الوظيفة الموحدة عند تحميل الصفحة
+document.addEventListener("DOMContentLoaded", setupSmartPushButton);
 
-// ------------------------------------------
+/* ====== 🛠️ تسجيل الـ Service Worker ====== */
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js').then(reg => {
+            console.log('Service Worker Registered!', reg.scope);
+        }).catch(err => {
+            console.error('Service Worker Registration failed:', err);
+        });
+    });
+}
