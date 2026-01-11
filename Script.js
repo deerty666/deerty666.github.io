@@ -1261,35 +1261,34 @@ function renderCartSuggestions() {
         suggestionsContainer.appendChild(itemDiv);
     });
 }
-document.addEventListener("DOMContentLoaded", async () => {
+// ===== iOS Push Debug + Show Button =====
+setTimeout(() => {
 
   const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
   const isStandalone = window.navigator.standalone === true;
 
-  const iosHelpBtn = document.getElementById("iosHelpBtn");
-  const enableIosPush = document.getElementById("enableIosPush");
+  const enableBtn = document.getElementById("enableIosPush");
+  const helpBtn = document.getElementById("iosHelpBtn");
 
-  // iPhone لكن غير مثبت
-  if (isIOS && !isStandalone) {
-    if (iosHelpBtn) iosHelpBtn.style.display = "block";
+  console.log("iOS:", isIOS);
+  console.log("Standalone:", isStandalone);
+
+  if (isIOS && isStandalone && enableBtn) {
+    enableBtn.style.display = "block";
   }
 
-  // iPhone ومثبت كتطبيق
-  if (isIOS && isStandalone) {
-    if (enableIosPush) enableIosPush.style.display = "block";
+  if (isIOS && !isStandalone && helpBtn) {
+    helpBtn.style.display = "block";
   }
 
-  // عند الضغط على زر تفعيل الإشعارات
-  enableIosPush?.addEventListener("click", async () => {
-    try {
-      if (window.OneSignal) {
-        await OneSignal.Notifications.requestPermission();
-        alert("📢 إذا وافقت، ستصلك إشعارات العروض تلقائيًا");
-      }
-    } catch (e) {
-      console.error("OneSignal error:", e);
+  enableBtn?.addEventListener("click", async () => {
+    if (window.OneSignal?.Notifications) {
+      await OneSignal.Notifications.requestPermission();
+      alert("تم طلب إذن الإشعارات 🔔");
+    } else {
+      alert("OneSignal غير جاهز");
     }
   });
 
-});
+}, 1500);
 // ------------------------------------------
