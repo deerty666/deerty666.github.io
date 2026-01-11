@@ -1318,4 +1318,53 @@ setTimeout(() => {
   });
 
 }, 1000);
+// --- كود تفعيل وإخفاء زر الإشعارات الذكي ---
+
+async function setupSmartPushButton() {
+    const enableBtn = document.getElementById("enableIosPush");
+    if (!enableBtn) return;
+
+    // 1. فحص حالة الاشتراك عند تحميل الصفحة
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    window.OneSignalDeferred.push(async function(OneSignal) {
+        
+        // التحقق: هل المستخدم مشترك حالياً؟
+        const isSubscribed = await OneSignal.User.PushSubscription.optedIn;
+        
+        if (isSubscribed) {
+            // إذا كان مشتركاً، نخفي الزر تماماً
+            enableBtn.style.display = "none"; 
+        } else {
+            // إذا لم يكن مشتركاً، نتأكد من إظهار الزر (فقط لمستخدمي آيفون وتطبيق مثبت)
+            const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+            const isStandalone = window.navigator.standalone === true;
+            if (isIOS && isStandalone) {
+                enableBtn.style.display = "block";
+            }
+        }
+    });
+
+    // 2. برمجة عملية الضغط على الزر
+    enableBtn.addEventListener("click", async () => {
+        try {
+            if (window.OneSignal && window.OneSignal.Notifications) {
+                // طلب إذن الإشعارات
+                await window.OneSignal.Notifications.requestPermission();
+                
+                // إخفاء الزر فوراً بعد النقر بنجاح
+                enableBtn.style.display = "none"; 
+                
+                alert("تم طلب إذن الإشعارات بنجاح 🔔");
+            } else {
+                alert("نظام الإشعارات غير جاهز بعد، يرجى المحاولة مرة أخرى.");
+            }
+        } catch (e) {
+            console.error("خطأ في تفعيل الإشعارات:", e);
+        }
+    });
+}
+
+// تشغيل الوظيفة
+setupSmartPushButton();
+
 // ------------------------------------------
