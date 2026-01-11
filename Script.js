@@ -1260,37 +1260,8 @@ function renderCartSuggestions() {
 
         suggestionsContainer.appendChild(itemDiv);
     });
-}
-// ===== iOS Push Debug + Show Button =====
-setTimeout(() => {
-
-  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  const isStandalone = window.navigator.standalone === true;
-
-  const enableBtn = document.getElementById("enableIosPush");
-  const helpBtn = document.getElementById("iosHelpBtn");
-
-  console.log("iOS:", isIOS);
-  console.log("Standalone:", isStandalone);
-
-  if (isIOS && isStandalone && enableBtn) {
-    enableBtn.style.display = "block";
-  }
-
-  if (isIOS && !isStandalone && helpBtn) {
-    helpBtn.style.display = "block";
-  }
-
-  enableBtn?.addEventListener("click", async () => {
-    if (window.OneSignal?.Notifications) {
-      await OneSignal.Notifications.requestPermission();
-      alert("تم طلب إذن الإشعارات 🔔");
-    } else {
-      alert("OneSignal غير جاهز");
     }
-  });
 
-}, 1500);/* ================================================= */
 /* 🔔 نظام الإشعارات الذكي (نسخة موحدة ونظيفة) 🔔 */
 /* ================================================= */
 
