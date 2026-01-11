@@ -1291,4 +1291,29 @@ setTimeout(() => {
   });
 
 }, 1500);
+// ===== FORCE DEBUG ON SCREEN =====
+setTimeout(() => {
+  const info = document.createElement("div");
+  info.style.position = "fixed";
+  info.style.bottom = "10px";
+  info.style.left = "10px";
+  info.style.right = "10px";
+  info.style.zIndex = "9999";
+  info.style.background = "#000";
+  info.style.color = "#fff";
+  info.style.padding = "10px";
+  info.style.fontSize = "14px";
+  info.style.borderRadius = "8px";
+
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isStandalone = window.navigator.standalone === true;
+
+  info.innerHTML = `
+    iOS: ${isIOS} <br>
+    Standalone: ${isStandalone} <br>
+    Script Loaded: YES
+  `;
+
+  document.body.appendChild(info);
+}, 1000);
 // ------------------------------------------
