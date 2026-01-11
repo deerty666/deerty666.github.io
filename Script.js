@@ -36,17 +36,17 @@ const menuData = [
     },
     { 
         section:"الشوايه", 
-        sectionImg: "sh00.webp", // صورة القسم
+        sectionImg: "sh01.webp", // صورة القسم
         items:[
             // الوجبة 1
-            {id:"sh1", img:"sh00.webp", name:"حبة شواية", basePrice:46, availableIn: ['branch1','branch2', 'branch3'], options:[ 
+            {id:"sh1", img:"sh01.webp", name:"حبة شواية", basePrice:46, availableIn: ['branch1','branch2', 'branch3'], options:[ 
                 {name:"رز شعبي", price:0},
                 {name:"رز بشاور", price:4},
                 {name:"رز مندي", price:4},
                 {name:"رز مثلوثه", price:4}
             ]},
             // الوجبة 2: تم تغيير اسمها
-            {id:"sh2", img:"sh00.webp", name:"نص شواية بالرز", basePrice:23, availableIn: ['branch1', 'branch2', 'branch3'], options:[
+            {id:"sh2", img:"sh01.webp", name:"نص شواية بالرز", basePrice:23, availableIn: ['branch1', 'branch2', 'branch3'], options:[
                 {name:"رز شعبي", price:0},
                 {name:"رز بشاور", price:2},
                 {name:"رز مندي", price:2},
@@ -464,7 +464,7 @@ const menuData = [
         sectionAvailableIn: ['branch1', 'branch2', 'branch3'], 
         items:[
             // الوجبة 1
-            {id:"kna1", img:"kn01.webp", name:"كنافه قشطه", basePrice:10, availableIn: ['branch1', 'branch2', 'branch3'], options:[{name:"", price:0}]},
+            {id:"kna1", img:"kn00.webp", name:"كنافه قشطه", basePrice:10, availableIn: ['branch1', 'branch2', 'branch3'], options:[{name:"", price:0}]},
             // الوجبة 2
             {id:"kna2", img:"kn02.webp", name:"كنافه جلاكسي", basePrice:12, availableIn: ['branch1', 'branch2', 'branch3'], options:[{name:"", price:0}]},
             // الوجبة 3
