@@ -31,7 +31,7 @@ const menuData = [
     // 1. القسم الجديد: الكل
     { 
         section:"الكل", 
-        sectionImg: "logo-bg.webp", // صورة عامة
+        sectionImg: "logo-bg1.webp", // صورة عامة
         items:[] 
     },
     { 
@@ -176,7 +176,7 @@ const menuData = [
     },
     { 
         section:"قسم اللحوم", 
-        sectionImg: "me00.webp",
+        sectionImg: "me01.webp",
         items:[
             // الوجبة 1
             {
