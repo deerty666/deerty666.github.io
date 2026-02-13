@@ -6,7 +6,7 @@ const BRANCH_CONFIG = {
         deliveryFee: 5,
     },
     'branch2': {
-        whatsapp: '9665XXXXXXXX2', // ⚠️ يرجى تغيير رقم الواتساب لفرع جدة
+        whatsapp: '966536803598', // ⚠️ يرجى تغيير رقم الواتساب لفرع جدة
         name: 'شمال الرياض مخرج ٦', 
         deliveryFee: 5, 
     },
