@@ -56,6 +56,7 @@ const menuData = [
     id:"ram1",
     img:"mm55.png", 
     name:"وجبة إفطار صائم ",
+    description:"ربع دجاج • سمبوسة • شوربة • لبن • ماء • تمر",            
     basePrice:8,
     isBestSeller: true,
     availableIn: ['branch1','branch2','branch3'],
@@ -715,6 +716,7 @@ function renderMenu(sectionName, searchTerm = ''){
             ${bestSellerBadge} 
             <h3>${item.name}</h3>
             <p>${displayedSection}</p>
+            ${item.description ? `<div class="item-desc">${item.description}</div>` : ''}
             <div class="price">${priceDisplay}</div>
             <button class="add-btn" ${buttonAttributes}>${buttonText}</button> 
         `;
