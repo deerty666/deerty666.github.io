@@ -84,7 +84,7 @@ const menuData = [
                 img:"sh20.webp", 
                 name:"نصف دجاج (ساده بدون رز شوايه آو مضبي آو مندي)", 
                 basePrice:15, 
-                isBestSeller: true, 
+                isBestSeller: false,
                 availableIn: ['branch1', 'branch2', 'branch3'], 
                 options:[
                     {name:"شوايه", price:0},
