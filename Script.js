@@ -56,7 +56,7 @@ const menuData = [
     id:"ram1",
     img:"mm55.png", 
     name:"وجبة إفطار صائم ",
-    description:"ربع دجاج • سمبوسة • شوربة • لبن • ماء • تمر",            
+    description:"ربع دجاج • سمبوسة • شوربة •عصير• لبن • ماء • تمر•سعر الوجبه 18﷼",            
     basePrice:8,
     isBestSeller: true,
     availableIn: ['branch1','branch2','branch3'],
