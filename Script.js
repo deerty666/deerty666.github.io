@@ -55,7 +55,7 @@ const menuData = [
             {
     id:"ram1",
     img:"mm55.png", 
-    name:"وجبة رمضان ربع دجاج",
+    name:"وجبة إفطار صائم ",
     basePrice:8,
     isBestSeller: true,
     availableIn: ['branch1','branch2','branch3'],
