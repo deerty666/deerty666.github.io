@@ -135,7 +135,7 @@ const menuData = [
         ]
     },
     { 
-        section:"حبه مدفون", 
+        section:" مدفون", 
         sectionImg: "mf00.webp",
         items:[
             // الوجبة 1
