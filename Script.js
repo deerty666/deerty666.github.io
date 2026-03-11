@@ -52,24 +52,7 @@ const menuData = [
                 {name:"رز مندي", price:2},
                 {name:"رز مثلوثه", price:2}
             ]},
-            {
-    id:"ram1",
-    img:"mm55.png", 
-    name:"وجبة إفطار صائم ",
-    description:"ربع دجاج • سمبوسة • شوربة •عصير• لبن • ماء • تمر•سعر الوجبه 18﷼",            
-    basePrice:8,
-    isBestSeller: true,
-    availableIn: ['branch1','branch2','branch3'],
-    isMultiOption: true, // 🔥 مهم عشان يعرف انه اختيارات متعددة
-    options:[
-        {name:"عصير", price:2},
-        {name:"لبن", price:2},
-        {name:"شوربة", price:2},
-        {name:"فاكهة", price:2},
-        {name:"سمبوسه", price:1.50},
-        {name:"ماء", price:0.50}
-    ]
-},
+
             // الوجبة 3: نص شواية سادة
             {id:"sh3", img:"sh10.webp", name:"ربع دجاج ",
              basePrice:15,
