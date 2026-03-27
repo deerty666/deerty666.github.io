@@ -255,7 +255,7 @@ const menuData = [
         section:"المشويات", 
         sectionImg: "gr00.webp",
         // تم تحديد توافر قسم المشويات لفرع الرياض (branch1) فقط
-        sectionAvailableIn: ['branch1'], 
+        sectionAvailableIn: ['branch1', 'branch2'], 
         items:[
             // الوجبة 1
             {
@@ -263,7 +263,7 @@ const menuData = [
                 img:"gr01.webp",
                 name:"كباب لحم",
                 basePrice:0,
-                availableIn: ['branch1'], // مقيد بـ branch1
+                availableIn:['branch1', 'branch2'],// مقيد بـ branch1
                 options:[
                     {name:"نفر", price:38},
                     {name:"نص كيلو", price:76},
@@ -276,7 +276,7 @@ const menuData = [
                 img:"gr02.webp",
                 name:"كباب دجاج",
                 basePrice:0,
-                availableIn: ['branch1'], // مقيد بـ branch1
+                availableIn:['branch1', 'branch2'],// مقيد بـ branch1
                 options:[
                     {name:"نفر", price:30},
                     {name:"نص كيلو", price:60},
@@ -289,7 +289,7 @@ const menuData = [
                 img:"gr03.webp",
                 name:"اوصال لحم",
                 basePrice:0,
-                availableIn: ['branch1'], // مقيد بـ branch1
+                availableIn:['branch1', 'branch2'], // مقيد بـ branch1
                 options:[
                     {name:"نفر", price:45},
                     {name:"نص كيلو", price:90},
@@ -302,7 +302,7 @@ const menuData = [
                 img:"gr04.webp",
                 name:"شيش طاووق",
                 basePrice:0,
-                availableIn: ['branch1'], // مقيد بـ branch1
+                availableIn:['branch1', 'branch2'], // مقيد بـ branch1
                 options:[
                     {name:"نفر", price:30},
                     {name:"نص كيلو", price:60},
@@ -316,7 +316,7 @@ const menuData = [
                 name:"مشكل فاخر على الأرز32 سيخ",
                 basePrice:300,
                 isBestSeller: true, 
-                availableIn: ['branch1'], // مقيد بـ branch1
+                availableIn:['branch1', 'branch2'], // مقيد بـ branch1
                 options:[
                     {name:"تامين صحن", price:30},
                     
@@ -330,7 +330,7 @@ const menuData = [
                 name:"مشكل مشاوي",
                 basePrice:0,
                 isBestSeller: true, 
-                availableIn: ['branch1'], // مقيد بـ branch1
+                availableIn:['branch1', 'branch2'], // مقيد بـ branch1
                 options:[
                     {name:"نفر", price:35},
                     {name:"نص كيلو", price:70},
