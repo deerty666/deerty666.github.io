@@ -170,10 +170,10 @@ const menuData = [
                 {name:"رز بشاور", nameEn: "Peshawar Rice", price:13},
                 {name:"رز مندي", nameEn: "Mandi Rice", price:13}
             ]},
-            {id:"t4", img:"me04.webp", name:"نفر لحم مندي", nameEn: "Single Mandi Meat Portion", basePrice:85, availableIn: ['branch1', 'branch2', 'branch3'], options:[
+            {id:"t4", img:"me04.webp", name:"نفر لحم مندي", nameEn: "Single Mandi Meat Portion", basePrice:100, availableIn: ['branch1', 'branch2', 'branch3'], options:[
                 {name:"رز شعبي", nameEn: "Saudi Rice", price:0},
-                {name:"رز بشاور", nameEn: "Peshawar Rice", price:5},
-                {name:"رز مندي", nameEn: "Mandi Rice", price:5}
+                {name:"رز بشاور", nameEn: "Peshawar Rice", price:0},
+                {name:"رز مندي", nameEn: "Mandi Rice", price:0}
             ]},
             {id:"t5", img:"me05.webp", name:"نفر حاشي مكموت", nameEn: "Single Hashi Portion", basePrice:59, isBestSeller: true, branchDiscounts: {'branch1': 50, 'branch2': 50, 'branch3': 50}, availableIn: ['branch1', 'branch2', 'branch3'], options: [
                     {name: "رز شعبي", nameEn: "Saudi Rice", price: 0},
