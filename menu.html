@@ -2,7 +2,13 @@
 <html lang="ar" dir="rtl">
 <head>
 <script>
-if (window.location.search.includes("branch=branch1")) {
+const fromExternal =
+  !document.referrer.includes("deerty666.github.io");
+
+const isLabn =
+  window.location.search.includes("branch=branch1");
+
+if (isLabn && fromExternal) {
   window.location.href = "https://deerty666.github.io/";
 }
 </script>
