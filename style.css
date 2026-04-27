@@ -897,7 +897,7 @@ div[style*="border-top"] label {
     background: linear-gradient(135deg, #00c853, #2e7d32);
     color: #fff;
     font-weight: 900;
-    box-shadow: 0 0 15px rgba(0, 200, 83, 0.6);
+    box-shadow: 0 0 10px rgba(0, 200, 83, 0.4);
     border: 2px solid #00e676;
 }
 
