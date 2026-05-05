@@ -1098,3 +1098,224 @@ button:active {
     background: var(--gold);
     border-radius: 10px;
 }
+/* ===================================== */
+/* 🔥 FINAL POLISH - ULTRA CLEAN VERSION */
+/* ===================================== */
+
+/* منع تأثير اللمس المزعج */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ===================================== */
+/* 💎 الكروت - تحسين كامل */
+/* ===================================== */
+.card {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: linear-gradient(145deg, #1e1e1e, #141414);
+    border: 1px solid rgba(195,158,106,0.3);
+    padding-bottom: 15px;
+
+    /* حركة دخول */
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+}
+
+/* تأخير بسيط لكل كرت */
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+
+/* حركة الدخول */
+@keyframes fadeUp {
+    from {
+        transform: translateY(25px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* لمعة ذهبية خفيفة */
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(195, 158, 106, 0.15),
+        transparent
+    );
+    transition: 0.7s;
+}
+
+.card:hover::before {
+    left: 120%;
+}
+
+/* Hover ناعم */
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+/* ===================================== */
+/* 🖼️ الصورة */
+/* ===================================== */
+.card img {
+    height: 160px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(195,158,106,0.2);
+    transition: transform 0.4s ease;
+}
+
+.card:hover img {
+    transform: scale(1.05);
+}
+
+/* ===================================== */
+/* 🧠 النصوص */
+/* ===================================== */
+.card h3 {
+    font-size: 1.1rem;
+    margin: 0 12px 5px;
+}
+
+.card p {
+    font-size: 0.75rem;
+    opacity: 0.6;
+    margin: 0 12px 8px;
+}
+
+/* ===================================== */
+/* 💰 السعر */
+/* ===================================== */
+.card .price {
+    margin: 0 12px 10px;
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 10px rgba(195, 158, 106, 0.5);
+}
+
+/* ===================================== */
+/* 🛒 زر الإضافة */
+/* ===================================== */
+.card .add-btn {
+    margin: 0 12px;
+    border-radius: 12px;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #c39e6a, #a07c4c);
+    box-shadow: 0 5px 15px rgba(195, 158, 106, 0.4);
+    transition: all 0.3s ease;
+}
+
+/* Hover */
+.card .add-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(195, 158, 106, 0.6);
+}
+
+/* ضغط */
+.card .add-btn:active {
+    transform: scale(0.95);
+}
+
+/* Ripple */
+.card .add-btn::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.card .add-btn:active::after {
+    width: 200px;
+    height: 200px;
+    opacity: 0;
+    transition: 0.4s;
+}
+
+/* ===================================== */
+/* 🔍 البحث */
+/* ===================================== */
+#searchBar {
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
+}
+
+#searchBar:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 12px rgba(195, 158, 106, 0.5);
+}
+
+/* ===================================== */
+/* 🧭 الأقسام */
+/* ===================================== */
+.sec-card:hover {
+    transform: translateY(-5px) scale(1.05);
+}
+
+/* ===================================== */
+/* 🏆 Badge */
+/* ===================================== */
+.best-seller-badge {
+    background: linear-gradient(135deg, #ff5252, #b71c1c);
+    box-shadow: 0 0 12px rgba(255, 0, 0, 0.5);
+    animation: pulseBadge 1.5s infinite;
+}
+
+@keyframes pulseBadge {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+/* ===================================== */
+/* 🛒 زر السلة */
+/* ===================================== */
+#cartBtn {
+    animation: floatCart 3s ease-in-out infinite;
+}
+
+@keyframes floatCart {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+    100% { transform: translateY(0); }
+}
+
+/* ===================================== */
+/* 📱 تحسين الضغط */
+/* ===================================== */
+button:active {
+    transform: scale(0.97);
+}
+
+/* ===================================== */
+/* 🌙 السكرول */
+/* ===================================== */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    border-radius: 10px;
+}
