@@ -18,7 +18,9 @@ const BRANCH_CONFIG = {
 };
 
 /* ====== متغير لتحديد الفرع الحالي من الرابط ====== */
-let currentBranchId = 'branch1'; // القيمة الافتراضية
+let currentBranchId =
+localStorage.getItem('selected_branch')
+|| 'branch1';// القيمة الافتراضية
 const urlParams = new URLSearchParams(window.location.search);
 if (urlParams.has('branch')) {
     currentBranchId = urlParams.get('branch');
@@ -1027,7 +1029,70 @@ window.addEventListener('scroll', () => {
     }
 });
 
+/* ========================= */
+/* 🔥 تبديل الفروع الاحترافي */
+/* ========================= */
 
+const branchDropdown =
+document.getElementById('branchDropdown');
+
+const changeBranchBtn =
+document.getElementById('changeBranchBtn');
+
+const currentBranchName =
+document.getElementById('currentBranchName');
+
+changeBranchBtn.addEventListener('click', () => {
+
+    branchDropdown.classList.toggle('show');
+
+});
+
+function updateCurrentBranchUI(){
+
+    currentBranchName.innerText =
+    currentBranch.name;
+
+}
+
+document.querySelectorAll('.branch-option')
+.forEach(option => {
+
+    option.addEventListener('click', () => {
+
+        currentBranchId =
+        option.dataset.branch;
+
+        localStorage.setItem(
+            'selected_branch',
+            currentBranchId
+        );
+
+        const newBranch =
+        BRANCH_CONFIG[currentBranchId];
+
+        currentBranch.whatsapp =
+        newBranch.whatsapp;
+
+        currentBranch.name =
+        newBranch.name;
+
+        currentBranch.deliveryFee =
+        newBranch.deliveryFee;
+
+        updateCurrentBranchUI();
+
+        renderSections();
+
+        renderCart();
+
+        branchDropdown.classList.remove('show');
+
+    });
+
+});
+
+updateCurrentBranchUI();
 renderSections(); 
 renderCart();
 
