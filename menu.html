@@ -147,7 +147,37 @@ if (isLabn && fromExternal) {
 </header>
 
 <input type="search" id="searchBar" placeholder="ابحث عن وجبة سريعة أو صنف..." aria-label="البحث في القائمة">
+<div class="branch-top-bar">
 
+    <div class="current-branch-box">
+        <span class="branch-label">📍 الفرع الحالي</span>
+
+        <div id="currentBranchName">
+            لبن الأحمدية
+        </div>
+    </div>
+
+    <button id="changeBranchBtn">
+        تغيير الفرع ⌄
+    </button>
+
+</div>
+
+<div id="branchDropdown" class="branch-dropdown">
+
+    <div class="branch-option" data-branch="branch1">
+        لبن الأحمدية
+    </div>
+
+    <div class="branch-option" data-branch="branch2">
+        شمال الرياض مخرج ٦
+    </div>
+
+    <div class="branch-option" data-branch="branch3">
+        الروضة خالد بن الوليد
+    </div>
+
+</div>
 <div id="sections" aria-hidden="false"></div>
 <main id="menuList" role="list"></main>
 
