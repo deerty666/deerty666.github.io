@@ -1319,3 +1319,192 @@ button:active {
     background: var(--gold);
     border-radius: 10px;
 }
+/* ===================================== */
+/* 🔥 شريط اختيار الفروع الاحترافي */
+/* ===================================== */
+
+.branch-top-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+
+    margin:14px;
+    padding:14px 16px;
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,.04),
+        rgba(255,255,255,.02)
+    );
+
+    border:
+    1px solid rgba(255,255,255,.08);
+
+    border-radius:20px;
+
+    backdrop-filter:blur(12px);
+
+    box-shadow:
+    0 8px 30px rgba(0,0,0,.25);
+
+    position:relative;
+    overflow:hidden;
+}
+
+/* لمعة خفيفة */
+.branch-top-bar::before{
+    content:"";
+
+    position:absolute;
+
+    top:-40%;
+    left:-20%;
+
+    width:120px;
+    height:220%;
+
+    background:
+    linear-gradient(
+        to right,
+        transparent,
+        rgba(255,255,255,.06),
+        transparent
+    );
+
+    transform:rotate(20deg);
+}
+
+/* جهة معلومات الفرع */
+.current-branch-box{
+    display:flex;
+    flex-direction:column;
+    z-index:2;
+}
+
+.branch-label{
+    font-size:.78rem;
+    color:#999;
+    margin-bottom:3px;
+}
+
+#currentBranchName{
+    font-size:1.08rem;
+    font-weight:800;
+    color:#fff;
+}
+
+/* زر تغيير الفرع */
+#changeBranchBtn{
+    border:none;
+
+    background:
+    linear-gradient(
+        135deg,
+        #c39e6a,
+        #8b5e34
+    );
+
+    color:#fff;
+
+    padding:12px 18px;
+
+    border-radius:14px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    box-shadow:
+    0 6px 18px rgba(195,158,106,.35);
+
+    z-index:2;
+}
+
+#changeBranchBtn:hover{
+    transform:
+    translateY(-2px)
+    scale(1.02);
+}
+
+/* القائمة المنسدلة */
+.branch-dropdown{
+    display:none;
+
+    margin:
+    0 14px 14px;
+
+    background:
+    rgba(20,20,20,.96);
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    border:
+    1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(16px);
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.35);
+
+    animation:
+    dropdownFade .25s ease;
+}
+
+/* ظهور القائمة */
+.branch-dropdown.show{
+    display:block;
+}
+
+/* خيارات الفروع */
+.branch-option{
+    padding:16px 18px;
+
+    font-weight:700;
+
+    color:#fff;
+
+    cursor:pointer;
+
+    transition:.22s;
+
+    border-bottom:
+    1px solid rgba(255,255,255,.05);
+}
+
+.branch-option:last-child{
+    border-bottom:none;
+}
+
+.branch-option:hover{
+
+    background:
+    rgba(255,255,255,.06);
+
+    padding-right:24px;
+
+    color:#E8C065;
+}
+
+/* حركة الظهور */
+@keyframes dropdownFade{
+
+    from{
+        opacity:0;
+        transform:
+        translateY(-8px)
+        scale(.98);
+    }
+
+    to{
+        opacity:1;
+        transform:
+        translateY(0)
+        scale(1);
+    }
+}
