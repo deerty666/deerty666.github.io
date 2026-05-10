@@ -884,9 +884,8 @@ if (it.selectedOptions && it.selectedOptions.length > 0) {
         const noteText = it.note ? ` (ملاحظة: ${it.note})` : '';
 
         lines.push(
-`${count}️⃣ ${it.name}`
+`${count}️⃣ ${it.name} × ${it.qty}`
 );
-
 if(optionText){
     lines.push(`🍚 ${optionText.replace('—','').trim()}`);
 }
