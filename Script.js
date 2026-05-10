@@ -840,11 +840,22 @@ sendWhatsapp.addEventListener('click', () => {
 
     const deliveryType = document.querySelector('input[name="deliveryType"]:checked')?.value;
     // 📍 متغيرات رسائل الواتساب
-    const lines=['طلب جديد من مطاعم سحايب ديرتي:'];
-    let subtotal = 0;
+    const lines = [
 
-    cart.forEach(it=>{
-        let optionsTotal = 0;
+'🍽️ طلب جديد — سحايب ديرتي',
+'',
+`📍 الفرع: ${currentBranch.name}`,
+'',
+'━━━━━━━━━━━━'
+
+];
+    let count = 0;
+
+cart.forEach(it=>{
+
+count++;
+
+let optionsTotal = 0;
 
 if(it.selectedOptions && it.selectedOptions.length > 0){
     optionsTotal += it.selectedOptions.reduce((sum, opt) => sum + opt.price, 0);
@@ -872,11 +883,27 @@ if (it.selectedOptions && it.selectedOptions.length > 0) {
 }
         const noteText = it.note ? ` (ملاحظة: ${it.note})` : '';
 
-        lines.push(`${it.qty} × ${it.name}${optionText} ${noteText} — ${price*it.qty} ريال`);
+        lines.push(
+`${count}️⃣ ${it.name}`
+);
+
+if(optionText){
+    lines.push(`🍚 ${optionText.replace('—','').trim()}`);
+}
+
+lines.push(`💰 ${price * it.qty} ريال`);
+
+if(it.note){
+    lines.push(`📝 ${it.note}`);
+}
+
+lines.push('');
+    
+subtotal += price * it.qty;
         subtotal+=price*it.qty;
     });
 
-    lines.push('---');
+    lines.push('━━━━━━━━━━━━');
     lines.push(`1. إجمالي المنتجات: ${subtotal} ريال`);
 
     if(deliveryType==='delivery'){ 
