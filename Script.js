@@ -850,7 +850,7 @@ sendWhatsapp.addEventListener('click', () => {
 
 ];
     let count = 0;
-
+let subtotal = 0;
 cart.forEach(it=>{
 
 count++;
