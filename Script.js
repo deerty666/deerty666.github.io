@@ -900,7 +900,7 @@ if(it.note){
 lines.push('');
     
 subtotal += price * it.qty;
-        subtotal+=price*it.qty;
+
     });
 
     lines.push('━━━━━━━━━━━━');
