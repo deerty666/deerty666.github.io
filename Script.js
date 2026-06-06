@@ -250,8 +250,8 @@ const menuData = [
             ]},
             {id:"bev-m", img:"dr04.webp", name:"لبن المراعي", nameEn: "Almarai Laban", basePrice:0, availableIn: ['branch1', 'branch2', 'branch3'], options:[
                 {name:"صغير", nameEn: "Small", price:2},
-                {name:"وسط", nameEn: "Medium", price:6},
-                {name:"كبير", nameEn: "Large", price:11}
+                {name:"وسط", nameEn: "Medium", price:7},
+                {name:"كبير", nameEn: "Large", price:12.5}
             ]}
         ]
     },
