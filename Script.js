@@ -400,13 +400,10 @@ let selectedOption = null;
 let selectedItemImage = null; // 🚀 NEW: لتخزين مرجع صورة المنتج المختار (للتأثير)
 
 /* ====== Render sections ====== */
-/* ====== نظام الأقسام المنفصلة الذكي (واجهة التطبيقات) ====== */
 /* ====== Render sections ====== */
 function renderSections(){
-    // 1. عند تشغيل الدالة، نتأكد أن حاوية الأقسام مرئية وقائمة الأصناف مخفية
+    // نتأكد أولاً أن الأقسام تظهر بشكل شبكي نظيف
     sectionsEl.style.display = 'grid'; 
-    menuList.style.display = 'none';
-    
     sectionsEl.innerHTML = '';
     
     processedMenuData.forEach((sec, idx)=>{
@@ -415,52 +412,54 @@ function renderSections(){
             return; 
         }
         
-        // رسم كارت القسم
+        const sectionDisplayName = sec.section;
+        
         const card = document.createElement('div');
         card.className = 'sec-card';
         card.innerHTML = `
             <img src="${sec.sectionImg}" alt="${sec.section}">
-            <div class="sec-name">${sec.section}</div>
+            <div class="sec-name">${sectionDisplayName}</div>
         `;
         
         if(sec.section === currentSection) card.classList.add('active');
         
-        // ⚡ هنا التعديل السحري عند الضغط على القسم ⚡
+        // ⚡ التعديل السحري والحل النهائي هنا عند الضغط على القسم ⚡
         card.onclick=()=>{
             currentSection = sec.section;
             
-            // أ) إخفاء كروت الأقسام تماماً لكي لا تغطي على المنتجات
+            // 1. إخفاء حاوية الأقسام تماماً لكي لا تطفو فوق المنتجات وتغطي عليها
             sectionsEl.style.display = 'none';
             
-            // ب) إظهار حاوية المنتجات (menuList) وتصفيرها
+            // 2. تفريغ وإظهار حاوية المنتجات لتبدأ من أعلى الشاشة فوراً
             menuList.innerHTML = '';
             menuList.style.display = 'grid';
             
-            // ج) إنشاء زر "عودة للأقسام" فخم في أعلى الأصناف لتسهيل التنقل
+            // 3. إضافة زر عودة فخم وواضح في أول القائمة للرجوع للأقسام
             const backBtn = document.createElement('div');
             backBtn.className = 'back-to-sections-btn';
-            backBtn.style.cssText = "grid-column: 1 / -1; padding: 12px; background: var(--card-bg); color: var(--gold); text-align: center; border-radius: 8px; margin-bottom: 15px; cursor: pointer; font-weight: bold; border: 1px solid var(--border-color);";
+            backBtn.style.cssText = "grid-column: 1 / -1; padding: 14px; background: var(--card-bg); color: var(--gold); text-align: center; border-radius: 12px; margin-bottom: 15px; cursor: pointer; font-weight: bold; border: 1px solid var(--border-color); font-size: 15px;";
             backBtn.innerHTML = `🔙 العودة للأقسام الرئيسية — ${sec.section}`;
             backBtn.onclick = () => {
-                renderSections(); // عند الضغط عليه يعيد إظهار الأقسام ويخفي الأصناف
+                // عند الضغط على زر العودة، نعكس العملية
+                renderSections(); 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
             menuList.appendChild(backBtn);
             
-            // د) طباعة أصناف القسم المختار الآن داخل الحاوية الظاهرة
+            // 4. استدعاء المنتجات لتُطبع تحت زر العودة مباشرة وبدون أي تداخل
             renderMenu(currentSection);
             searchBar.value = '';
             
-            // هـ) صعود تلقائي لأول الصفحة لرؤية الوجبات مباشرة
+            // 5. رفع الشاشة تلقائياً لأعلى الصفحة ليرى العميل الأصناف فوراً
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
         
         sectionsEl.appendChild(card);
     });
 
-    // 🛑 قمنا بإزالة سطر (renderMenu) التلقائي من هنا لكي لا تُطبع الأصناف بالخلفية قبل الضغط!
+    // 🛑 تنبيه هام: قمنا بحذف سطر (renderMenu) التلقائي الذي كان عند السطر 432
+    // لكي لا تظهر الأصناف في الخلفية وتسبب تداخل مع الأقسام في أول دخول للموقع.
 }
-
 
 
 
