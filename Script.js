@@ -401,60 +401,64 @@ let selectedItemImage = null; // 🚀 NEW: لتخزين مرجع صورة الم
 
 /* ====== Render sections ====== */
 /* ====== نظام الأقسام المنفصلة الذكي (واجهة التطبيقات) ====== */
+/* ====== Render sections ====== */
 function renderSections(){
+    // 1. عند تشغيل الدالة، نتأكد أن حاوية الأقسام مرئية وقائمة الأصناف مخفية
+    sectionsEl.style.display = 'grid'; 
+    menuList.style.display = 'none';
+    
     sectionsEl.innerHTML = '';
     
-    // إظهار حاوية الأقسام وإعادة ستايل الـ Grid لها
-    sectionsEl.style.display = 'grid';
-    // إخفاء قائمة المنتجات في الواجهة الرئيسية للأقسام
-    menuList.style.display = 'none'; 
-
-    processedMenuData.forEach((sec, idx) => {
-        // نتخطى قسم "الكل" لأنه لم يعد له حاجة في الواجهة الرئيسية للأقسام
-        if (sec.section === "الكل") return;
-
-        // منطق إخفاء القسم بالكامل بناءً على توافره في الفرع الحالي
-        if (sec.sectionAvailableIn && !sec.sectionAvailableIn.includes(currentBranchId)) {
+    processedMenuData.forEach((sec, idx)=>{
+        // منطق إخفاء القسم بالكامل إذا لم يكن متوفراً في الفرع الحالي
+        if (sec.section !== "الكل" && sec.sectionAvailableIn && !sec.sectionAvailableIn.includes(currentBranchId)) {
             return; 
         }
-
+        
+        // رسم كارت القسم
         const card = document.createElement('div');
-        card.className = 'sec-card-grid'; // ستايل جديد للمربعات الكبيرة
+        card.className = 'sec-card';
         card.innerHTML = `
-            <div class="sec-img-wrapper">
-                <img src="${sec.sectionImg}" alt="${sec.section}" onerror="this.style.opacity=.35">
-            </div>
-            <div class="sec-name-grid">${sec.section}</div>
+            <img src="${sec.sectionImg}" alt="${sec.section}">
+            <div class="sec-name">${sec.section}</div>
         `;
-
-        card.onclick = () => {
+        
+        if(sec.section === currentSection) card.classList.add('active');
+        
+        // ⚡ هنا التعديل السحري عند الضغط على القسم ⚡
+        card.onclick=()=>{
             currentSection = sec.section;
             
-            // إخفاء واجهة الأقسام الرئيسية
+            // أ) إخفاء كروت الأقسام تماماً لكي لا تغطي على المنتجات
             sectionsEl.style.display = 'none';
             
-            // تهيئة واجهة المنتجات وإظهارها
+            // ب) إظهار حاوية المنتجات (menuList) وتصفيرها
             menuList.innerHTML = '';
             menuList.style.display = 'grid';
             
-            // 🔙 إنشاء زر رجوع فخم في أعلى القائمة
+            // ج) إنشاء زر "عودة للأقسام" فخم في أعلى الأصناف لتسهيل التنقل
             const backBtn = document.createElement('div');
             backBtn.className = 'back-to-sections-btn';
-            backBtn.innerHTML = `<span>⬅️</span> العودة للأقسام — ${sec.section}`;
+            backBtn.style.cssText = "grid-column: 1 / -1; padding: 12px; background: var(--card-bg); color: var(--gold); text-align: center; border-radius: 8px; margin-bottom: 15px; cursor: pointer; font-weight: bold; border: 1px solid var(--border-color);";
+            backBtn.innerHTML = `🔙 العودة للأقسام الرئيسية — ${sec.section}`;
             backBtn.onclick = () => {
-                renderSections(); // إعادة تشغيل واجهة الأقسام وإخفاء المنتجات
+                renderSections(); // عند الضغط عليه يعيد إظهار الأقسام ويخفي الأصناف
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
             menuList.appendChild(backBtn);
-
-            // عرض منتجات القسم المحدد
-            renderMenu(currentSection);
             
-            // الصعود التلقائي لأعلى الصفحة
+            // د) طباعة أصناف القسم المختار الآن داخل الحاوية الظاهرة
+            renderMenu(currentSection);
+            searchBar.value = '';
+            
+            // هـ) صعود تلقائي لأول الصفحة لرؤية الوجبات مباشرة
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
+        
         sectionsEl.appendChild(card);
     });
+
+    // 🛑 قمنا بإزالة سطر (renderMenu) التلقائي من هنا لكي لا تُطبع الأصناف بالخلفية قبل الضغط!
 }
 
 
