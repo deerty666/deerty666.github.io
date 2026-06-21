@@ -400,16 +400,17 @@ let selectedOption = null;
 let selectedItemImage = null; // 🚀 NEW: لتخزين مرجع صورة المنتج المختار (للتأثير)
 
 /* ====== Render sections ====== */
+/* ====== تعديل دالة Render sections لتقديم تجربة الأقسام المنفصلة ====== */
 function renderSections(){
     sectionsEl.innerHTML = '';
-    processedMenuData.forEach((sec,idx)=>{
-        // منطق إخفاء القسم بالكامل 
+    processedMenuData.forEach((sec, idx) => {
+        // منطق إخفاء القسم بالكامل بناءً على توافره في الفرع الحالي
         if (sec.section !== "الكل" && sec.sectionAvailableIn && !sec.sectionAvailableIn.includes(currentBranchId)) {
-            return; // يتم تخطي هذا القسم إذا لم يكن متوفراً في الفرع الحالي
+            return; 
         }
 
-        // تحديد اسم العرض: "فرع الرياض" لقسم "الكل" فقط، واسم القسم للأقسام الأخرى
-        const sectionDisplayName = sec.section === "الكل" ? `فرع ${currentBranch.name}` : sec.section;
+        // تحديد اسم العرض للقسم
+        const sectionDisplayName = sec.section === "الكل" ? `الرئيسية` : sec.section;
 
         const card = document.createElement('div');
         card.className = 'sec-card';
@@ -418,19 +419,33 @@ function renderSections(){
             <div class="sec-name">${sectionDisplayName}</div>
         `;
 
+        // إضافة الفئة النشطة للقسم الحالي
         if(sec.section === currentSection) card.classList.add('active'); 
 
-        card.onclick=()=>{
+        card.onclick = () => {
             document.querySelectorAll('.sec-card').forEach(c => c.classList.remove('active'));
             card.classList.add('active');
+            
             currentSection = sec.section;
-            renderMenu(currentSection);
+            
+            // إضافة تأثير اختفاء مؤقت قبل عرض القسم الجديد ليعطي إيحاء سينمائي ناعم
+            menuList.style.opacity = '0';
+            setTimeout(() => {
+                renderMenu(currentSection);
+                menuList.style.opacity = '1';
+                
+                // الانتقال التلقائي البسيط لأول المنيو عند تغيير القسم حتى لا يضطر العميل للنزول يدويًا
+                document.getElementById('searchBar')?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }, 150);
+
             searchBar.value = ''; 
         };
         sectionsEl.appendChild(card);
     });
+    
     renderMenu(currentSection);
 }
+
 
 
 /* ====== Render menu - تطبيق الخصم الخاص بالفرع (واستخدام processedMenuData) ====== */
