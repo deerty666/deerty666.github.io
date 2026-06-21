@@ -400,11 +400,17 @@ let selectedOption = null;
 let selectedItemImage = null; // 🚀 NEW: لتخزين مرجع صورة المنتج المختار (للتأثير)
 
 /* ====== Render sections ====== */
-/* ====== Render sections ====== */
 function renderSections(){
-    // نتأكد أولاً أن الأقسام تظهر بشكل شبكي نظيف
+    // 1. تفريغ حاوية الأقسام تماماً وإعادتها للعرض الشبكي النظيف
     sectionsEl.style.display = 'grid'; 
     sectionsEl.innerHTML = '';
+    
+    // 2. إخفاء حاوية المنتجات تماماً عند عرض الأقسام الرئيسية لمنع التداخل
+    menuList.style.display = 'none';
+    menuList.innerHTML = '';
+    
+    // 3. إزالة كلاس التثبيت فوراً عند العودة للأقسام
+    sectionsEl.classList.remove('sections-sticky');
     
     processedMenuData.forEach((sec, idx)=>{
         // منطق إخفاء القسم بالكامل إذا لم يكن متوفراً في الفرع الحالي
@@ -423,43 +429,42 @@ function renderSections(){
         
         if(sec.section === currentSection) card.classList.add('active');
         
-        // ⚡ التعديل السحري والحل النهائي هنا عند الضغط على القسم ⚡
+        // ⚡ التعديل السحري والحل النهائي عند الضغط على القسم ⚡
         card.onclick=()=>{
             currentSection = sec.section;
             
-            // 1. إخفاء حاوية الأقسام تماماً لكي لا تطفو فوق المنتجات وتغطي عليها
+            // أ) إخفاء حاوية الأقسام تماماً (تحويلها إلى none يمنع طفوها نهائياً)
             sectionsEl.style.display = 'none';
+            sectionsEl.classList.remove('sections-sticky'); 
             
-            // 2. تفريغ وإظهار حاوية المنتجات لتبدأ من أعلى الشاشة فوراً
+            // ب) تفريغ وإظهار حاوية المنتجات لتبدأ من أعلى الشاشة فوراً
             menuList.innerHTML = '';
             menuList.style.display = 'grid';
             
-            // 3. إضافة زر عودة فخم وواضح في أول القائمة للرجوع للأقسام
+            // ج) إضافة زر عودة فخم وواضح في أول القائمة للرجوع للأقسام
             const backBtn = document.createElement('div');
             backBtn.className = 'back-to-sections-btn';
             backBtn.style.cssText = "grid-column: 1 / -1; padding: 14px; background: var(--card-bg); color: var(--gold); text-align: center; border-radius: 12px; margin-bottom: 15px; cursor: pointer; font-weight: bold; border: 1px solid var(--border-color); font-size: 15px;";
             backBtn.innerHTML = `🔙 العودة للأقسام الرئيسية — ${sec.section}`;
             backBtn.onclick = () => {
-                // عند الضغط على زر العودة، نعكس العملية
+                // عند الضغط على زر العودة، نعكس العملية بالكامل وننظف الشاشة
                 renderSections(); 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
             menuList.appendChild(backBtn);
             
-            // 4. استدعاء المنتجات لتُطبع تحت زر العودة مباشرة وبدون أي تداخل
+            // د) استدعاء المنتجات لتُطبع تحت زر العودة مباشرة وبدون أي تداخل
             renderMenu(currentSection);
             searchBar.value = '';
             
-            // 5. رفع الشاشة تلقائياً لأعلى الصفحة ليرى العميل الأصناف فوراً
+            // هـ) رفع الشاشة تلقائياً لأعلى الصفحة ليرى العميل الأصناف فوراً
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
         
         sectionsEl.appendChild(card);
     });
-
-    // 🛑 تنبيه هام: قمنا بحذف سطر (renderMenu) التلقائي الذي كان عند السطر 432
-    // لكي لا تظهر الأصناف في الخلفية وتسبب تداخل مع الأقسام في أول دخول للموقع.
 }
+
 
 
 
