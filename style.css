@@ -1508,3 +1508,78 @@ button:active {
         scale(1);
     }
 }
+/* تحسين حاوية الأقسام العلوية لتبدو كشريط تصفح فخم */
+#sections {
+    display: flex;
+    gap: 12px;
+    padding: 15px 10px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    background: #111111; /* خلفية داكنة فخمة */
+    border-bottom: 1px solid #222;
+}
+
+.sec-card {
+    flex: 0 0 auto;
+    padding: 10px 20px;
+    border-radius: 30px; /* تصميم كبسولة دائري عصري */
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* القسم النشط حالياً */
+.sec-card.active {
+    background: var(--gold, #bf9456); /* لون الهوية الذهبي */
+    color: #000;
+    font-weight: bold;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(191, 148, 86, 0.3);
+    border-color: transparent;
+}
+
+.sec-card img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+/* تأثير دخول المنتجات بشكل فخم (Fade-in Grid) */
+#menuList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+    padding: 15px;
+    animation: fadeInContainer 0.4s ease-out;
+}
+
+@keyframes fadeInContainer {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* تصميم فخم لبطاقات المنتجات */
+.card {
+    background: #161616;
+    border: 1px solid #252525;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+}
