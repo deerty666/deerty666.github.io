@@ -1123,19 +1123,6 @@ renderSections();
 renderCart();
 
 
-// تسجيل العامل الخدمي (Service Worker) الخفيف لضمان التحديث الفوري
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        // تم التأكد من المسار إلى /Dirty55/
-        navigator.serviceWorker.register('service-worker.js') .then(reg => {
-            console.log('Service Worker Registered!', reg.scope);
-        })
-        .catch(err => {
-            console.error('Service Worker Registration failed:', err);
-        });
-    });
-}
-
 
 // 🚀 ------------------------------------------
 // ✨ دالة تأثير سقوط الصورة إلى السلة (Fly-to-Cart)
