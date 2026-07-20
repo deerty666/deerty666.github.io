@@ -1520,3 +1520,46 @@ button:active {
         scale(1);
     }
 }
+/* ===== البطاقات الجديدة ===== */
+
+.card-horizontal{
+    display:flex;
+    flex-direction:row-reverse;
+    align-items:center;
+    gap:12px;
+    width:100%;
+}
+
+.card-info{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.en-name{
+    font-size:.75rem;
+    color:#9e9e9e;
+    margin-top:2px;
+}
+
+.card-hint{
+    margin-top:8px;
+    font-size:.75rem;
+    color:#c39e6a;
+}
+
+.card-arrow{
+    font-size:28px;
+    color:#c39e6a;
+    font-weight:bold;
+    margin-right:6px;
+}
+
+.card:hover{
+    transform:translateY(-2px);
+}
+
+.card:active{
+    transform:scale(.98);
+}
