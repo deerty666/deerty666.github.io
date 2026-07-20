@@ -514,19 +514,37 @@ function renderMenu(sectionName, searchTerm = ''){
         const card=document.createElement('div');
         card.className='card' + cardClassAddition; 
         card.innerHTML = `
-    <img src="${item.img}" alt="${item.name}" onerror="this.style.opacity=.35">
-    ${bestSellerBadge}
-    
-    <h3 style="margin-bottom: 2px;">${item.name}</h3>
-    
-    <h4 style="color: #888; font-weight: normal; font-size: 0.85rem; margin-top: 0; font-family: sans-serif;">
-        ${item.nameEn || ''}
-    </h4>
+${bestSellerBadge}
 
-    <p>${displayedSection}</p>
-    ${item.description ? `<div class="item-desc">${item.description}</div>` : ''}
-    <div class="price">${priceDisplay}</div>
-    <button class="add-btn" ${buttonAttributes}>${buttonText}</button>
+<div class="card-horizontal">
+
+    <img src="${item.img}"
+         alt="${item.name}"
+         onerror="this.style.opacity=.35">
+
+    <div class="card-info">
+
+        <h3>${item.name}</h3>
+
+        <div class="en-name">
+            ${item.nameEn || ""}
+        </div>
+
+        ${item.description ? `<div class="item-desc">${item.description}</div>` : ""}
+
+        <div class="price">
+            ${priceDisplay}
+        </div>
+
+        <div class="card-hint">
+            اضغط لاختيار الرز والحجم
+        </div>
+
+    </div>
+
+    <div class="card-arrow">›</div>
+
+</div>
 `;
 
 
