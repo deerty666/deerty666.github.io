@@ -229,16 +229,17 @@ transition: .25s;
 }
 
 .card h3 {
-    margin: 0 10px 5px;
-    font-size: 1rem;
+    margin: 0;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--light-text);
+    line-height: 1.3;
 }
 
 .card p {
-    margin: 0 10px 8px;
-    font-size: 0.8rem;
-    color: var(--gold); /* لون القسم بلون مميز */
+    margin: 4px 0;
+    font-size: .85rem;
+    color: var(--gold);
 }
 
 .card .price {
