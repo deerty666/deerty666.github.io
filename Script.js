@@ -531,7 +531,7 @@ function renderMenu(sectionName, searchTerm = ''){
 
 
         if (isAvailable) {
-            card.querySelector('button').onclick = function() {
+         card.onclick = function() {
                 const itemForCart = {...item};
                 
                 // 🚀 NEW: الحصول على مرجع الصورة لبطاقة المنتج الحالية
