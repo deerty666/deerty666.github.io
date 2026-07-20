@@ -514,19 +514,28 @@ function renderMenu(sectionName, searchTerm = ''){
         const card=document.createElement('div');
         card.className='card' + cardClassAddition; 
         card.innerHTML = `
+<div class="card-image">
     <img src="${item.img}" alt="${item.name}" onerror="this.style.opacity=.35">
     ${bestSellerBadge}
-    
-    <h3 style="margin-bottom: 2px;">${item.name}</h3>
-    
-    <h4 style="color: #888; font-weight: normal; font-size: 0.85rem; margin-top: 0; font-family: sans-serif;">
-        ${item.nameEn || ''}
-    </h4>
+</div>
 
-    <p>${displayedSection}</p>
+<div class="card-content">
+
+    <div class="item-category">${displayedSection}</div>
+
+    <h3>${item.name}</h3>
+
+    <h4>${item.nameEn || ''}</h4>
+
     ${item.description ? `<div class="item-desc">${item.description}</div>` : ''}
+
     <div class="price">${priceDisplay}</div>
-    <button class="add-btn" ${buttonAttributes}>${buttonText}</button>
+
+    <button class="add-btn" ${buttonAttributes}>
+        ${buttonText}
+    </button>
+
+</div>
 `;
 
 
