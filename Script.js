@@ -521,12 +521,12 @@ function renderMenu(sectionName, searchTerm = ''){
 
 <div class="card-content">
 
-    <div class="item-category">${displayedSection}</div>
-
     <h3>${item.name}</h3>
 
+    <h4>${item.nameEn || ""}</h4>
+
     <div class="item-desc">
-        ${item.description || item.nameEn || ""}
+        ${item.description || ""}
     </div>
 
     <div class="card-bottom">
@@ -536,7 +536,7 @@ function renderMenu(sectionName, searchTerm = ''){
         </div>
 
         <button class="add-btn" ${buttonAttributes}>
-            ＋ إضافة
+            ➕ إضافة
         </button>
 
     </div>
