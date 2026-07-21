@@ -511,33 +511,101 @@ function renderMenu(sectionName, searchTerm = ''){
         // نستخدم actualSection إذا كانت الوجبة في قسم "الأكثر مبيعاً" أو "الكل"، وإلا نستخدم اسم القسم الحالي
         const displayedSection = item.actualSection || sectionName; 
 
-        const card=document.createElement('div');
-        card.className='card' + cardClassAddition; 
+/* ====== Render menu - صورة صغيرة بجانب النص (النسخة المحدثة) ====== */
+function renderMenu(sectionName, searchTerm = ''){
+    menuList.innerHTML='';
+    let itemsToRender = [];
+    const normalizedSearch = searchTerm.trim().toLowerCase();
+
+    if(sectionName === "الكل") {
+        itemsToRender = processedMenuData.flatMap(sec => 
+            sec.section !== "الكل" ? 
+            sec.items.map(item => ({...item, actualSection: item.actualSection || sec.section})) : 
+            []
+        );
+    } else {
+        const sec = processedMenuData.find(s=>s.section===sectionName); 
+        if(!sec) return;
+        itemsToRender = sec.items;
+    }
+
+    // تصفية حسب الفرع
+    const branchFilteredItems = itemsToRender.filter(item => {
+        return item.availableIn && Array.isArray(item.availableIn) && item.availableIn.includes(currentBranchId);
+    });
+
+    const filteredItems = branchFilteredItems.filter(item => {
+        return item.name.toLowerCase().includes(normalizedSearch);
+    });
+
+    if(filteredItems.length === 0 && normalizedSearch.length > 0) {
+        menuList.innerHTML = `<p style="text-align:center; padding: 20px; color: var(--light-text);">لا توجد نتائج بحث في قسم "${sectionName}" في فرع ${currentBranch.name}</p>`;
+        return;
+    }
+
+    if (filteredItems.length === 0 && normalizedSearch.length === 0 && sectionName !== "الكل") {
+        menuList.innerHTML = `<p style="text-align:center; padding: 20px; color: var(--light-text);">لا تتوفر وجبات في قسم "${sectionName}" حالياً في فرع ${currentBranch.name}.</p>`;
+        return;
+    }
+
+    filteredItems.forEach(item=>{
+        const isAvailable = item.isAvailable !== false; 
+        const discountedPriceForBranch = item.branchDiscounts ? item.branchDiscounts[currentBranchId] : null;
+        const hasDiscount = discountedPriceForBranch && discountedPriceForBranch < item.basePrice;
+        const isBestSeller = item.isBestSeller === true; 
+
+        let buttonText = "أضف للسلة";
+        let buttonAttributes = ""; 
+        let cardClassAddition = ""; 
+        let bestSellerBadge = ''; 
+
+        if (!isAvailable) {
+            buttonText = "غير متوفر مؤقتاً ⛔";
+            buttonAttributes = "disabled"; 
+            cardClassAddition = " unavailable-card"; 
+        } else if (hasDiscount) {
+            cardClassAddition = " discount-card"; 
+        }
+
+        if (isBestSeller) {
+            bestSellerBadge = '<span class="best-seller-badge">الأكثر مبيعاً 🏆</span>';
+        }
+
+        let priceDisplay;
+        if (hasDiscount) {
+            priceDisplay = `
+                <span class="old-price">${item.basePrice} ريال</span> 
+                <span class="discount-price">${discountedPriceForBranch} ريال</span>
+            `;
+        } else {
+            priceDisplay = item.basePrice > 0 ? `${item.basePrice} ريال` : 
+                (item.options.length > 0 && item.options[0].price > 0 ? `ابتداءً من \( {item.options[0].price} ريال` : ` \){item.options[0].price} ريال`);
+        }
+
+        const displayedSection = item.actualSection || sectionName; 
+
+        const card = document.createElement('div');
+        card.className = 'card' + cardClassAddition; 
+
+        // ==================== التصميم الجديد (صورة صغيرة بجانب النص) ====================
         card.innerHTML = `
-    <img src="${item.img}" alt="${item.name}" onerror="this.style.opacity=.35">
-    ${bestSellerBadge}
-    
-    <h3 style="margin-bottom: 2px;">${item.name}</h3>
-    
-    <h4 style="color: #888; font-weight: normal; font-size: 0.85rem; margin-top: 0; font-family: sans-serif;">
-        ${item.nameEn || ''}
-    </h4>
-
-    <p>${displayedSection}</p>
-    ${item.description ? `<div class="item-desc">${item.description}</div>` : ''}
-    <div class="price">${priceDisplay}</div>
-    <button class="add-btn" ${buttonAttributes}>${buttonText}</button>
-`;
-
+            <img src="\( {item.img}" alt=" \){item.name}" onerror="this.style.opacity=0.3">
+            ${bestSellerBadge}
+            
+            <div class="content">
+                <h3>${item.name}</h3>
+                \( {item.nameEn ? `<div class="name-en"> \){item.nameEn}</div>` : ''}
+                <div class="price">${priceDisplay}</div>
+                <button class="add-btn" \( {buttonAttributes}> \){buttonText}</button>
+            </div>
+        `;
+        // ============================================================================
 
         if (isAvailable) {
             card.querySelector('button').onclick = function() {
                 const itemForCart = {...item};
-                
-                // 🚀 NEW: الحصول على مرجع الصورة لبطاقة المنتج الحالية
                 const itemImage = card.querySelector('img'); 
                 
-                // تعيين السعر الأساسي للخصم إذا كان موجوداً لهذا الفرع
                 if(hasDiscount){
                     itemForCart.basePrice = discountedPriceForBranch;
                 }
@@ -546,10 +614,10 @@ function renderMenu(sectionName, searchTerm = ''){
                 const needsOptions = item.options.length > 1 || (item.options.length === 1 && item.options[0].name !== "");
 
                 if(needsOptions){
-                    showOptions(itemForCart, false, itemImage); // 🚀 MODIFIED: تمرير itemImage
+                    showOptions(itemForCart, false, itemImage);
                 } else {
                     itemNoteInput.value = ''; 
-                    showOptions(itemForCart, true, itemImage); // 🚀 MODIFIED: تمرير itemImage
+                    showOptions(itemForCart, true, itemImage);
                 }
             };
         }
