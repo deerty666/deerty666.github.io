@@ -525,19 +525,24 @@ function renderMenu(sectionName, searchTerm = ''){
 
     <h3>${item.name}</h3>
 
-    <h4>${item.nameEn || ''}</h4>
+    <div class="item-desc">
+        ${item.description || item.nameEn || ""}
+    </div>
 
-    ${item.description ? `<div class="item-desc">${item.description}</div>` : ''}
+    <div class="card-bottom">
 
-    <div class="price">${priceDisplay}</div>
+        <div class="price">
+            ${priceDisplay}
+        </div>
 
-    <button class="add-btn" ${buttonAttributes}>
-        ${buttonText}
-    </button>
+        <button class="add-btn" ${buttonAttributes}>
+            ＋ إضافة
+        </button>
+
+    </div>
 
 </div>
 `;
-
 
         if (isAvailable) {
             card.querySelector('button').onclick = function() {
