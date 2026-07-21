@@ -178,87 +178,85 @@ header img {
 
 
 /* ================================================= */
-/* 🍽️ 4. بطاقات الوجبات (Menu Cards) */
+/* 🍽️ بطاقات الوجبات - صورة صغيرة بجانب النص */
 /* ================================================= */
 #menuList {
     display: grid;
-    grid-template-columns: 1fr; /* عمود واحد فقط بعرض الشاشة */
-    gap: 15px;
-    padding: 0 15px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 0 15px 100px;
 }
 
 @media (min-width: 600px) {
     #menuList {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 20px;
-        max-width: 1200px;
-        margin: 0 auto;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     }
 }
+
 .card {
-    background-color: var(--card-bg);
+    background: #1A1512;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    border: 1px solid rgba(195,158,106,0.2);
     display: flex;
-    flex-direction: column;
+    padding: 12px;
+    gap: 12px;
+    align-items: center;
     position: relative;
-    padding-bottom: 10px;
-
-    /* 👇 انسخ هذا السطر وأضفه هنا 👇 */
-    border: 1px solid var(--gold); 
 }
 
 .card img {
-    width: 100%;
-    height: 120px;
+    width: 85px;
+    height: 85px;
     object-fit: cover;
-    display: block;
-    margin-bottom: 10px;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.card .content { 
+    flex: 1; 
+    min-width: 0; 
 }
 
 .card h3 {
-    margin: 0 10px 5px;
-    font-size: 1rem;
+    margin: 0 0 4px;
+    font-size: 1.1rem;
     font-weight: 700;
-    color: var(--light-text);
+    color: #fff;
 }
 
-.card p {
-    margin: 0 10px 8px;
+.card .name-en {
     font-size: 0.8rem;
-    color: var(--gold); /* لون القسم بلون مميز */
+    color: #aaa;
+    margin-bottom: 6px;
 }
 
 .card .price {
-    margin: 0 10px 10px;
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: var(--light-text);
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: var(--gold);
+    margin: 6px 0 10px;
 }
 
 .card .add-btn {
-    background-color: var(--gold);
+    background: linear-gradient(135deg, #c39e6a, #a07c4c);
     color: var(--old-brown);
-    padding: 10px;
+    padding: 10px 16px;
     border: none;
     border-radius: 8px;
-    margin: 0 10px;
     font-weight: 700;
+    width: 100%;
+    margin-top: 6px;
     cursor: pointer;
-    transition: background-color 0.2s;
-    font-size: 0.95rem;
 }
 
 .card .add-btn:hover {
-    background-color: #a07c4c;
+    transform: scale(1.03);
 }
 
 .card .add-btn:disabled {
-    background-color: #555;
+    background: #555;
     color: #bbb;
     cursor: not-allowed;
 }
@@ -267,11 +265,10 @@ header img {
     opacity: 0.6;
 }
 
-/* 🏆 شارة الأكثر مبيعاً */
 .best-seller-badge {
     position: absolute;
     top: 8px;
-    right: 8px;
+    left: 8px;
     background: var(--red);
     color: var(--light-text);
     padding: 4px 8px;
@@ -281,16 +278,17 @@ header img {
     z-index: 5;
 }
 
-/* 🏷️ عرض الخصم */
 .old-price {
     font-size: 0.9rem;
     color: #aaa;
     text-decoration: line-through;
 }
+
 .discount-price {
     color: var(--red);
     font-size: 1.1rem;
 }
+
 .discount-card {
     border: 2px solid var(--red);
 }
