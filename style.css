@@ -180,119 +180,169 @@ header img {
 /* ================================================= */
 /* 🍽️ بطاقات الوجبات - صورة صغيرة بجانب النص */
 /* ================================================= */
-#menuList {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 0 15px 100px;
+#menuList{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:16px;
+    padding:0 15px 100px;
 }
 
-@media (min-width: 600px) {
-    #menuList {
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+@media (min-width:600px){
+    #menuList{
+        grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
     }
 }
 
-.card {
-    background: #1A1512;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    border: 1px solid rgba(195,158,106,0.2);
-    display: flex;
-    padding: 12px;
-    gap: 12px;
-    align-items: center;
-    position: relative;
+.card{
+    background:#1A1512;
+    border:1px solid rgba(195,158,106,.18);
+    border-radius:16px;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:14px;
+    position:relative;
+    box-shadow:0 8px 20px rgba(0,0,0,.30);
+    transition:.25s ease;
 }
 
-.card img {
-    width: 85px;
-    height: 85px;
-    object-fit: cover;
-    border-radius: 10px;
-    flex-shrink: 0;
+.card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 28px rgba(0,0,0,.40);
 }
 
-.card .content { 
-    flex: 1; 
-    min-width: 0; 
+.card img{
+    width:100px;
+    height:100px;
+    object-fit:cover;
+    border-radius:12px;
+    flex-shrink:0;
+    background:#2a2a2a;
 }
 
-.card h3 {
-    margin: 0 0 4px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #fff;
+.card .content{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    min-width:0;
 }
 
-.card .name-en {
-    font-size: 0.8rem;
-    color: #aaa;
-    margin-bottom: 6px;
+.card h3{
+    margin:0 0 4px;
+    font-size:1.12rem;
+    font-weight:800;
+    color:#fff;
+    line-height:1.4;
 }
 
-.card .price {
-    font-size: 1.25rem;
-    font-weight: 900;
-    color: var(--gold);
-    margin: 6px 0 10px;
+.card .name-en{
+    font-size:.82rem;
+    color:#aaa;
+    margin-bottom:6px;
 }
 
-.card .add-btn {
-    background: linear-gradient(135deg, #c39e6a, #a07c4c);
-    color: var(--old-brown);
-    padding: 10px 16px;
-    border: none;
-    border-radius: 8px;
-    font-weight: 700;
-    width: 100%;
-    margin-top: 6px;
-    cursor: pointer;
+.card .price{
+    font-size:1.3rem;
+    font-weight:900;
+    color:var(--gold);
+    margin:6px 0 10px;
 }
 
-.card .add-btn:hover {
-    transform: scale(1.03);
+.old-price{
+    color:#999;
+    text-decoration:line-through;
+    font-size:.9rem;
+    margin-left:8px;
 }
 
-.card .add-btn:disabled {
-    background: #555;
-    color: #bbb;
-    cursor: not-allowed;
+.discount-price{
+    color:var(--red);
+    font-size:1.2rem;
+    font-weight:900;
 }
 
-.unavailable-card {
-    opacity: 0.6;
+.card .add-btn{
+    margin-top:auto;
+    width:100%;
+    height:44px;
+    background:linear-gradient(135deg,#c39e6a,#a07c4c);
+    color:var(--old-brown);
+    border:none;
+    border-radius:10px;
+    font-size:.95rem;
+    font-weight:800;
+    cursor:pointer;
+    transition:.2s;
 }
 
-.best-seller-badge {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    background: var(--red);
-    color: var(--light-text);
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    z-index: 5;
+.card .add-btn:hover{
+    transform:scale(1.02);
 }
 
-.old-price {
-    font-size: 0.9rem;
-    color: #aaa;
-    text-decoration: line-through;
+.card .add-btn:active{
+    transform:scale(.98);
 }
 
-.discount-price {
-    color: var(--red);
-    font-size: 1.1rem;
+.card .add-btn:disabled{
+    background:#555;
+    color:#bbb;
+    cursor:not-allowed;
 }
 
-.discount-card {
-    border: 2px solid var(--red);
+.unavailable-card{
+    opacity:.6;
 }
 
+.discount-card{
+    border:2px solid var(--red);
+}
+
+.best-seller-badge{
+    position:absolute;
+    top:10px;
+    left:10px;
+    background:var(--red);
+    color:var(--light-text);
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:.72rem;
+    font-weight:800;
+    box-shadow:0 3px 8px rgba(0,0,0,.35);
+    z-index:10;
+}
+
+@media (max-width:480px){
+
+.card{
+    gap:12px;
+    padding:12px;
+}
+
+.card img{
+    width:90px;
+    height:90px;
+}
+
+.card h3{
+    font-size:1rem;
+}
+
+.card .price{
+    font-size:1.15rem;
+}
+
+.card .add-btn{
+    height:40px;
+    font-size:.9rem;
+}
+
+.best-seller-badge{
+    font-size:.68rem;
+    padding:4px 8px;
+}
+
+}
 
 /* ================================================= */
 /* 🛒 5. زر السلة العائم (Cart Button) */
