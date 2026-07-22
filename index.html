@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>مطعم ديرتي - أشهى الأطباق الشعبية والولائم في الرياض</title>
+  <meta name="description" content="مطعم ديرتي، وجهتك الأولى للأطباق الشعبية والولائم. تصفح منيو مطعم ديرتي واطلب من أقرب فرع لك (لبن، شمال الرياض، الروضة).">
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#1A1512">
+
+  <style>
+    :root{
+      --gold:#c39e6a;
+      --gold2:#e7c98a;
+      --dark:#0f0b09;
+      --brown:#1A1512;
+      --card:#211813;
+      --text:#ffffff;
+      --muted:#d8c7ad;
+      --green:#1f8f47;
+    }
+
+    *{
+      box-sizing:border-box;
+      font-family:"Cairo", Arial, sans-serif;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top, rgba(195,158,106,.25), transparent 32%),
+        radial-gradient(circle at bottom, rgba(195,158,106,.12), transparent 35%),
+        linear-gradient(180deg,#120d0a,#070605);
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      padding:18px 14px 24px;
+    }
+
+    .page{
+      width:100%;
+      max-width:520px;
+    }
+
+    .hero{
+      text-align:center;
+      padding:15px 10px 16px;
+      position:relative;
+    }
+
+    .logo-wrap{
+      width:105px;
+      height:105px;
+      margin:0 auto 12px;
+      border-radius:50%;
+      background:rgba(195,158,106,.08);
+      border:1px solid rgba(195,158,106,.35);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      box-shadow:0 0 35px rgba(195,158,106,.25);
+    }
+
+    .logo{
+      width:82px;
+      height:82px;
+      object-fit:contain;
+      filter:drop-shadow(0 0 12px rgba(195,158,106,.45));
+    }
+
+    h1{
+      margin:8px 0 6px;
+      color:var(--gold2);
+      font-size:31px;
+      font-weight:900;
+      line-height:1.3;
+    }
+
+    .subtitle{
+      color:var(--muted);
+      font-size:16px;
+      font-weight:800;
+    }
+
+    .gold-line{
+      width:82%;
+      height:3px;
+      margin:18px auto 0;
+      border-radius:50px;
+      background:linear-gradient(90deg,transparent,var(--gold2),transparent);
+      box-shadow:0 0 14px rgba(195,158,106,.45);
+    }
+
+    .branch-card{
+      position:relative;
+      overflow:hidden;
+      background:
+        linear-gradient(145deg,rgba(45,33,25,.98),rgba(18,13,10,.98));
+      border:1px solid rgba(195,158,106,.45);
+      border-radius:28px;
+      padding:18px;
+      margin:16px 0;
+      box-shadow:
+        0 18px 38px rgba(0,0,0,.42),
+        inset 0 0 0 1px rgba(255,255,255,.03);
+    }
+
+    .branch-card:before{
+      content:"";
+      position:absolute;
+      top:-80px;
+      right:-80px;
+      width:190px;
+      height:190px;
+      border-radius:50%;
+      background:rgba(195,158,106,.10);
+      filter:blur(2px);
+    }
+
+    .branch-card:after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(120deg,transparent,rgba(255,255,255,.06),transparent);
+      transform:translateX(100%);
+      animation:shine 4s infinite;
+    }
+
+    @keyframes shine{
+      0%,70%{transform:translateX(100%)}
+      100%{transform:translateX(-100%)}
+    }
+
+    .branch-content{
+      position:relative;
+      z-index:2;
+    }
+
+    .branch-title{
+      font-size:24px;
+      font-weight:900;
+      color:#fff;
+      margin-bottom:10px;
+      line-height:1.4;
+    }
+
+    .status{
+      display:inline-block;
+      background:var(--green);
+      color:#fff;
+      padding:6px 14px;
+      border-radius:30px;
+      font-size:13px;
+      font-weight:900;
+      margin-bottom:12px;
+      box-shadow:0 0 14px rgba(31,143,71,.35);
+    }
+
+    .info{
+      color:var(--muted);
+      font-size:15px;
+      font-weight:800;
+      line-height:1.9;
+      margin-bottom:16px;
+    }
+
+    .actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .btn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:54px;
+      border-radius:18px;
+      text-decoration:none;
+      font-size:16px;
+      font-weight:900;
+      transition:.2s ease;
+    }
+
+    .btn:active{
+      transform:scale(.96);
+    }
+
+    .btn-map{
+      background:#0c0907;
+      color:var(--gold2);
+      border:1px solid rgba(195,158,106,.75);
+      box-shadow:inset 0 0 12px rgba(195,158,106,.08);
+    }
+
+    .btn-order{
+      background:linear-gradient(135deg,#f0d292,#c39e6a,#9b7038);
+      color:#1b120b;
+      border:1px solid rgba(255,255,255,.15);
+      box-shadow:0 0 20px rgba(195,158,106,.42);
+    }
+
+    .phone-box{
+      margin:22px 0 10px;
+      text-align:center;
+      background:rgba(195,158,106,.10);
+      border:1px solid rgba(195,158,106,.38);
+      padding:16px;
+      border-radius:22px;
+      color:var(--gold2);
+      font-size:20px;
+      font-weight:900;
+      box-shadow:0 10px 26px rgba(0,0,0,.25);
+    }
+
+    .footer{
+      text-align:center;
+      color:#9f927f;
+      font-size:13px;
+      font-weight:700;
+      padding:10px 0 18px;
+    }
+
+    /* ستايل الفرع الموصى به */
+    .recommended-section {
+      margin: 10px 0 20px;
+    }
+    
+    .recommended-badge {
+      display: inline-block;
+      background: linear-gradient(90deg, #f4c37d, #c39e6a);
+      color: #1b120b;
+      padding: 6px 18px;
+      border-radius: 30px;
+      font-weight: 900;
+      font-size: 15px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 15px rgba(195,158,106,.4);
+    }
+
+    .update-btn {
+      background: transparent;
+      color: var(--gold2);
+      border: 1px solid rgba(195,158,106,.6);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    @media(max-width:380px){
+      h1{ font-size:27px; }
+      .branch-title{ font-size:21px; }
+      .btn{ font-size:14px; min-height:50px; }
+      .branch-card{ padding:17px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+
+    <section class="hero">
+      <div class="logo-wrap">
+        <img src="logo.png" class="logo" alt="شعار سحايب ديرتي">
+      </div>
+
+      <h1>اختر أقرب فرع لك</h1>
+      <div class="subtitle">مطاعم ومطابخ سحايب ديرتي</div>
+      <div class="gold-line"></div>
+    </section>
+
+    <!-- ==================== قسم الفرع الأقرب (جديد) ==================== -->
+    <div id="recommended-section" class="recommended-section" style="display: none;">
+      <div style="text-align:center; margin-bottom:8px;">
+        <span class="recommended-badge">🌟 أقرب فرع لك</span>
+      </div>
+      <div id="nearest-card" class="branch-card"></div>
+      <button onclick="refreshLocation()" class="btn update-btn">🔄 تحديث موقعي</button>
+    </div>
+
+    <!-- ==================== الفروع العادية ==================== -->
+    <section class="branch-card">
+      <div class="branch-content">
+        <div class="branch-title">مطعم ديرتي - فرع لبن الأحمدية</div>
+        <div class="status">متاح للطلبات الآن</div>
+        <div class="info">
+          توصيل واستلام<br>
+          اطلب منيو الفرع مباشرة
+        </div>
+        <div class="actions">
+          <a href="https://maps.app.goo.gl/Pi2rYpat4CMVgb4a6" target="_blank" class="btn btn-map">الموقع 📍</a>
+          <a href="menu.html?branch=branch1" class="btn btn-order">اطلب الآن 🛒</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="branch-card">
+      <div class="branch-content">
+        <div class="branch-title">مطعم ديرتي - فرع شمال الرياض</div>
+        <div class="status">متاح للطلبات الآن</div>
+        <div class="info">
+          توصيل واستلام<br>
+          اطلب منيو الفرع مباشرة
+        </div>
+        <div class="actions">
+          <a href="https://maps.app.goo.gl/gSjNaNCZFMXgwXfn9" target="_blank" class="btn btn-map">الموقع 📍</a>
+          <a href="menu.html?branch=branch2" class="btn btn-order">اطلب الآن 🛒</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="branch-card">
+      <div class="branch-content">
+        <div class="branch-title">مطعم ديرتي - فرع الروضة</div>
+        <div class="status">متاح للطلبات الآن</div>
+        <div class="info">
+          توصيل واستلام<br>
+          اطلب منيو الفرع مباشرة
+        </div>
+        <div class="actions">
+          <a href="https://maps.app.goo.gl/zYRH2ZDGDqMELm8m7" target="_blank" class="btn btn-map">الموقع 📍</a>
+          <a href="menu.html?branch=branch3" class="btn btn-order">اطلب الآن 🛒</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="phone-box">
+      للاقتراحات والشكاوى 📞 0535313309
+    </div>
+
+    <div class="footer">
+      أهلاً وسهلاً بكم في ديرتي
+    </div>
+
+  </main>
+
+  <script>
+    // ==================== بيانات الفروع (عدل الإحداثيات) ====================
+    const branches = [
+      {
+        id: 1,
+        name: "مطعم ديرتي - فرع لبن الأحمدية",
+        address: "طريق الأمير أحمد بن عبدالعزيز",
+        lat: 24.6369,      // ← غير هذا بالإحداثيات الصحيحة
+        lng: 46.5885,      // ← غير هذا بالإحداثيات الصحيحة
+        branchParam: "branch1",
+        mapLink: "https://maps.app.goo.gl/Pi2rYpat4CMVgb4a6"
+      },
+      {
+        id: 2,
+        name: "مطعم ديرتي - فرع شمال الرياض",
+        address: "شمال الرياض - مخرج 6",
+        lat: 24.8500,      // ← غير هذا
+        lng: 46.7200,      // ← غير هذا
+        branchParam: "branch2",
+        mapLink: "https://maps.app.goo.gl/gSjNaNCZFMXgwXfn9"
+      },
+      {
+        id: 3,
+        name: "مطعم ديرتي - فرع الروضة",
+        address: "حي الروضة",
+        lat: 24.7500,      // ← غير هذا
+        lng: 46.6800,      // ← غير هذا
+        branchParam: "branch3",
+        mapLink: "https://maps.app.goo.gl/zYRH2ZDGDqMELm8m7"
+      }
+    ];
+
+    // حساب المسافة (كيلومتر)
+    function getDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
+
+    function findNearest(userLat, userLng) {
+      let nearest = branches[0];
+      let minDist = Infinity;
+
+      branches.forEach(branch => {
+        const dist = getDistance(userLat, userLng, branch.lat, branch.lng);
+        if (dist < minDist) {
+          minDist = dist;
+          nearest = branch;
+        }
+      });
+      return nearest;
+    }
+
+    // عرض الفرع الموصى به
+    function showRecommendedBranch(branch) {
+      const container = document.getElementById('nearest-card');
+      container.innerHTML = `
+        <div class="branch-content">
+          <div class="branch-title">${branch.name}</div>
+          <div class="status">متاح للطلبات الآن</div>
+          <div class="info">
+            ${branch.address}<br>
+            توصيل واستلام
+          </div>
+          <div class="actions">
+            <a href="${branch.mapLink}" target="_blank" class="btn btn-map">الموقع 📍</a>
+            <a href="menu.html?branch=${branch.branchParam}" class="btn btn-order">اطلب الآن 🛒</a>
+          </div>
+        </div>
+      `;
+      document.getElementById('recommended-section').style.display = 'block';
+    }
+
+    // تحديد الموقع
+    async function detectLocation() {
+      try {
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 300000
+          });
+        });
+
+        const { latitude, longitude } = position.coords;
+
+        // حفظ آخر موقع
+        localStorage.setItem('lastLocation', JSON.stringify({
+          lat: latitude,
+          lng: longitude,
+          time: Date.now()
+        }));
+
+        const nearest = findNearest(latitude, longitude);
+        showRecommendedBranch(nearest);
+
+      } catch (error) {
+        console.log("لم يتم السماح بالموقع أو حدث خطأ");
+        // عرض أول فرع افتراضي
+        showRecommendedBranch(branches[0]);
+      }
+    }
+
+    function refreshLocation() {
+      document.getElementById('recommended-section').style.display = 'none';
+      detectLocation();
+    }
+
+    // تشغيل الكود عند تحميل الصفحة
+    window.onload = function() {
+      // تحقق إذا كان فيه موقع محفوظ
+      const savedLocation = localStorage.getItem('lastLocation');
+      
+      if (savedLocation) {
+        const loc = JSON.parse(savedLocation);
+        const nearest = findNearest(loc.lat, loc.lng);
+        showRecommendedBranch(nearest);
+      } else {
+        // أول مرة → طلب الموقع
+        detectLocation();
+      }
+    };
+  </script>
+
+</body>
+</html>
