@@ -214,8 +214,8 @@ header img {
 }
 
 .card img{
-    width:115px;
-    height:115px;
+    width:130px;
+    height:130px;
     object-fit:cover;
     border-radius:14px;
     flex-shrink:0;
@@ -230,6 +230,7 @@ header img {
     align-items:flex-end;
     text-align:right;
     min-width:0;
+    padding-left: 10px;
 }
 
 .card h3{
@@ -324,8 +325,8 @@ header img {
 }
 
 .card img{
-    width:105px;
-    height:105px;
+    width:115px;
+    height:115px;
 }
 
 .card h3{
