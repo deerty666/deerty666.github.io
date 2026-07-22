@@ -199,8 +199,9 @@ header img {
     border-radius:16px;
     overflow:hidden;
     display:flex;
+    flex-direction:row; /* الصورة يسار */
     align-items:center;
-    gap:15px;
+    gap:16px;
     padding:14px;
     position:relative;
     box-shadow:0 8px 20px rgba(0,0,0,.30);
@@ -213,10 +214,10 @@ header img {
 }
 
 .card img{
-    width:100px;
-    height:100px;
+    width:115px;
+    height:115px;
     object-fit:cover;
-    border-radius:12px;
+    border-radius:14px;
     flex-shrink:0;
     background:#2a2a2a;
 }
@@ -225,25 +226,27 @@ header img {
     flex:1;
     display:flex;
     flex-direction:column;
+    align-items:flex-end;
+    text-align:right;
     min-width:0;
 }
 
 .card h3{
     margin:0 0 4px;
-    font-size:1.12rem;
+    font-size:1.15rem;
     font-weight:800;
     color:#fff;
     line-height:1.4;
 }
 
 .card .name-en{
-    font-size:.82rem;
-    color:#aaa;
+    font-size:.78rem;
+    color:#999;
     margin-bottom:6px;
 }
 
 .card .price{
-    font-size:1.3rem;
+    font-size:1.35rem;
     font-weight:900;
     color:var(--gold);
     margin:6px 0 10px;
@@ -263,25 +266,25 @@ header img {
 }
 
 .card .add-btn{
-    margin-top:auto;
-    width:100%;
-    height:44px;
+    width:140px;
+    height:38px;
+    margin-top:6px;
     background:linear-gradient(135deg,#c39e6a,#a07c4c);
     color:var(--old-brown);
     border:none;
-    border-radius:10px;
-    font-size:.95rem;
+    border-radius:8px;
+    font-size:.9rem;
     font-weight:800;
     cursor:pointer;
     transition:.2s;
 }
 
 .card .add-btn:hover{
-    transform:scale(1.02);
+    transform:scale(1.03);
 }
 
 .card .add-btn:active{
-    transform:scale(.98);
+    transform:scale(.97);
 }
 
 .card .add-btn:disabled{
@@ -300,14 +303,14 @@ header img {
 
 .best-seller-badge{
     position:absolute;
-    top:10px;
-    left:10px;
+    top:8px;
+    left:8px;
     background:var(--red);
-    color:var(--light-text);
-    padding:5px 10px;
+    color:#fff;
+    padding:3px 8px;
     border-radius:20px;
-    font-size:.72rem;
-    font-weight:800;
+    font-size:.65rem;
+    font-weight:700;
     box-shadow:0 3px 8px rgba(0,0,0,.35);
     z-index:10;
 }
@@ -320,12 +323,16 @@ header img {
 }
 
 .card img{
-    width:90px;
-    height:90px;
+    width:105px;
+    height:105px;
 }
 
 .card h3{
     font-size:1rem;
+}
+
+.card .name-en{
+    font-size:.72rem;
 }
 
 .card .price{
@@ -333,17 +340,19 @@ header img {
 }
 
 .card .add-btn{
-    height:40px;
-    font-size:.9rem;
+    width:125px;
+    height:36px;
+    font-size:.85rem;
 }
 
 .best-seller-badge{
-    font-size:.68rem;
-    padding:4px 8px;
+    top:6px;
+    left:6px;
+    font-size:.62rem;
+    padding:3px 7px;
 }
 
 }
-
 /* ================================================= */
 /* 🛒 5. زر السلة العائم (Cart Button) */
 /* ================================================= */
