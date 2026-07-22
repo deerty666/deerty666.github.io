@@ -436,82 +436,120 @@ function renderSections(){
 /* ====== Render menu - تطبيق الخصم الخاص بالفرع (واستخدام processedMenuData) ====== */
 function renderMenu(sectionName, searchTerm = '') {
     menuList.innerHTML = '';
+
     let itemsToRender = [];
     const normalizedSearch = searchTerm.trim().toLowerCase();
 
     if (sectionName === "الكل") {
-        itemsToRender = processedMenuData.flatMap(sec => 
-            sec.section !== "الكل" ? 
-            sec.items.map(item => ({...item, actualSection: item.actualSection || sec.section})) : 
-            []
+        itemsToRender = processedMenuData.flatMap(sec =>
+            sec.section !== "الكل"
+                ? sec.items.map(item => ({
+                    ...item,
+                    actualSection: item.actualSection || sec.section
+                }))
+                : []
         );
     } else {
-        const sec = processedMenuData.find(s => s.section === sectionName); 
+        const sec = processedMenuData.find(s => s.section === sectionName);
         if (!sec) return;
         itemsToRender = sec.items;
     }
 
-    const branchFilteredItems = itemsToRender.filter(item => {
-        return item.availableIn && Array.isArray(item.availableIn) && item.availableIn.includes(currentBranchId);
-    });
+    // فلترة حسب الفرع
+    const branchFilteredItems = itemsToRender.filter(item =>
+        Array.isArray(item.availableIn) &&
+        item.availableIn.includes(currentBranchId)
+    );
 
-    const filteredItems = branchFilteredItems.filter(item => {
-        return item.name.toLowerCase().includes(normalizedSearch);
-    });
+    // فلترة البحث
+    const filteredItems = branchFilteredItems.filter(item =>
+        item.name.toLowerCase().includes(normalizedSearch)
+    );
 
     if (filteredItems.length === 0) {
-        menuList.innerHTML = `<p style="text-align:center; padding: 30px; color: #aaa;">لا توجد وجبات حالياً في هذا القسم</p>`;
+        menuList.innerHTML = `
+            <p style="text-align:center;padding:30px;color:#aaa;">
+                لا توجد وجبات حالياً في هذا القسم
+            </p>
+        `;
         return;
     }
 
     filteredItems.forEach(item => {
         const isAvailable = item.isAvailable !== false;
-        const discountedPriceForBranch = item.branchDiscounts ? item.branchDiscounts[currentBranchId] : null;
-        const hasDiscount = discountedPriceForBranch && discountedPriceForBranch < item.basePrice;
+
+        const discountedPriceForBranch =
+            item.branchDiscounts?.[currentBranchId] ?? null;
+
+        const hasDiscount =
+            discountedPriceForBranch !== null &&
+            discountedPriceForBranch < item.basePrice;
+
         const isBestSeller = item.isBestSeller === true;
 
-        let buttonText = "أضف للسلة";
-        let buttonAttributes = "";
-        let cardClassAddition = "";
-        let bestSellerBadge = isBestSeller ? '<span class="best-seller-badge">الأكثر مبيعاً 🏆</span>' : '';
+        let buttonText = isAvailable ? "أضف للسلة" : "غير متوفر";
+        let buttonAttributes = isAvailable ? "" : "disabled";
+        let cardClassAddition = isAvailable ? "" : " unavailable";
 
-        let priceDisplay = hasDiscount 
-            ? `<span class="old-price">\( {item.basePrice} ريال</span> <span class="discount-price"> \){discountedPriceForBranch} ريال</span>`
-            : (item.basePrice > 0 ? `${item.basePrice} ريال` : `ابتداءً من ${item.options[0]?.price || 0} ريال`);
+        const bestSellerBadge = isBestSeller
+            ? `<span class="best-seller-badge">الأكثر مبيعاً 🏆</span>`
+            : "";
 
-        const card = document.createElement('div');
-        card.className = 'card' + cardClassAddition;
+        const options = item.options || [];
+
+        const priceDisplay = hasDiscount
+            ? `
+                <span class="old-price">${item.basePrice} ريال</span>
+                <span class="discount-price">${discountedPriceForBranch} ريال</span>
+              `
+            : (
+                item.basePrice > 0
+                    ? `${item.basePrice} ريال`
+                    : `ابتداءً من ${options[0]?.price || 0} ريال`
+            );
+
+        const card = document.createElement("div");
+        card.className = "card" + cardClassAddition;
 
         card.innerHTML = `
-            <img src="\( {item.img}" alt=" \){item.name}" onerror="this.style.opacity=0.3">
+            <img src="${item.img}" alt="${item.name}" onerror="this.style.opacity=0.3">
             ${bestSellerBadge}
             <div class="content">
                 <h3>${item.name}</h3>
-                \( {item.nameEn ? `<div class="name-en"> \){item.nameEn}</div>` : ''}
+                ${item.nameEn ? `<div class="name-en">${item.nameEn}</div>` : ""}
                 <div class="price">${priceDisplay}</div>
-                <button class="add-btn" \( {buttonAttributes}> \){buttonText}</button>
+                <button class="add-btn" ${buttonAttributes}>
+                    ${buttonText}
+                </button>
             </div>
         `;
 
         if (isAvailable) {
-            card.querySelector('button').onclick = () => {
-                const itemForCart = {...item};
-                if (hasDiscount) itemForCart.basePrice = discountedPriceForBranch;
+            card.querySelector(".add-btn").onclick = () => {
+                const itemForCart = { ...item };
+
+                if (hasDiscount) {
+                    itemForCart.basePrice = discountedPriceForBranch;
+                }
+
                 delete itemForCart.actualSection;
 
-                const needsOptions = item.options.length > 1 || (item.options[0] && item.options[0].name !== "");
+                const needsOptions =
+                    options.length > 1 ||
+                    (options[0] && options[0].name !== "");
+
                 if (needsOptions) {
-                    showOptions(itemForCart, false, card.querySelector('img'));
+                    showOptions(itemForCart, false, card.querySelector("img"));
                 } else {
-                    itemNoteInput.value = '';
-                    showOptions(itemForCart, true, card.querySelector('img'));
+                    itemNoteInput.value = "";
+                    showOptions(itemForCart, true, card.querySelector("img"));
                 }
             };
         }
+
         menuList.appendChild(card);
     });
 }
-
 /* ====== Show options modal - لدعم الملاحظات ====== */
 // 🚀 MODIFIED: إضافة itemImage للمُعاملات
 function showOptions(item, skipOptions = false, itemImage = null){ 
