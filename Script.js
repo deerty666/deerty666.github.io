@@ -434,12 +434,12 @@ function renderSections(){
 
 
 /* ====== Render menu - تطبيق الخصم الخاص بالفرع (واستخدام processedMenuData) ====== */
-function renderMenu(sectionName, searchTerm = ''){
+function renderMenu(sectionName, searchTerm = '') {
     menuList.innerHTML = '';
     let itemsToRender = [];
     const normalizedSearch = searchTerm.trim().toLowerCase();
 
-    if(sectionName === "الكل") {
+    if (sectionName === "الكل") {
         itemsToRender = processedMenuData.flatMap(sec => 
             sec.section !== "الكل" ? 
             sec.items.map(item => ({...item, actualSection: item.actualSection || sec.section})) : 
@@ -447,7 +447,7 @@ function renderMenu(sectionName, searchTerm = ''){
         );
     } else {
         const sec = processedMenuData.find(s => s.section === sectionName); 
-        if(!sec) return;
+        if (!sec) return;
         itemsToRender = sec.items;
     }
 
@@ -459,7 +459,7 @@ function renderMenu(sectionName, searchTerm = ''){
         return item.name.toLowerCase().includes(normalizedSearch);
     });
 
-    if(filteredItems.length === 0) {
+    if (filteredItems.length === 0) {
         menuList.innerHTML = `<p style="text-align:center; padding: 30px; color: #aaa;">لا توجد وجبات حالياً في هذا القسم</p>`;
         return;
     }
