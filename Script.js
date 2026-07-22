@@ -794,9 +794,18 @@ clearCart.onclick = ()=>{
 
 
 document.querySelectorAll('input[name="deliveryType"]').forEach(radio => {
-    radio.addEventListener('change', renderCart); 
-});
 
+    radio.addEventListener('change', () => {
+
+        renderCart();
+
+        if (radio.value === "delivery" && radio.checked && !userLocation) {
+            getMyLocation();
+        }
+
+    });
+
+});
 
 
 /* ====== Cart UI and WhatsApp - يستخدم رقم الواتساب الخاص بالفرع ====== */
@@ -978,20 +987,20 @@ function onError(error) {
     
     locationStatus.innerText = message;
     locationStatus.style.color = 'var(--red)';
-    getLocationBtn.disabled = false;
-    getLocationBtn.innerText = '📍 تحديد موقع التوصيل الحالي (حاول مجدداً)';
+    
+    
     userLocation = null; // مسح الموقع السابق في حالة الخطأ
 }
 
 function getMyLocation() {
     locationStatus.innerText = 'جاري البحث عن موقعك... 📡';
     locationStatus.style.color = '#aaa';
-    getLocationBtn.disabled = true;
+    
 
     if (!navigator.geolocation) {
         locationStatus.innerText = '❌ المتصفح لا يدعم تحديد الموقع الجغرافي.';
         locationStatus.style.color = 'var(--red)';
-        getLocationBtn.disabled = false;
+        
         return;
     }
 
@@ -1007,7 +1016,6 @@ function getMyLocation() {
 }
 
 // 📍 ربط زر تحديد الموقع بالدالة (جديد)
-getLocationBtn.addEventListener('click', getMyLocation);
 // ------------------------------------------
 
 
