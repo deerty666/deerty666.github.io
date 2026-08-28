@@ -5,9 +5,9 @@
     ],
     "target": {
       "namespace": "android_app",
-      "package_name": "io.github.deerty666.deerty",
+      "package_name": "com.deerty.app",
       "sha256_cert_fingerprints": [
-        "B1:0C:CC:79:83:2E:E4:06:B1:E5:12:CF:76:EF:32:6A:B8:0A:C7:47:B7:F3:92:C6:D8:88:99:95:3D:93:E7:8D"
+        "E1:57:CA:CB:DC:6B:5E:37:18:B5:9E:24:02:5B:D3:5F:04:88:60:F8:D8:0C:C3:AE:18:C3:C6:67:E3:53:32:58"
       ]
     }
   }
