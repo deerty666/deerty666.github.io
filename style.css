@@ -1567,3 +1567,48 @@ button:active {
         scale(1);
     }
 }
+/* ===== زر الرجوع للقائمة في السلة ===== */
+
+.back-to-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    background: linear-gradient(145deg, #302b27, #211e1b);
+    color: #E8C065;
+
+    border: 3px solid #C9A56B;
+    border-radius: 14px;
+
+    padding: 8px 16px;
+    min-width: 175px;
+    height: 54px;
+
+    font-family: 'Cairo', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 12px rgba(232, 192, 101, 0.30),
+        inset 0 0 8px rgba(255,255,255,0.04);
+
+    transition: all 0.2s ease;
+}
+
+.back-cart-icon {
+    font-size: 25px;
+    line-height: 1;
+}
+
+.back-to-menu-btn:active {
+    transform: scale(0.94);
+}
+
+.back-to-menu-btn:hover {
+    box-shadow:
+        0 0 18px rgba(232, 192, 101, 0.45),
+        inset 0 0 10px rgba(255,255,255,0.05);
+}
