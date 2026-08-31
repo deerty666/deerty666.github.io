@@ -19,7 +19,7 @@ const BRANCH_CONFIG = {
 
 /* ====== متغير لتحديد الفرع الحالي من الرابط ====== */
 let currentBranchId = 'branch1'; // القيمة الافتراضية
-const urlParams = new URLSearchParams(window.modalTitle.innerHTML = `<div>${item.name}</div><div style="font-size: 0.8rem; color: #888; font-weight: normal; font-family: sans-serif;">${item.nameEn || ''}</div>`;.search);
+const urlParams = new URLSearchParams(window.location.search);
 if (urlParams.has('branch')) {
     currentBranchId = urlParams.get('branch');
 }
