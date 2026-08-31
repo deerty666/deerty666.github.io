@@ -832,14 +832,19 @@ closeCartBtn.addEventListener('click', closeCart);
 
 sendWhatsapp.addEventListener('click', () => {
     if(cart.length===0){ alert('السلة فارغة'); return; }
-    
+    const deliveryType =
+    document.querySelector('input[name="deliveryType"]:checked')?.value || '';
+
+if (!deliveryType) {
+    alert('⚠️ يرجى اختيار توصيل أو استلام أولاً');
+    return;
+}
     // 💡 التعديل الأول: قراءة العنوان اليدوي من حقل "manualAddress"
     const manualAddressNote = document.getElementById('manualAddress').value.trim(); 
     
     const branchDeliveryFee = currentBranch.deliveryFee || 0;
     const whatsappNumber = currentBranch.whatsapp;
 
-    const deliveryType = document.querySelector('input[name="deliveryType"]:checked')?.value;
     // 📍 متغيرات رسائل الواتساب
     const lines = [
 
