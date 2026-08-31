@@ -1,33 +1,12 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<script>
-const fromExternal =
-  !document.referrer.includes("deerty666.github.io");
-
-const isLabn =
-  window.location.search.includes("branch=branch1");
-
-if (isLabn && fromExternal) {
-  window.location.href = "https://deerty666.github.io/";
-}
-</script>
-      <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "e0889409-9aa2-415e-a8e6-c562b17d2de9",
-    });
-  });
-</script>
-     
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title> مطاعم ومطابخ سحايب ديرتي</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="/Dirty55/manifest.json">
 <meta name="theme-color" content="#1A1512"> 
 
 <link rel="stylesheet" href="style.css"> 
@@ -122,77 +101,26 @@ if (isLabn && fromExternal) {
 <body>
 
 <header>
-      <button id="enableIosPush"
-        style="
-          display:none;
-          background:#E8C065;
-          color:#1A1512;
-          font-weight:700;
-          border:none;
-          border-radius:8px;
-          padding:10px 14px;
-          margin:8px auto;
-          width:90%;
-          max-width:320px;
-        ">
-📢 اضغط هنا لتفعيل الإشعارات
-</button>
   <button id="installAppBtn" style="display:none;">تثبيت التطبيق 📲</button>
-
+ 
 <button id="iosHelpBtn" style="display:none;" class="ios-btn">
     طريقة التثبيت 🍏
 </button>
  
-  <div><img src="logo-bg1.png" alt="شعار المطعم" onerror="this.style.opacity=0.25; this.style.height='50px'"></div>
+  <div><img src="/Dirty55/logo-bg.png" alt="شعار المطعم" onerror="this.style.opacity=0.25; this.style.height='50px'"></div>
 </header>
 
 <input type="search" id="searchBar" placeholder="ابحث عن وجبة سريعة أو صنف..." aria-label="البحث في القائمة">
-<div class="branch-top-bar">
 
-    <div class="current-branch-box">
-        <span class="branch-label">📍 الفرع الحالي</span>
-
-        <div id="currentBranchName">
-            لبن الأحمدية
-        </div>
-    </div>
-
-    <button id="changeBranchBtn">
-        تغيير الفرع ⌄
-    </button>
-
-</div>
-
-<div id="branchDropdown" class="branch-dropdown">
-
-    <div class="branch-option" data-branch="branch1">
-        لبن الأحمدية
-    </div>
-
-    <div class="branch-option" data-branch="branch2">
-        شمال الرياض مخرج ٦
-    </div>
-
-    <div class="branch-option" data-branch="branch3">
-        الروضة خالد بن الوليد
-    </div>
-
-</div>
 <div id="sections" aria-hidden="false"></div>
 <main id="menuList" role="list"></main>
 
 <div id="cartOverlay"></div>
 <div id="cartDrawer" aria-hidden="true">
- 
-    <div class="cart-header">
-  <div>سلة الطلبات</div>
-
-  <button id="closeCartBtn" class="back-to-menu-btn" title="الرجوع للقائمة">
-    <span>الرجوع للقائمة</span>
-    <span class="back-cart-icon">🛒</span>
-  </button>
-</div>
-  
+  <div class="cart-header">
+    <div>سلة الطلبات</div>
+    <button id="closeCartBtn" title="إغلاق">✖</button>
+  </div>
   <div id="cartItems"></div>
   <div id="cartSuggestions"></div>
   <div class="delivery-options-container">
@@ -211,7 +139,9 @@ if (isLabn && fromExternal) {
   </div>
     
   <div class="delivery-options-container" style="padding: 10px;">
-        
+        <button id="getLocationBtn" type="button" class="action-btn" style="background-color: #38761D; border: none; font-size: 0.9em; margin: 10px 0;">
+            📍 تحديد موقع التوصيل الحالي
+        </button>
         <p id="locationStatus" style="font-size: 0.8em; color: #fff; text-align: center; margin: 5px 0 0 0;"></p>
     </div>
     <div style="padding: 10px 20px; border-top: 1px solid var(--border-color); margin-top: 10px;">
@@ -272,7 +202,7 @@ if (isLabn && fromExternal) {
 
   <button onclick="closeIosBanner()">مفهوم 👍</button>
 </div>
-<script src="Script.js?v=4.0" defer></script>
+<script src="Script.js?v=3.1" defer></script>
 
 </body>
 </html>
