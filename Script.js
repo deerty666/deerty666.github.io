@@ -1118,9 +1118,11 @@ document.querySelectorAll('.branch-option')
 
 });
 
-updateCurrentBranchUI();
-renderSections(); 
-renderCart();
+document.addEventListener('DOMContentLoaded', () => {
+    updateCurrentBranchUI();
+    renderSections();
+    renderCart();
+});
 
 
 
