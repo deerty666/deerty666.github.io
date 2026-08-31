@@ -1177,7 +1177,7 @@ function getMyLocation() {
         onError,
         { 
             enableHighAccuracy: true, // طلب دقة أعلى
-            timeout: 10000,          // مهلة 10 ثواني 
+            timeout: 15000,          // مهلة 10 ثواني 
             maximumAge: 0            // لا تستخدم بيانات مخزنة مؤقتاً
         } 
     );
