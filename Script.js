@@ -1113,79 +1113,209 @@ if (it.selectedOptions && it.selectedOptions.length > 0) {
 });
 
 
+// =========================================================
+// 📍 تحديد الموقع الحقيقي GPS - نسخة محسنة
+// لا يوجد تخمين للموقع
+// =========================================================
 
-// 🚀 ------------------------------------------
-// ✨ دالة تحديد الموقع (Geolocation) (جديد)
-// ------------------------------------------
+let locationWatchId = null;
+let bestLocationAccuracy = Infinity;
+let bestPosition = null;
+let locationTimer = null;
+
 function onSuccess(position) {
+
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
-    userLocation = { lat: latitude, lng: longitude }; // تخزين الإحداثيات
+    const accuracy = position.coords.accuracy;
 
-    // إنشاء رابط لموقع جوجل ماب
-    const mapLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+    // حفظ أفضل قراءة GPS حصلنا عليها
+    if (accuracy < bestLocationAccuracy) {
+        bestLocationAccuracy = accuracy;
+        bestPosition = position;
+    }
 
-    // تحديث حالة الموقع
+    // إذا حصلنا على قراءة ممتازة، نوقف البحث
+    if (accuracy <= 30) {
+        finishLocation(bestPosition);
+        return;
+    }
+
+    // عرض الدقة الحالية للمستخدم
+    locationStatus.innerHTML =
+        `📡 جاري تحسين الموقع...<br>دقة GPS الحالية: ${Math.round(accuracy)} متر`;
+
+    locationStatus.style.color = '#c39e6a';
+}
+
+
+function finishLocation(position) {
+
+    // إيقاف مراقبة GPS
+    if (locationWatchId !== null) {
+        navigator.geolocation.clearWatch(locationWatchId);
+        locationWatchId = null;
+    }
+
+    // إلغاء المؤقت
+    if (locationTimer) {
+        clearTimeout(locationTimer);
+        locationTimer = null;
+    }
+
+    if (!position) {
+        onError({
+            code: 2,
+            message: 'لم يتم الحصول على إحداثيات GPS'
+        });
+        return;
+    }
+
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    const accuracy = position.coords.accuracy;
+
+    // حفظ الإحداثيات الحقيقية
+    userLocation = {
+        lat: latitude,
+        lng: longitude,
+        accuracy: accuracy
+    };
+
+    // رابط Google Maps بالإحداثيات الحقيقية
+    const mapLink =
+        `https://www.google.com/maps?q=${latitude},${longitude}`;
+
     locationStatus.innerHTML = `
-        ✅ تم تحديد الموقع بنجاح! 
+        ✅ تم تحديد موقعك بنجاح
         <br>
-        <a href="${mapLink}" target="_blank" style="color: var(--gold); text-decoration: underline; font-weight: bold;">عرض على الخريطة</a>
+        📍 دقة GPS: ${Math.round(accuracy)} متر
+        <br>
+        <a href="${mapLink}" target="_blank"
+           style="color: var(--gold); text-decoration: underline;">
+           فتح الموقع على الخريطة
+        </a>
     `;
+
     locationStatus.style.color = '#4CAF50';
+
     getLocationBtn.disabled = false;
     getLocationBtn.innerText = '📍 تحديث الموقع';
 }
 
+
 function onError(error) {
-    let message = 'حدث خطأ أثناء تحديد الموقع.';
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            message = '🚫 رفض المستخدم طلب تحديد الموقع.';
-            break;
-        case error.POSITION_UNAVAILABLE:
-            message = '❌ معلومات الموقع غير متوفرة حالياً.';
-            break;
-        case error.TIMEOUT:
-            message = '⏳ انتهت مهلة طلب تحديد الموقع.';
-            break;
-        case error.UNKNOWN_ERROR:
-            message = '🚨 خطأ غير معروف.';
-            break;
+
+    // إيقاف المراقبة
+    if (locationWatchId !== null) {
+        navigator.geolocation.clearWatch(locationWatchId);
+        locationWatchId = null;
     }
-    
+
+    if (locationTimer) {
+        clearTimeout(locationTimer);
+        locationTimer = null;
+    }
+
+    let message = '❌ تعذر تحديد الموقع';
+
+    switch (error.code) {
+
+        case error.PERMISSION_DENIED:
+            message = '🚫 تم رفض صلاحية الموقع. اسمح للمتصفح باستخدام الموقع.';
+            break;
+
+        case error.POSITION_UNAVAILABLE:
+            message = '❌ معلومات GPS غير متوفرة حاليًا.';
+            break;
+
+        case error.TIMEOUT:
+            message = '⏱️ لم يتم الحصول على موقع GPS في الوقت المحدد.';
+            break;
+
+        default:
+            message = '🚨 حدث خطأ أثناء تحديد الموقع.';
+    }
+
     locationStatus.innerText = message;
     locationStatus.style.color = 'var(--red)';
+
     getLocationBtn.disabled = false;
-    getLocationBtn.innerText = '📍 تحديد موقع التوصيل الحالي (حاول مجدداً)';
-    userLocation = null; // مسح الموقع السابق في حالة الخطأ
+    getLocationBtn.innerText = '📍 حاول تحديد الموقع مرة أخرى';
+
+    // عدم الاحتفاظ بموقع قديم عند فشل التحديد
+    userLocation = null;
 }
 
-function getMyLocation() {
-    locationStatus.innerText = 'جاري البحث عن موقعك... 📡';
-    locationStatus.style.color = '#aaa';
-    getLocationBtn.disabled = true;
 
+function getMyLocation() {
+
+    // التأكد من دعم GPS
     if (!navigator.geolocation) {
-        locationStatus.innerText = '❌ المتصفح لا يدعم تحديد الموقع الجغرافي.';
+
+        locationStatus.innerText =
+            '❌ المتصفح لا يدعم تحديد الموقع الجغرافي.';
+
         locationStatus.style.color = 'var(--red)';
         getLocationBtn.disabled = false;
+
         return;
     }
 
-    navigator.geolocation.getCurrentPosition(
-        onSuccess, 
+    // إعادة ضبط القراءات السابقة
+    bestLocationAccuracy = Infinity;
+    bestPosition = null;
+
+    if (locationTimer) {
+        clearTimeout(locationTimer);
+    }
+
+    // حالة البحث
+    locationStatus.innerText =
+        '📡 جاري تحديد موقعك بدقة...';
+
+    locationStatus.style.color = '#aaa';
+
+    getLocationBtn.disabled = true;
+    getLocationBtn.innerText = '📡 جاري تحديد الموقع...';
+
+    // مراقبة GPS للحصول على أفضل قراءة
+    locationWatchId = navigator.geolocation.watchPosition(
+        onSuccess,
         onError,
-        { 
-            enableHighAccuracy: true, // طلب دقة أعلى
-            timeout: 15000,          // مهلة 10 ثواني 
-            maximumAge: 0            // لا تستخدم بيانات مخزنة مؤقتاً
-        } 
+        {
+            enableHighAccuracy: true,
+            timeout: 30000,
+            maximumAge: 0
+        }
     );
+
+    // بعد 30 ثانية:
+    // نستخدم أفضل قراءة حقيقية حصلنا عليها،
+    // أو نظهر خطأ إذا لم تصل أي قراءة.
+    locationTimer = setTimeout(() => {
+
+        if (bestPosition) {
+            finishLocation(bestPosition);
+        } else {
+            onError({
+                code: 3,
+                message: 'انتهى وقت انتظار GPS'
+            });
+        }
+
+    }, 30000);
 }
 
-// 📍 ربط زر تحديد الموقع بالدالة (جديد)
+
+// ربط زر تحديد الموقع
 if (getLocationBtn) {
-    getLocationBtn.addEventListener('click', getMyLocation);
+
+    getLocationBtn.addEventListener(
+        'click',
+        getMyLocation
+    );
+
 }
 // ------------------------------------------
 
