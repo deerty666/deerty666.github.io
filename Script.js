@@ -1154,7 +1154,9 @@ function getMyLocation() {
 }
 
 // 📍 ربط زر تحديد الموقع بالدالة (جديد)
-getLocationBtn.addEventListener('click', getMyLocation);
+if (getLocationBtn) {
+    getLocationBtn.addEventListener('click', getMyLocation);
+}
 // ------------------------------------------
 
 
