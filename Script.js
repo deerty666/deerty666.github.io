@@ -966,8 +966,38 @@ clearCart.onclick = ()=>{
 }
 
 
+/* ====== نوع الطلب + تحديد الموقع تلقائياً ====== */
+
 document.querySelectorAll('input[name="deliveryType"]').forEach(radio => {
-    radio.addEventListener('change', renderCart); 
+
+    radio.addEventListener('change', function () {
+
+        // تحديث السلة ورسوم التوصيل
+        renderCart();
+
+        // إذا اختار العميل التوصيل
+        if (this.value === 'delivery') {
+
+            // تحديد الموقع مباشرة
+            setTimeout(() => {
+                getMyLocation();
+            }, 100);
+
+        }
+
+        // إذا اختار العميل الاستلام
+        if (this.value === 'pickup') {
+
+            // مسح الموقع السابق
+            userLocation = null;
+
+            if (locationStatus) {
+                locationStatus.innerText = '';
+            }
+        }
+
+    });
+
 });
 
 
