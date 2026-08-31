@@ -1835,3 +1835,213 @@ html, body {
         font-size: .82rem;
     }
 }
+/* ================================================= */
+/* 🍽️ التصميم النهائي للمنتج */
+/* صورة يسار كاملة + الاسم والسعر والزر يمين */
+/* عربي + إنجليزي */
+/* ================================================= */
+
+.card {
+    display: flex !important;
+    flex-direction: row !important;
+    direction: ltr !important;
+
+    align-items: stretch !important;
+    gap: 0 !important;
+
+    padding: 0 !important;
+    min-height: 170px;
+
+    background: linear-gradient(145deg, #1e1e1e, #141414);
+    border: 1px solid rgba(195,158,106,.35);
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+/* ================================= */
+/* 🖼️ الصورة — جهة اليسار بالكامل */
+/* ================================= */
+
+.card img {
+    width: 42% !important;
+    min-width: 125px;
+    height: auto !important;
+    min-height: 170px;
+
+    object-fit: cover !important;
+
+    border: none !important;
+    border-radius: 0 !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    flex-shrink: 0;
+}
+
+/* ================================= */
+/* 📝 المحتوى — جهة اليمين */
+/* ================================= */
+
+.card .content {
+    flex: 1 !important;
+
+    direction: rtl !important;
+    text-align: right !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+
+    justify-content: center !important;
+
+    padding: 18px 16px !important;
+
+    min-width: 0;
+}
+
+/* ================================= */
+/* 🍽️ الاسم العربي */
+/* ================================= */
+
+.card h3 {
+    width: 100%;
+
+    margin: 0 0 2px !important;
+
+    color: #fff;
+
+    font-size: 1.15rem !important;
+    font-weight: 900;
+
+    line-height: 1.35;
+
+    text-align: right;
+}
+
+/* ================================= */
+/* 🇬🇧 الاسم الإنجليزي */
+/* ================================= */
+
+.card .name-en {
+    display: block !important;
+
+    width: 100%;
+
+    margin: 0 0 10px !important;
+
+    color: #999 !important;
+
+    font-size: .72rem !important;
+    font-weight: 500;
+
+    line-height: 1.2;
+
+    text-align: right;
+}
+
+/* ================================= */
+/* 💰 السعر */
+/* ================================= */
+
+.card .price {
+    width: 100%;
+
+    margin: 2px 0 12px !important;
+
+    color: var(--gold) !important;
+
+    font-size: 1.25rem !important;
+    font-weight: 900;
+
+    text-align: right;
+
+    text-shadow: 0 0 8px rgba(195,158,106,.35);
+}
+
+/* ================================= */
+/* 🛒 زر أضف للسلة */
+/* تحت الاسم والسعر في الجهة اليمنى */
+/* ================================= */
+
+.card .add-btn {
+    width: 130px !important;
+    height: 40px !important;
+
+    margin: 0 !important;
+
+    padding: 6px 12px !important;
+
+    border-radius: 10px !important;
+
+    background: linear-gradient(
+        135deg,
+        #c39e6a,
+        #a07c4c
+    ) !important;
+
+    color: #1A1512 !important;
+
+    font-size: .9rem !important;
+    font-weight: 900;
+
+    box-shadow: 0 5px 15px rgba(195,158,106,.3);
+
+    align-self: flex-start;
+}
+
+/* ================================= */
+/* 🏆 الأكثر مبيعاً */
+/* ================================= */
+
+.best-seller-badge {
+    left: auto !important;
+    right: auto !important;
+
+    /* يبقى فوق الصورة */
+    top: 8px !important;
+    left: 8px !important;
+
+    z-index: 10;
+}
+
+/* ================================= */
+/* 📱 الجوال */
+/* ================================= */
+
+@media (max-width: 480px) {
+
+    .card {
+        min-height: 155px;
+    }
+
+    .card img {
+        width: 40% !important;
+        min-width: 115px;
+        min-height: 155px;
+    }
+
+    .card .content {
+        padding: 14px 12px !important;
+    }
+
+    .card h3 {
+        font-size: 1rem !important;
+    }
+
+    .card .name-en {
+        font-size: .68rem !important;
+        margin-bottom: 8px !important;
+    }
+
+    .card .price {
+        font-size: 1.1rem !important;
+        margin-bottom: 9px !important;
+    }
+
+    .card .add-btn {
+        width: 120px !important;
+        height: 36px !important;
+        font-size: .82rem !important;
+    }
+}
