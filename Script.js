@@ -206,10 +206,10 @@ const menuData = [
                 {name:"رز مندي", price:13}
             ]},
             // الوجبة 4
-            {id:"t4", img:"me04.webp", name:"نفر لحم مندي", basePrice:85, availableIn: ['branch1', 'branch2', 'branch3'], options:[
+            {id:"t4", img:"me04.webp", name:"نفر لحم مندي", basePrice:100, availableIn: ['branch1', 'branch2', 'branch3'], options:[
                 {name:"رز شعبي", price:0},
-                {name:"رز بشاور", price:5},
-                {name:"رز مندي", price:5}
+                {name:"رز بشاور", price:0},
+                {name:"رز مندي", price:0}
             ]},
             // الوجبة 5 (حاشي مكموت - خصم)
             {
