@@ -1617,3 +1617,221 @@ html, body {
     user-select: none;
     -webkit-touch-callout: none;
 }
+/* ================================================= */
+/* 🍽️ شكل بطاقة المنتج النهائي */
+/* الصورة يسار + الاسم والسعر والإضافة يمين */
+/* ================================================= */
+
+.card {
+    display: grid !important;
+
+    /* الصورة يسار — المحتوى يمين */
+    grid-template-columns: 125px minmax(0, 1fr) !important;
+
+    direction: ltr !important;
+
+    align-items: center;
+    gap: 16px;
+
+    width: 100%;
+    min-height: 155px;
+
+    padding: 12px !important;
+
+    background: linear-gradient(
+        145deg,
+        #1e1e1e,
+        #141414
+    );
+
+    border: 1px solid rgba(195,158,106,.35);
+    border-radius: 18px;
+
+    overflow: hidden;
+    position: relative;
+}
+
+/* 🖼️ الصورة دائماً في اليسار */
+.card > img {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+
+    width: 125px !important;
+    height: 125px !important;
+
+    object-fit: cover;
+
+    border-radius: 15px;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    border: 1px solid rgba(195,158,106,.25);
+
+    background: #222;
+}
+
+/* 📋 المحتوى دائماً في اليمين */
+.card .content {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+
+    direction: rtl !important;
+    text-align: right !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+
+    min-width: 0 !important;
+    width: 100%;
+
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* 🍽️ اسم الوجبة */
+.card .content h3,
+.card h3 {
+    width: 100%;
+
+    margin: 0 0 5px !important;
+
+    color: #fff;
+
+    font-size: 1.15rem;
+
+    font-weight: 900;
+
+    line-height: 1.45;
+
+    text-align: right;
+
+    word-break: normal;
+}
+
+/* الوصف / القسم */
+.card .content p,
+.card .name-en {
+    width: 100%;
+
+    margin: 0 0 5px !important;
+
+    color: #999;
+
+    font-size: .78rem;
+
+    text-align: right;
+}
+
+/* 💰 السعر */
+.card .price {
+    width: 100%;
+
+    margin: 4px 0 8px !important;
+
+    color: var(--gold);
+
+    font-size: 1.25rem !important;
+
+    font-weight: 900;
+
+    text-align: right;
+
+    white-space: nowrap;
+}
+
+/* 🔴 السعر بعد الخصم */
+.card .discount-price {
+    color: var(--red);
+
+    font-size: 1.2rem;
+
+    font-weight: 900;
+}
+
+/* 🛒 زر الإضافة */
+.card .add-btn {
+    width: 125px !important;
+    height: 38px !important;
+
+    margin: 2px 0 0 !important;
+
+    padding: 0 10px;
+
+    border-radius: 10px;
+
+    background: linear-gradient(
+        135deg,
+        #c39e6a,
+        #a07c4c
+    );
+
+    color: #1A1512;
+
+    font-size: .88rem;
+
+    font-weight: 900;
+
+    align-self: flex-end;
+}
+
+/* 🏆 الأكثر مبيعاً */
+.best-seller-badge {
+    top: 7px !important;
+    left: 7px !important;
+
+    z-index: 5;
+}
+
+/* ================================================= */
+/* 📱 الجوال */
+/* ================================================= */
+
+@media (max-width: 480px) {
+
+    .card {
+        grid-template-columns: 115px minmax(0, 1fr) !important;
+
+        gap: 12px;
+
+        min-height: 140px;
+
+        padding: 10px !important;
+
+        border-radius: 16px;
+    }
+
+    .card > img {
+        width: 115px !important;
+        height: 115px !important;
+
+        border-radius: 14px;
+    }
+
+    .card .content h3,
+    .card h3 {
+        font-size: 1.05rem;
+
+        line-height: 1.4;
+    }
+
+    .card .content p,
+    .card .name-en {
+        font-size: .72rem;
+    }
+
+    .card .price {
+        font-size: 1.15rem !important;
+
+        margin: 3px 0 6px !important;
+    }
+
+    .card .add-btn {
+        width: 115px !important;
+        height: 35px !important;
+
+        font-size: .82rem;
+    }
+}
