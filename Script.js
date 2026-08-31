@@ -1391,3 +1391,80 @@ async function initSmartPushSystem() {
 
 // تشغيل النظام فور جاهزية الصفحة
 document.addEventListener("DOMContentLoaded", initSmartPushSystem);
+/* ================================================= */
+/* 🌿 نظام تغيير الفرع */
+/* ================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const changeBranchBtn = document.getElementById("changeBranchBtn");
+    const branchDropdown = document.getElementById("branchDropdown");
+    const currentBranchNameEl = document.getElementById("currentBranchName");
+    const branchOptions = document.querySelectorAll(".branch-option");
+
+    // عرض اسم الفرع الحالي
+    if (currentBranchNameEl) {
+        currentBranchNameEl.textContent = currentBranch.name;
+    }
+
+    // فتح وإغلاق قائمة الفروع
+    if (changeBranchBtn && branchDropdown) {
+
+        changeBranchBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+
+            const isOpen = branchDropdown.classList.contains("show");
+
+            if (isOpen) {
+                branchDropdown.classList.remove("show");
+            } else {
+                branchDropdown.classList.add("show");
+            }
+        });
+    }
+
+    // عند اختيار فرع
+    branchOptions.forEach(option => {
+
+        option.addEventListener("click", () => {
+
+            const selectedBranchId = option.dataset.branch;
+
+            // التأكد أن الفرع موجود
+            if (!BRANCH_CONFIG[selectedBranchId]) {
+                console.error("الفرع غير موجود:", selectedBranchId);
+                return;
+            }
+
+            // إذا كان نفس الفرع الحالي
+            if (selectedBranchId === currentBranchId) {
+                branchDropdown?.classList.remove("show");
+                return;
+            }
+
+            // إنشاء رابط الصفحة الحالي
+            const newUrl = new URL(window.location.href);
+
+            // تغيير branch في الرابط
+            newUrl.searchParams.set("branch", selectedBranchId);
+
+            // الانتقال للفرع الجديد
+            window.location.href = newUrl.toString();
+        });
+
+    });
+
+    // إغلاق القائمة عند الضغط خارجها
+    document.addEventListener("click", (e) => {
+
+        if (
+            branchDropdown &&
+            !branchDropdown.contains(e.target) &&
+            e.target !== changeBranchBtn
+        ) {
+            branchDropdown.classList.remove("show");
+        }
+
+    });
+
+});
