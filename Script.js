@@ -977,11 +977,8 @@ document.querySelectorAll('input[name="deliveryType"]').forEach(radio => {
 
         // إذا اختار العميل التوصيل
         if (this.value === 'delivery') {
-
-            // تحديد الموقع مباشرة
-            setTimeout(() => {
-                getMyLocation();
-            }, 100);
+    getMyLocation();
+}
 
         }
 
