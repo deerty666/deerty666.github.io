@@ -559,8 +559,7 @@ selectedOptions = [];
 
 // عرض اسم الوجبة بالعربي وتحته الإنجليزي في عنوان النافذة
 
-modalTitle.innerHTML =   <div>${item.name}</div>   <div style="font-size: 0.8rem; color: #888; font-weight: normal; font-family: sans-serif;">   ${item.nameEn || ''}   </div>  ;
-
+modalTitle.innerHTML = `<div>${item.name}</div><div style="font-size: 0.8rem; color: #888; font-weight: normal; font-family: sans-serif;">${item.nameEn || ''}</div>`;
 if(skipOptions || item.options.length === 0){  
     modalOptions.style.display = 'none';  
 } else {  
