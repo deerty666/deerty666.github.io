@@ -26,8 +26,7 @@ if (urlParams.has('branch')) {
 currentBranchId = urlParams.get('branch');
 }
 const currentBranch = BRANCH_CONFIG[currentBranchId] || BRANCH_CONFIG['branch1'];
-document.title = قائمة سحايب ديرتي - فرع ${currentBranch.name}; // تحديث عنوان الصفحة باسم الفرع
-
+document.title = `قائمة سحايب ديرتي - فرع ${currentBranch.name}`;
 /* ====== بيانات المنيو - تم تحديث جميع مسارات الصور إلى صيغة WEBP وباسم قصير (مثال: /Dirty55/sh01.webp) ====== */
 
 // الوجبة 4
