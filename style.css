@@ -543,6 +543,8 @@ header img {
 .card > img {
     order: 1 !important;
 
+    flex: 0 0 42% !important;
+
     width: 42% !important;
 
     min-width: 125px !important;
@@ -584,7 +586,7 @@ header img {
 .card .content {
     order: 2 !important;
 
-    flex: 1 1 auto !important;
+    flex: 1 1 58% !important;
 
     width: 58% !important;
 
@@ -2567,27 +2569,37 @@ div[style*="border-top"] label {
 
     /* صورة المنتج */
 
-    .card > img {
-        width:
-            40% !important;
+.card > img {
+    order: 1 !important;
 
-        min-width:
-            115px !important;
+    flex: 0 0 40% !important;
 
-        height:
-            155px !important;
-    }
+    width: 40% !important;
+
+    min-width:
+        115px !important;
+
+    height:
+        155px !important;
+
+    object-fit:
+        cover !important;
+}
 
 
     /* المحتوى */
 
     .card .content {
-        width:
-            60% !important;
+    order: 2 !important;
 
-        padding:
-            12px 10px !important;
-    }
+    flex: 1 1 60% !important;
+
+    width:
+        60% !important;
+
+    padding:
+        12px 10px !important;
+}
 
 
     /* الاسم */
