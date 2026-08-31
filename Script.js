@@ -1023,96 +1023,233 @@ cartBtn.addEventListener('click',()=>{
 cartOverlay.addEventListener('click', closeCart);
 closeCartBtn.addEventListener('click', closeCart);
 
+/* =========================================================
+   📲 إرسال الطلب إلى واتساب - التنسيق النهائي
+   ========================================================= */
 
 sendWhatsapp.addEventListener('click', () => {
-    if(cart.length===0){ alert('السلة فارغة'); return; }
-    
-    // 💡 التعديل الأول: قراءة العنوان اليدوي من حقل "manualAddress"
-    const manualAddressNote = document.getElementById('manualAddress').value.trim(); 
-    
+
+    if (cart.length === 0) {
+        alert('السلة فارغة');
+        return;
+    }
+
+    // العنوان اليدوي
+    const manualAddress =
+        document.getElementById('manualAddress')?.value.trim() || '';
+
+    // بيانات الفرع
     const branchDeliveryFee = currentBranch.deliveryFee || 0;
     const whatsappNumber = currentBranch.whatsapp;
 
-    const deliveryType = document.querySelector('input[name="deliveryType"]:checked')?.value;
-    // 📍 متغيرات رسائل الواتساب
-    const lines=['طلب جديد من مطاعم سحايب ديرتي:'];
+    // نوع الطلب
+    const deliveryType =
+        document.querySelector(
+            'input[name="deliveryType"]:checked'
+        )?.value;
+
+    // =====================================================
+    // 🍽️ بداية رسالة الواتساب
+    // =====================================================
+
+    const lines = [];
+
+    lines.push('🍽️ طلب جديد — سحايب ديرتي');
+    lines.push('');
+    lines.push(`📍 الفرع: ${currentBranch.name}`);
+    lines.push('');
+    lines.push('━━━━━━━━━━━━');
+
     let subtotal = 0;
 
-    cart.forEach(it=>{
+    // =====================================================
+    // 🛒 المنتجات
+    // =====================================================
+
+    cart.forEach((it, index) => {
+
         let optionsTotal = 0;
 
-if(it.selectedOptions && it.selectedOptions.length > 0){
-    optionsTotal += it.selectedOptions.reduce((sum, opt) => sum + opt.price, 0);
-}
+        // خيارات متعددة
+        if (
+            it.selectedOptions &&
+            it.selectedOptions.length > 0
+        ) {
+            optionsTotal += it.selectedOptions.reduce(
+                (sum, opt) => sum + (Number(opt.price) || 0),
+                0
+            );
+        }
 
-if(it.selectedOption){
-    optionsTotal += it.selectedOption.price;
-}
+        // خيار واحد
+        if (it.selectedOption) {
+            optionsTotal += Number(it.selectedOption.price) || 0;
+        }
 
-const price = (it.basePrice || 0) + optionsTotal;
-        let optionText = "";
+        // السعر النهائي للقطعة
+        const price =
+            (Number(it.basePrice) || 0) + optionsTotal;
 
-// خيار مفرد
-if (it.selectedOption && 
-    it.selectedOption.name !== 'نفر' && 
-    it.selectedOption.name !== 'طبق' && 
-    it.selectedOption.name !== 'عبوة') {
+        // إجمالي هذا المنتج
+        const itemTotal = price * it.qty;
 
-    optionText = ` — ${it.selectedOption.name}`;
-}
+        // رقم المنتج + الاسم + الكمية
+        lines.push(
+            `${index + 1}️⃣ ${it.name} × ${it.qty}`
+        );
 
-// خيارات متعددة (وجبة رمضان)
-if (it.selectedOptions && it.selectedOptions.length > 0) {
-    optionText = ` — ${it.selectedOptions.map(o => o.name).join(' + ')}`;
-}
-        const noteText = it.note ? ` (ملاحظة: ${it.note})` : '';
+        // =================================================
+        // 🍚 الخيار
+        // =================================================
 
-        lines.push(`${it.qty} × ${it.name}${optionText} ${noteText} — ${price*it.qty} ريال`);
-        subtotal+=price*it.qty;
+        if (
+            it.selectedOptions &&
+            it.selectedOptions.length > 0
+        ) {
+
+            const optionNames = it.selectedOptions
+                .map(opt => opt.name)
+                .filter(name => name && name.trim() !== '')
+                .join(' + ');
+
+            if (optionNames) {
+                lines.push(`🍚 ${optionNames}`);
+            }
+
+        } else if (
+            it.selectedOption &&
+            it.selectedOption.name &&
+            it.selectedOption.name.trim() !== ''
+        ) {
+
+            lines.push(
+                `🍚 ${it.selectedOption.name}`
+            );
+        }
+
+        // =================================================
+        // 📝 ملاحظة المنتج
+        // =================================================
+
+        if (it.note) {
+            lines.push(`📝 ${it.note}`);
+        }
+
+        // =================================================
+        // 💰 سعر المنتج
+        // =================================================
+
+        lines.push(`💰 ${itemTotal} ريال`);
+
+        // فراغ بين المنتجات
+        lines.push('');
+
+        subtotal += itemTotal;
     });
 
-    lines.push('---');
-    lines.push(`1. إجمالي المنتجات: ${subtotal} ريال`);
+    // =====================================================
+    // 💵 الإجماليات
+    // =====================================================
 
-    if(deliveryType==='delivery'){ 
-        lines.push(`2. نوع الطلب: توصيل (فرع ${currentBranch.name})`); 
-        lines.push(`3. رسوم التوصيل: ${branchDeliveryFee} ريال`); 
-        subtotal += branchDeliveryFee; // إضافة رسوم التوصيل للإجمالي
-        
-        // 📍 إضافة إحداثيات الموقع إذا كانت متوفرة (تم التعديل)
+    lines.push('━━━━━━━━━━━━');
+
+    lines.push(
+        `1. إجمالي المنتجات: ${subtotal} ريال`
+    );
+
+    // =====================================================
+    // 🚗 التوصيل
+    // =====================================================
+
+    if (deliveryType === 'delivery') {
+
+        lines.push(
+            `2. نوع الطلب: توصيل (فرع ${currentBranch.name})`
+        );
+
+        lines.push(
+            `3. رسوم التوصيل: ${branchDeliveryFee} ريال`
+        );
+
+        subtotal += branchDeliveryFee;
+
+        // =================================================
+        // 📍 الموقع الحقيقي GPS
+        // =================================================
+
         if (userLocation) {
-            lines.push(`4. إحداثيات موقع التوصيل:`);
-            lines.push(`   * خط العرض (Lat): ${userLocation.lat}`);
-            lines.push(`   * خط الطول (Lng): ${userLocation.lng}`);
-            // (تم تصحيح رابط الخريطة إلى الصيغة الصحيحة)
-            lines.push(`   * رابط الخريطة: https://maps.google.com/?q=${userLocation.lat},${userLocation.lng}`); 
-            lines.push(`⚠️ الموقع المحدد هو إحداثيات GPS ويجب على العميل تأكيد العنوان التفصيلي مع الموظف.`);
+
+            lines.push(
+                '4. إحداثيات موقع التوصيل:'
+            );
+
+            lines.push(
+                `📍 خط العرض: ${userLocation.lat}`
+            );
+
+            lines.push(
+                `📍 خط الطول: ${userLocation.lng}`
+            );
+
+            lines.push(
+                `🗺️ https://www.google.com/maps?q=${userLocation.lat},${userLocation.lng}`
+            );
+
         } else {
-             lines.push(`4. الموقع: لم يتم تحديد الموقع عبر الزر. يرجى تزويد الموظف بالعنوان كاملاً.`);
+
+            lines.push(
+                '4. الموقع: لم يتم تحديد الموقع.'
+            );
         }
-        
+
+        // =================================================
+        // 🏠 العنوان اليدوي
+        // =================================================
+
+        if (manualAddress) {
+
+            lines.push(
+                `5. العنوان / ملاحظات التوصيل: ${manualAddress}`
+            );
+        }
+
     } else {
-        lines.push(`2. نوع الطلب: استلام من الفرع (فرع ${currentBranch.name})`); 
+
+        // =================================================
+        // 🏪 الاستلام من الفرع
+        // =================================================
+
+        lines.push(
+            `2. نوع الطلب: استلام من الفرع (فرع ${currentBranch.name})`
+        );
     }
-    
-    // 💡 التعديل الثاني: إضافة العنوان اليدوي / ملاحظات التوصيل (التي تم قراءتها في البداية)
-    if (manualAddressNote) {
-        lines.push(`---`); 
-        lines.push(`5. ملاحظات التوصيل / العنوان اليدوي: ${manualAddressNote}`);
-    }
+
+    // =====================================================
+    // 🧾 الإجمالي النهائي
+    // =====================================================
 
     lines.push('---');
-    lines.push(`الإجمالي النهائي: ${subtotal} ريال`);
-    // استخدام رقم الواتساب الخاص بالفرع
-    const url=`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join('\n'))}`;
-    window.open(url,'_blank');
 
+    lines.push(
+        `الإجمالي النهائي: ${subtotal} ريال`
+    );
+
+    // =====================================================
+    // 📲 فتح واتساب
+    // =====================================================
+
+    const whatsappUrl =
+        `https://wa.me/${whatsappNumber}?text=` +
+        encodeURIComponent(lines.join('\n'));
+
+    window.open(whatsappUrl, '_blank');
+
+    // تفريغ السلة
     cart = [];
-    saveCart(); 
+    saveCart();
     closeCart();
+
 });
-
-
 // =========================================================
 // 📍 تحديد الموقع الحقيقي GPS - نسخة محسنة
 // لا يوجد تخمين للموقع
