@@ -163,17 +163,38 @@ window.location.href = "https://deerty666.github.io/";
   </button>  
 </div>    <div id="cartItems"></div>  
   <div id="cartSuggestions"></div>  
-  <div class="delivery-options-container">  
-    <input type="radio" id="deliveryTypePickup" name="deliveryType" value="pickup" checked>  
-    <label for="deliveryTypePickup" class="delivery-option">  
-      <span>استلام</span>  
-    </label>  <input type="radio" id="deliveryTypeDelivery" name="deliveryType" value="delivery">  
-<label for="deliveryTypeDelivery" class="delivery-option">  
-  <span>  
-    توصيل  
-    <span class="cost">5 ريال</span>   
-  </span>  
-</label>
+  <div class="delivery-options-container">
+
+    <!-- الاستلام -->
+    <input type="radio"
+           id="deliveryTypePickup"
+           name="deliveryType"
+           value="pickup"
+           checked>
+
+    <label for="deliveryTypePickup" class="delivery-option">
+        <span>
+            استلام
+            <small>Pickup</small>
+        </span>
+    </label>
+
+
+    <!-- التوصيل -->
+    <input type="radio"
+           id="deliveryTypeDelivery"
+           name="deliveryType"
+           value="delivery">
+
+    <label for="deliveryTypeDelivery" class="delivery-option">
+        <span>
+            توصيل
+            <small>Delivery</small>
+            <span class="cost">5 ريال</span>
+        </span>
+    </label>
+
+</div>
 
   </div>    <div class="delivery-options-container" style="padding: 10px;">  <p id="locationStatus" style="font-size: 0.8em; color: #fff; text-align: center; margin: 5px 0 0 0;"></p>  
 </div>  
