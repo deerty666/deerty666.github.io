@@ -1912,3 +1912,34 @@ margin-bottom: 5px;
 line-height: 1.3;
 font-family: Arial, sans-serif;
 }
+/* ===== الاسم الإنجليزي للمنتج ===== */
+#menuList .card > .item-name-en {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+
+    direction: ltr;
+    text-align: right;
+
+    margin: 0 12px 3px !important;
+    padding: 0;
+
+    font-family: Arial, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    line-height: 1.3;
+
+    color: rgba(255, 255, 255, 0.55);
+
+    display: block;
+}
+
+/* الجوال */
+@media (max-width: 599px) {
+    #menuList .card > .item-name-en {
+        grid-column: 2 !important;
+        grid-row: 2 !important;
+
+        margin: 0 10px 2px !important;
+        font-size: 0.68rem;
+    }
+}
