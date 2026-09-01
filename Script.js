@@ -25,7 +25,80 @@ if (urlParams.has('branch')) {
 }
 const currentBranch = BRANCH_CONFIG[currentBranchId] || BRANCH_CONFIG['branch1'];
 document.title = `قائمة سحايب ديرتي - فرع ${currentBranch.name}`; // تحديث عنوان الصفحة باسم الفرع
+/* ====== الترجمة الإنجليزية لأسماء المنتجات ====== */
+const ENGLISH_NAMES = {
+    "حبة شواية": "Whole Grilled Chicken",
+    "نص شواية بالرز": "Half Grilled Chicken with Rice",
+    "ربع دجاج": "Quarter Chicken",
+    "نصف دجاج (ساده بدون رز شوايه آو مضبي آو مندي)": "Half Chicken - Grilled, Madhbi or Mandi",
 
+    "حبة مظبي": "Whole Madhbi Chicken",
+    "نص مظبي": "Half Madhbi Chicken",
+
+    "حبه مندي": "Whole Mandi Chicken",
+    "نص مندي": "Half Mandi Chicken",
+
+    "حبه مدفون": "Whole Madfoon Chicken",
+    "نص مدفون": "Half Madfoon Chicken",
+
+    "حبه مقلوبه": "Whole Maqluba Chicken",
+    "نص دجاج مقلوبه": "Half Maqluba Chicken",
+
+    "حبه دجاج مضغوط": "Whole Pressed Chicken",
+    "نص حبه مضغوط": "Half Pressed Chicken",
+
+    "دجاج زربيان حبه": "Whole Zurbian Chicken",
+    "نص حبه زربيان": "Half Zurbian Chicken",
+
+    "تيس مندي كامل": "Whole Mandi Goat",
+    "نص تيس مندي": "Half Mandi Goat",
+    "ربع تيس مندي": "Quarter Mandi Goat",
+    "نفر لحم مندي": "Mandi Meat Serving",
+    "نفر حاشي مكموت": "Camel Meat Serving",
+    "نفر برمه لحم هرفي مع المرق": "Haruf Meat Pot with Gravy",
+
+    "كباب لحم": "Meat Kebab",
+    "كباب دجاج": "Chicken Kebab",
+    "اوصال لحم": "Meat Ousal",
+    "شيش طاووق": "Chicken Shish Tawook",
+    "مشكل فاخر على الأرز32 سيخ": "Premium Mixed Grill with Rice - 32 Skewers",
+    "مشكل مشاوي": "Mixed Grill",
+
+    "نفر رز شعبي": "Traditional Rice",
+    "نفر رز بشاور": "Basmati Rice",
+    "نفر رز مندي": "Mandi Rice",
+
+    "ببسي": "Pepsi",
+    "حمضيات": "Citrus",
+    "سفن اب": "7UP",
+    "لبن المراعي": "Almarai Laban",
+    "لبن القريه": "Al Qariah Laban",
+
+    "ملوخيه": "Molokhia",
+    "باميه": "Okra",
+    "مشكل خضار": "Mixed Vegetables",
+    "مشكل فران": "Mixed Oven Vegetables",
+    "مسقع": "Moussaka",
+    "شوربة": "Soup",
+    "جريش": "Jareesh",
+    "قرصان": "Qursan",
+
+    "ورق عنب": "Stuffed Grape Leaves",
+    "سلطه خضار": "Vegetable Salad",
+    "خيار ولبن": "Cucumber with Yogurt",
+    "حمص": "Hummus",
+    "متبل": "Moutabal",
+    "تبوله": "Tabbouleh",
+    "سلطه روسيه": "Russian Salad",
+    "سلطه امريكيه": "American Salad",
+    "مشكل مقبلات": "Mixed Appetizers",
+    "طحينه": "Tahini",
+    "سلطه حار": "Spicy Salad",
+
+    "كنافه قشطه": "Cream Kunafa",
+    "كنافه جلاكسي": "Galaxy Kunafa",
+    "كنافه نوتيلا": "Nutella Kunafa"
+};
 /* ====== بيانات المنيو - تم تحديث جميع مسارات الصور إلى صيغة WEBP وباسم قصير (مثال: /Dirty55/sh01.webp) ====== */
 const menuData = [
     // 1. القسم الجديد: الكل
@@ -695,14 +768,25 @@ function renderMenu(sectionName, searchTerm = ''){
         const card=document.createElement('div');
         card.className='card' + cardClassAddition; 
         card.innerHTML=`
-            <img src="${item.img}" alt="${item.name}" onerror="this.style.opacity=.35">
-            ${bestSellerBadge} 
-            <h3>${item.name}</h3>
-            <p>${displayedSection}</p>
-            ${item.description ? `<div class="item-desc">${item.description}</div>` : ''}
-            <div class="price">${priceDisplay}</div>
-            <button class="add-btn" ${buttonAttributes}>${buttonText}</button> 
-        `;
+    <img src="${item.img}" alt="${item.name}" onerror="this.style.opacity=.35">
+    ${bestSellerBadge} 
+
+    <h3 class="item-name-ar">${item.name}</h3>
+
+    ${
+        ENGLISH_NAMES[item.name]
+        ? `<div class="item-name-en">${ENGLISH_NAMES[item.name]}</div>`
+        : ''
+    }
+
+    <p>${displayedSection}</p>
+
+    ${item.description ? `<div class="item-desc">${item.description}</div>` : ''}
+
+    <div class="price">${priceDisplay}</div>
+
+    <button class="add-btn" ${buttonAttributes}>${buttonText}</button> 
+`;
 
         if (isAvailable) {
             card.querySelector('button').onclick = function() {
