@@ -206,18 +206,66 @@
       box-shadow:0 0 20px rgba(195,158,106,.42);
     }
 
-    .phone-box{
-      margin:22px 0 10px;
-      text-align:center;
-      background:rgba(195,158,106,.10);
-      border:1px solid rgba(195,158,106,.38);
-      padding:16px;
-      border-radius:22px;
-      color:var(--gold2);
-      font-size:20px;
-      font-weight:900;
-      box-shadow:0 10px 26px rgba(0,0,0,.25);
-    }
+    /* ==================== زر تطبيق ديرتي ==================== */
+
+.app-box{
+  margin:22px 0 10px;
+  padding:18px 16px 20px;
+  text-align:center;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(45,33,25,.98),
+      rgba(18,13,10,.98)
+    );
+  border:1px solid rgba(195,158,106,.45);
+  border-radius:22px;
+  box-shadow:
+    0 10px 26px rgba(0,0,0,.30),
+    inset 0 0 0 1px rgba(255,255,255,.03);
+}
+
+.app-title{
+  color:var(--gold2);
+  font-size:22px;
+  font-weight:900;
+  line-height:1.5;
+  margin-bottom:2px;
+}
+
+.app-text{
+  color:var(--muted);
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:14px;
+}
+
+.app-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:54px;
+  width:100%;
+  padding:10px 14px;
+  border-radius:18px;
+  text-decoration:none;
+  background:linear-gradient(
+    135deg,
+    #f0d292,
+    #c39e6a,
+    #9b7038
+  );
+  color:#1b120b;
+  border:1px solid rgba(255,255,255,.18);
+  font-size:16px;
+  font-weight:900;
+  box-shadow:0 0 20px rgba(195,158,106,.35);
+  transition:.2s ease;
+}
+
+.app-btn:active{
+  transform:scale(.96);
+}
 
     .footer{
       text-align:center;
