@@ -2112,3 +2112,157 @@ font-family: Arial, sans-serif;
 .luxury-add-btn:disabled svg {
     stroke: #ddd;
 }
+/* =====================================================
+   👑 FINAL LUXURY CART BUTTON - DERTY
+   ===================================================== */
+
+#menuList .card > .luxury-add-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+
+    width: calc(100% - 20px) !important;
+    min-height: 42px !important;
+    height: 42px !important;
+
+    margin: 3px 10px 10px !important;
+    padding: 6px 12px !important;
+
+    border: 1px solid rgba(255,255,255,.18) !important;
+    border-radius: 12px !important;
+
+    background: linear-gradient(
+        135deg,
+        #d9b36a,
+        #b98b4c 50%,
+        #d8b16a
+    ) !important;
+
+    color: #211a14 !important;
+
+    font-size: .9rem !important;
+    font-weight: 900 !important;
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.35) !important;
+
+    position: relative !important;
+    overflow: hidden !important;
+
+    cursor: pointer;
+}
+
+
+/* 🛒 دائرة الأيقونة */
+
+#menuList .card > .luxury-add-btn .luxury-cart-icon {
+    width: 30px !important;
+    height: 30px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: rgba(35,27,19,.18);
+
+    box-shadow:
+        inset 0 1px 2px rgba(255,255,255,.25);
+}
+
+
+/* 🛒 الأيقونة */
+
+#menuList .card > .luxury-add-btn .luxury-cart-icon svg {
+    width: 19px !important;
+    height: 19px !important;
+
+    fill: none !important;
+
+    stroke: #211a14 !important;
+
+    stroke-width: 2.2 !important;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+/* ✨ لمعة تمر على الزر */
+
+#menuList .card > .luxury-add-btn::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width: 45%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.38),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+
+    transition: left .7s ease;
+}
+
+#menuList .card > .luxury-add-btn:hover::before {
+    left: 140%;
+}
+
+
+/* ✨ حركة عند الضغط */
+
+#menuList .card > .luxury-add-btn:active {
+    transform: scale(.96) !important;
+
+    box-shadow:
+        0 2px 7px rgba(0,0,0,.35),
+        inset 0 2px 5px rgba(0,0,0,.15) !important;
+}
+
+
+/* 📱 الجوال */
+
+@media (max-width: 599px) {
+
+    #menuList .card > .luxury-add-btn {
+
+        width: calc(100% - 20px) !important;
+
+        height: 42px !important;
+        min-height: 42px !important;
+
+        margin: 3px 10px 10px !important;
+
+        padding: 5px 10px !important;
+
+        font-size: .82rem !important;
+
+        border-radius: 11px !important;
+    }
+
+    #menuList .card > .luxury-add-btn .luxury-cart-icon {
+
+        width: 29px !important;
+        height: 29px !important;
+    }
+
+    #menuList .card > .luxury-add-btn .luxury-cart-icon svg {
+
+        width: 18px !important;
+        height: 18px !important;
+    }
+}
