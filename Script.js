@@ -785,7 +785,16 @@ function renderMenu(sectionName, searchTerm = ''){
 
     <div class="price">${priceDisplay}</div>
 
-    <button class="add-btn" ${buttonAttributes}>${buttonText}</button> 
+<button class="add-btn luxury-add-btn" ${buttonAttributes}>
+    <span class="luxury-cart-icon">
+        <svg viewBox="0 0 24 24">
+            <path d="M3 4h2l2.2 10.5a2 2 0 0 0 2 1.5h7.6a2 2 0 0 0 1.9-1.4L21 8H7"/>
+            <circle cx="10" cy="20" r="1.5"/>
+            <circle cx="18" cy="20" r="1.5"/>
+        </svg>
+    </span>
+    <span>${buttonText}</span>
+</button>
 `;
 
         if (isAvailable) {
