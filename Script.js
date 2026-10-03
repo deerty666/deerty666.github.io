@@ -230,7 +230,7 @@ const menuData = [
                 img:"mg00.webp", 
                 name:"حبه دجاج مضغوط ", 
                 basePrice:50, 
-                isBestSeller: true, 
+             
                 availableIn: ['branch1', 'branch2', 'branch3'], 
                 options:[{name:"رز مضغوط", price:0}]
             }, 
