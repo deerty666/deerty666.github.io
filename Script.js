@@ -114,16 +114,16 @@ const menuData = [
             // الوجبة 1
             {id:"sh1", img:"sh01.webp", name:"حبة شواية", basePrice:48, availableIn: ['branch1','branch2', 'branch3'], options:[ 
                 {name:"رز شعبي", price:0},
-                {name:"رز بشاور", price:4},
-                {name:"رز مندي", price:4},
-                {name:"رز مثلوثه", price:4}
+                {name:"رز بشاور", price:2},
+                {name:"رز مندي", price:2},
+                {name:"رز مثلوثه", price:2}
             ]},
             // الوجبة 2: تم تغيير اسمها
             {id:"sh2", img:"sh01.webp", name:"نص شواية بالرز", basePrice:24, availableIn: ['branch1', 'branch2', 'branch3'], options:[
                 {name:"رز شعبي", price:0},
-                {name:"رز بشاور", price:2},
-                {name:"رز مندي", price:2},
-                {name:"رز مثلوثه", price:2}
+                {name:"رز بشاور", price:1},
+                {name:"رز مندي", price:1},
+                {name:"رز مثلوثه", price:1}
             ]},
 
             // الوجبة 3: نص شواية سادة
@@ -157,16 +157,16 @@ const menuData = [
             // الوجبة 1
             {id:"md1", img:"md00.webp", name:" حبة مظبي", basePrice:48, availableIn: ['branch1', 'branch2', 'branch3'], options:[
                 {name:"رز شعبي", price:0},
-                {name:"رز بشاور", price:4},
-                {name:"رز مندي", price:4},
-                {name:"رز مثلوثه", price:4}
+                {name:"رز بشاور", price:2},
+                {name:"رز مندي", price:2},
+                {name:"رز مثلوثه", price:2}
             ]},
             // الوجبة 2
             {id:"md2", img:"md00.webp", name:"نص مظبي", basePrice:24, availableIn: ['branch1', 'branch2', 'branch3'], options:[
                 {name:"رز شعبي", price:0},
-                {name:"رز بشاور", price:2},
-                {name:"رز مندي", price:2},
-                {name:"رز مثلوثه", price:2}
+                {name:"رز بشاور", price:1},
+                {name:"رز مندي", price:1},
+                {name:"رز مثلوثه", price:1}
             ]}
         ]
     },
@@ -177,16 +177,16 @@ const menuData = [
             // الوجبة 1
             {id:"mn1", img:"mn00.webp", name:" حبه مندي", basePrice:48, availableIn: ['branch1','branch2', 'branch3'], options:[ 
                 {name:"رز شعبي", price:0},
-                {name:"رز بشاور", price:4},
-                {name:"رز مندي", price:4},
-                {name:"رز مثلوثه", price:4}
+                {name:"رز بشاور", price:2},
+                {name:"رز مندي", price:2},
+                {name:"رز مثلوثه", price:2}
             ]},
             // الوجبة 2
             {id:"mn2", img:"mn00.webp", name:"نص مندي", basePrice:24, availableIn: ['branch1', 'branch2', 'branch3'], options:[
                 {name:"رز شعبي", price:0},
-                {name:"رز بشاور", price:2},
-                {name:"رز مندي", price:2},
-                {name:"رز مثلوثه", price:2}
+                {name:"رز بشاور", price:1},
+                {name:"رز مندي", price:1},
+                {name:"رز مثلوثه", price:1}
             ]}
         ]
     },
@@ -197,16 +197,16 @@ const menuData = [
             // الوجبة 1
             {id:"mdf1", img:"mf01.webp", name:"حبه مدفون", basePrice:48, availableIn: ['branch1', 'branch2', 'branch3'], options:[
                 {name:"رز شعبي", price:0},
-                {name:"رز بشاور", price:4},
-                {name:"رز مندي", price:4},
-                {name:"رز مثلوثه", price:4}
+                {name:"رز بشاور", price:2},
+                {name:"رز مندي", price:2},
+                {name:"رز مثلوثه", price:2}
             ]},
             // الوجبة 2
             {id:"mdf2", img:"mf00.webp", name:"نص مدفون", basePrice:24, availableIn: ['branch1', 'branch2', 'branch3'], options:[
                 {name:"رز شعبي", price:0},
-                {name:"رز بشاور", price:2},
-                {name:"رز مندي", price:2},
-                {name:"رز مثلوثه", price:2}
+                {name:"رز بشاور", price:1},
+                {name:"رز مندي", price:1},
+                {name:"رز مثلوثه", price:1}
             ]}
         ]
     },
