@@ -1095,12 +1095,16 @@ document.querySelectorAll('input[name="deliveryType"]').forEach(radio => {
 
 
 
-/* ====== Cart UI and WhatsApp - يستخدم رقم الواتساب الخاص بالفرع ====== */
 
-/* 🛒 إدارة السلة وزر الرجوع في أندرويد */
+/* =========================================
+   إدارة زر الرجوع للسلة والإضافات
+========================================= */
 
 let cartHistoryOpen = false;
+let optionHistoryOpen = false;
+let optionClosedByBack = false;
 
+// إغلاق السلة
 const closeCart = (fromBackButton = false) => {
 
     if (!cartDrawer.classList.contains('open')) return;
@@ -1122,16 +1126,14 @@ const closeCart = (fromBackButton = false) => {
     }
 };
 
+// فتح السلة
 cartBtn.addEventListener('click', () => {
 
     if (!cartHistoryOpen) {
         history.pushState(
-            {
-                ...(history.state || {}),
-                deertyCartOpen: true
-            },
+            { ...(history.state || {}), deertyCartOpen: true },
             '',
-            window.location.href
+            location.href
         );
 
         cartHistoryOpen = true;
@@ -1146,17 +1148,66 @@ cartBtn.addEventListener('click', () => {
 });
 
 cartOverlay.addEventListener('click', () => closeCart());
-
 closeCartBtn.addEventListener('click', () => closeCart());
 
+
+// مراقبة نافذة الإضافات تلقائياً
+const optionObserver = new MutationObserver(() => {
+
+    const isOpen = optionModal.style.display === 'flex';
+
+    if (isOpen && !optionHistoryOpen) {
+
+        history.pushState(
+            { ...(history.state || {}), deertyOptionsOpen: true },
+            '',
+            location.href
+        );
+
+        optionHistoryOpen = true;
+    }
+
+    if (!isOpen && optionHistoryOpen) {
+
+        optionHistoryOpen = false;
+
+        if (optionClosedByBack) {
+            optionClosedByBack = false;
+            return;
+        }
+
+        history.back();
+    }
+});
+
+optionObserver.observe(optionModal, {
+    attributes: true,
+    attributeFilter: ['style']
+});
+
+
+// زر الرجوع في الهاتف
 window.addEventListener('popstate', () => {
 
-    if (cartDrawer.classList.contains('open')) {
+    // أولاً: نافذة الإضافات
+    if (optionHistoryOpen &&
+        optionModal.style.display === 'flex') {
+
+        optionHistoryOpen = false;
+        optionClosedByBack = true;
+
+        optionModal.style.display = 'none';
+        return;
+    }
+
+    // ثانياً: السلة
+    if (cartHistoryOpen &&
+        cartDrawer.classList.contains('open')) {
+
         closeCart(true);
         return;
     }
 
-    cartHistoryOpen = false;
 });
 
 /* =========================================================
