@@ -1,3 +1,4 @@
+
 [
   {
     "relation": [
@@ -7,7 +8,7 @@
       "namespace": "android_app",
       "package_name": "com.deerty.app",
       "sha256_cert_fingerprints": [
-        "E1:57:CA:CB:DC:6B:5E:37:18:B5:9E:24:02:5B:D3:5F:04:88:60:F8:D8:0C:C3:AE:18:C3:C6:67:E3:53:32:58"
+        "29:46:7F:7B:2C:C4:0A:A5:E6:B8:93:C7:BE:0A:79:99:C1:8B:CB:B6:37:A5:E8:25:2D:10:FA:12:FA:CF:99:DE"
       ]
     }
   }
