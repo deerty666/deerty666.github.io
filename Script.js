@@ -1096,25 +1096,68 @@ document.querySelectorAll('input[name="deliveryType"]').forEach(radio => {
 
 
 /* ====== Cart UI and WhatsApp - يستخدم رقم الواتساب الخاص بالفرع ====== */
-const closeCart = () => {
+
+/* 🛒 إدارة السلة وزر الرجوع في أندرويد */
+
+let cartHistoryOpen = false;
+
+const closeCart = (fromBackButton = false) => {
+
+    if (!cartDrawer.classList.contains('open')) return;
+
     cartDrawer.classList.remove('open');
     cartOverlay.classList.remove('show');
-    cartDrawer.setAttribute('aria-hidden','true');
-    cartBtn.style.display = 'block'; 
+
+    cartDrawer.setAttribute('aria-hidden', 'true');
+    cartBtn.style.display = 'block';
+
+    if (fromBackButton) {
+        cartHistoryOpen = false;
+        return;
+    }
+
+    if (cartHistoryOpen) {
+        cartHistoryOpen = false;
+        history.back();
+    }
 };
 
+cartBtn.addEventListener('click', () => {
 
-cartBtn.addEventListener('click',()=>{
+    if (!cartHistoryOpen) {
+        history.pushState(
+            {
+                ...(history.state || {}),
+                deertyCartOpen: true
+            },
+            '',
+            window.location.href
+        );
+
+        cartHistoryOpen = true;
+    }
+
     cartDrawer.classList.add('open');
     cartOverlay.classList.add('show');
-    cartDrawer.setAttribute('aria-hidden','false');
+    cartDrawer.setAttribute('aria-hidden', 'false');
+
     renderCart();
-    cartBtn.style.display = 'none'; 
+    cartBtn.style.display = 'none';
 });
 
+cartOverlay.addEventListener('click', () => closeCart());
 
-cartOverlay.addEventListener('click', closeCart);
-closeCartBtn.addEventListener('click', closeCart);
+closeCartBtn.addEventListener('click', () => closeCart());
+
+window.addEventListener('popstate', () => {
+
+    if (cartDrawer.classList.contains('open')) {
+        closeCart(true);
+        return;
+    }
+
+    cartHistoryOpen = false;
+});
 
 /* =========================================================
    📲 إرسال الطلب إلى واتساب - التنسيق النهائي
