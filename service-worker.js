@@ -1,4 +1,4 @@
-const CACHE_NAME = "deerty-v3";
+const CACHE_NAME = "deerty-v4";
 
 const FILES_TO_CACHE = [
   "/",
