@@ -2103,3 +2103,15 @@ function closeIosBanner() {
     const banner = document.getElementById("iosInstallBanner");
     if (banner) banner.style.display = "none";
 }
+// ===== زر التواصل مع الفرع الحالي =====
+document.getElementById("bottomContactBtn")?.addEventListener("click", () => {
+    const branchId = new URLSearchParams(window.location.search).get("branch");
+    const branch = BRANCH_CONFIG[branchId];
+
+    if (!branch || !branch.whatsapp) {
+        alert("تعذر تحديد رقم واتساب الفرع.");
+        return;
+    }
+
+    window.open(`https://wa.me/${branch.whatsapp}`, "_blank");
+});
