@@ -2061,25 +2061,60 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
-// ===== أزرار الشريط السفلي =====
 
-// زر تثبيت التطبيق
-document.getElementById('bottomInstallBtn')?.addEventListener('click', function () {
+// ===== تثبيت تطبيق ديرتي للأندرويد والآيفون =====
 
-    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+function isAppleDevice() {
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+}
 
-    if (isIOS) {
-        document.getElementById('iosHelpBtn')?.click();
+function openIosInstallGuide() {
+    const banner = document.getElementById("iosInstallBanner");
+
+    if (banner) {
+        banner.style.display = "flex";
+    } else {
+        alert("لتثبيت ديرتي: اضغط مشاركة في Safari ثم إضافة إلى الشاشة الرئيسية.");
+    }
+}
+
+// زر التثبيت السفلي
+document.getElementById("bottomInstallBtn")?.addEventListener("click", () => {
+
+    if (isAppleDevice()) {
+        openIosInstallGuide();
         return;
     }
 
-    window.open(
-        'https://play.google.com/store/apps/details?id=com.deerty.app',
-        '_blank'
-    );
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+
+        deferredPrompt.userChoice.then(() => {
+            deferredPrompt = null;
+        });
+
+        return;
+    }
+
+    // إذا كان التطبيق مثبتاً أو لا يدعم المتصفح التثبيت
+    alert("إذا لم تظهر نافذة التثبيت، افتح قائمة المتصفح واختر تثبيت التطبيق أو إضافته للشاشة الرئيسية.");
 });
-// ===== تشغيل زر التواصل مع الفرع الحالي =====
-document.getElementById('bottomContactBtn')?.addEventListener('click', function () {
+
+// زر التثبيت العلوي للآيفون
+document.getElementById("iosHelpBtn")?.addEventListener("click", () => {
+    openIosInstallGuide();
+});
+
+// إغلاق تعليمات التثبيت
+function closeIosBanner() {
+    const banner = document.getElementById("iosInstallBanner");
+    if (banner) banner.style.display = "none";
+}
+
+// ===== زر التواصل مع الفرع الحالي =====
+
+document.getElementById("bottomContactBtn")?.addEventListener("click", () => {
 
     const whatsappNumber = currentBranch.whatsapp;
 
@@ -2088,6 +2123,6 @@ document.getElementById('bottomContactBtn')?.addEventListener('click', function 
     const whatsappUrl =
         `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
-    window.open(whatsappUrl, '_blank');
-
+    window.open(whatsappUrl, "_blank");
 });
+
