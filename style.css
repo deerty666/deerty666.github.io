@@ -1268,3 +1268,39 @@ button:active {
         transition-duration: .01ms !important;
     }
 }
+/* الشريط السفلي */
+#bottomBar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #1A1512;
+    border-top: 1px solid #c39e6a;
+    padding: 8px 5px;
+    z-index: 9999;
+}
+
+#bottomBar button {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: #E8C065;
+    font-size: 23px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+}
+
+#bottomBar small {
+    font-size: 11px;
+    color: white;
+}
+
+body {
+    padding-bottom: 75px;
+}
