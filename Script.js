@@ -2060,3 +2060,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+// ===== أزرار الشريط السفلي =====
+
+// زر تثبيت التطبيق
+document.getElementById('bottomInstallBtn')?.addEventListener('click', function () {
+
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (isIOS) {
+        document.getElementById('iosHelpBtn')?.click();
+        return;
+    }
+
+    window.open(
+        'https://play.google.com/store/apps/details?id=com.deerty.app',
+        '_blank'
+    );
+});
