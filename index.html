@@ -640,21 +640,36 @@ function refreshLocation() {
   );
 }
 
-/* ================= حالة الفروع ================= */
+/* ================= إعدادات ساعات العمل ================= */
+
+// عدّل هذين الرقمين فقط
+const OPEN_HOUR = 10;  // 10 صباحاً
+const CLOSE_HOUR = 0;  // 12 ليلاً (منتصف الليل)
 
 function updateBranchStatus() {
 
   const now = new Date();
 
+  const saudiTime = new Date(
+    now.toLocaleString("en-US", {
+      timeZone: "Asia/Riyadh"
+    })
+  );
+
   const currentTime =
-    now.getHours()*60 + now.getMinutes();
+    saudiTime.getHours() * 60 +
+    saudiTime.getMinutes();
 
-  const open =
-    currentTime >= 600 && currentTime < 1440;
+  const openTime = OPEN_HOUR * 60;
+  const closeTime = CLOSE_HOUR * 60;
 
-  document.querySelectorAll(".open-badge").forEach(badge=>{
+  const open = openTime < closeTime
+    ? currentTime >= openTime && currentTime < closeTime
+    : currentTime >= openTime || currentTime < closeTime;
 
-    if(open) {
+  document.querySelectorAll(".open-badge").forEach(badge => {
+
+    if (open) {
       badge.textContent = "🟢 مفتوح الآن";
       badge.classList.remove("closed");
     } else {
@@ -663,8 +678,11 @@ function updateBranchStatus() {
     }
 
   });
-
 }
+
+// تحديث تلقائي كل دقيقة
+setInterval(updateBranchStatus, 60000);
+
 
 /* ================= تشغيل الصفحة ================= */
 
