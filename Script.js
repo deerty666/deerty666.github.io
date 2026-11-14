@@ -773,11 +773,11 @@ function renderMenu(sectionName, searchTerm = ''){
 
     <h3 class="item-name-ar">${item.name}</h3>
 
-    ${
-        ENGLISH_NAMES[item.name]
-        ? `<div class="item-name-en">${ENGLISH_NAMES[item.name]}</div>`
-        : ''
-    }
+${
+    ENGLISH_NAMES[item.name.trim().replace(/\s+/g, ' ')]
+    ? `<div class="item-name-en">${ENGLISH_NAMES[item.name.trim().replace(/\s+/g, ' ')]}</div>`
+    : ''
+}
 
     <p>${displayedSection}</p>
 
