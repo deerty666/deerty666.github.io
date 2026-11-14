@@ -2064,6 +2064,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ===== تثبيت تطبيق ديرتي للأندرويد والآيفون =====
 
+const PLAY_STORE_URL =
+    "https://play.google.com/store/apps/details?id=com.deerty.app";
+
 function isAppleDevice() {
     return /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
         (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
@@ -2075,33 +2078,22 @@ function openIosInstallGuide() {
     if (banner) {
         banner.style.display = "flex";
     } else {
-        alert("لتثبيت ديرتي: اضغط مشاركة في Safari ثم إضافة إلى الشاشة الرئيسية.");
+        alert("لتثبيت ديرتي: افتح الموقع في Safari، اضغط مشاركة، ثم إضافة إلى الشاشة الرئيسية.");
     }
 }
 
 // زر التثبيت السفلي
 document.getElementById("bottomInstallBtn")?.addEventListener("click", () => {
-
     if (isAppleDevice()) {
         openIosInstallGuide();
         return;
     }
 
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-
-        deferredPrompt.userChoice.then(() => {
-            deferredPrompt = null;
-        });
-
-        return;
-    }
-
-    // إذا كان التطبيق مثبتاً أو لا يدعم المتصفح التثبيت
-    alert("إذا لم تظهر نافذة التثبيت، افتح قائمة المتصفح واختر تثبيت التطبيق أو إضافته للشاشة الرئيسية.");
+    // الأندرويد يفتح متجر Google Play مباشرة
+    window.location.href = PLAY_STORE_URL;
 });
 
-// زر التثبيت العلوي للآيفون
+// زر تعليمات الآيفون
 document.getElementById("iosHelpBtn")?.addEventListener("click", () => {
     openIosInstallGuide();
 });
@@ -2111,18 +2103,3 @@ function closeIosBanner() {
     const banner = document.getElementById("iosInstallBanner");
     if (banner) banner.style.display = "none";
 }
-
-// ===== زر التواصل مع الفرع الحالي =====
-
-document.getElementById("bottomContactBtn")?.addEventListener("click", () => {
-
-    const whatsappNumber = currentBranch.whatsapp;
-
-    const message = `السلام عليكم، أريد الاستفسار عن مطعم ديرتي - فرع ${currentBranch.name}`;
-
-    const whatsappUrl =
-        `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-
-    window.open(whatsappUrl, "_blank");
-});
-
