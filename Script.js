@@ -1114,7 +1114,7 @@ const closeCart = (fromBackButton = false) => {
 
     cartDrawer.setAttribute('aria-hidden', 'true');
     cartBtn.style.display = 'block';
-
+document.getElementById('bottomBar').style.display = 'flex';
     if (fromBackButton) {
         cartHistoryOpen = false;
         return;
@@ -1145,6 +1145,7 @@ cartBtn.addEventListener('click', () => {
 
     renderCart();
     cartBtn.style.display = 'none';
+    document.getElementById('bottomBar').style.display = 'none';
 });
 
 cartOverlay.addEventListener('click', () => closeCart());
@@ -2076,4 +2077,17 @@ document.getElementById('bottomInstallBtn')?.addEventListener('click', function 
         'https://play.google.com/store/apps/details?id=com.deerty.app',
         '_blank'
     );
+});
+// ===== تشغيل زر التواصل مع الفرع الحالي =====
+document.getElementById('bottomContactBtn')?.addEventListener('click', function () {
+
+    const whatsappNumber = currentBranch.whatsapp;
+
+    const message = `السلام عليكم، أريد الاستفسار عن مطعم ديرتي - فرع ${currentBranch.name}`;
+
+    const whatsappUrl =
+        `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+    window.open(whatsappUrl, '_blank');
+
 });
