@@ -457,7 +457,7 @@ header img {
 #cartBtn {
     position: fixed;
     right: 15px;
-    bottom: 75px;
+    bottom: 10px;
     z-index: 20;
 
     display: flex;
@@ -466,8 +466,8 @@ header img {
     justify-content: center;
     gap: 3px;
 
-    width: 66px;
-    height: 66px;
+    width: 58px;
+    height: 58px;
     padding: 5px;
 
     border: 2px solid rgba(255, 255, 255, .25);
