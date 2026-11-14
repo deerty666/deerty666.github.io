@@ -1220,7 +1220,15 @@ sendWhatsapp.addEventListener('click', () => {
         alert('السلة فارغة');
         return;
     }
+    // إجبار العميل على اختيار نوع الطلب
+    const selectedDeliveryType = document.querySelector(
+        'input[name="deliveryType"]:checked'
+    );
 
+    if (!selectedDeliveryType) {
+        alert('⚠️ فضلاً اختر نوع الطلب أولاً: توصيل أو استلام من الفرع');
+        return;
+    }
     // العنوان اليدوي
     const manualAddress =
         document.getElementById('manualAddress')?.value.trim() || '';
