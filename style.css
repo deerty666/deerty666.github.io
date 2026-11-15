@@ -1304,25 +1304,21 @@ button:active {
 body {
     padding-bottom: 75px;
 }
-/* تصغير الهيدر العلوي */
+/* تصغير مساحة الهيدر والشعار */
 header {
-    height: 90px !important;
-    min-height: 90px !important;
+    height: 85px !important;
+    min-height: 85px !important;
     padding: 5px 15px !important;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 }
 
-/* تصغير الشعار */
 header img {
-    height: 45px !important;
-    max-height: 45px !important;
-    width: auto;
+    height: 48px !important;
+    width: auto !important;
+    max-width: 150px;
     object-fit: contain;
 }
 
-/* ضبط الأقسام أسفل الهيدر */
+/* تثبيت الأقسام مباشرة أسفل الهيدر */
 #sections {
-    top: 90px !important;
+    top: 85px !important;
 }
