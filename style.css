@@ -1535,3 +1535,74 @@ header img {
     font-size: .78rem;
     text-align: center;
 }
+
+/* ===== دمج الفرع مع الهيدر ===== */
+header {
+    height: 82px !important;
+    min-height: 82px !important;
+    max-height: 82px !important;
+    padding: 0 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    overflow: visible !important;
+}
+
+header .header-logo {
+    flex: 0 0 90px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header .header-logo img {
+    width: 85px !important;
+    height: 42px !important;
+    object-fit: contain;
+}
+
+header .branch-top-bar {
+    flex: 1;
+    min-width: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+}
+
+header .branch-top-bar::before {
+    display: none;
+}
+
+header .current-branch-box {
+    min-width: 0;
+}
+
+header .branch-label {
+    font-size: .65rem;
+    margin-bottom: 2px;
+}
+
+header #currentBranchName {
+    font-size: .78rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+header #changeBranchBtn {
+    flex: 0 0 auto;
+    padding: 7px 9px;
+    border-radius: 9px;
+    font-size: .7rem;
+    white-space: nowrap;
+}
