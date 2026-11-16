@@ -1623,3 +1623,40 @@ header #changeBranchBtn {
     padding: 10px 12px;
     font-size: .78rem;
 }
+
+/* ===== إبراز خيار التوصيل ===== */
+
+/* زر التوصيل */
+#deliveryTypeDelivery + .delivery-option {
+    background: linear-gradient(135deg, #3a2b19, #1A1512) !important;
+    border: 2px solid #c39e6a !important;
+    color: #E8C065 !important;
+    box-shadow: 0 0 10px rgba(195, 158, 106, 0.25);
+    font-weight: 900 !important;
+    transform: scale(1.02);
+}
+
+/* أيقونة التوصيل */
+#deliveryTypeDelivery + .delivery-option::before {
+    content: "🚚";
+    font-size: 25px;
+    margin-left: 8px;
+}
+
+/* عند اختيار التوصيل */
+#deliveryTypeDelivery:checked + .delivery-option {
+    background: linear-gradient(135deg, #c39e6a, #E8C065) !important;
+    color: #1A1512 !important;
+    border-color: #fff0c9 !important;
+    box-shadow: 0 0 16px rgba(232, 192, 101, 0.55);
+}
+
+/* إبراز سعر التوصيل */
+#deliveryTypeDelivery + .delivery-option .cost {
+    color: #ff5555 !important;
+    font-weight: 900;
+}
+
+#deliveryTypeDelivery:checked + .delivery-option .cost {
+    color: #8b1717 !important;
+}
