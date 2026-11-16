@@ -1096,13 +1096,14 @@ document.querySelectorAll('input[name="deliveryType"]').forEach(radio => {
 
 
 
+
 /* =========================================
-   إدارة زر الرجوع للسلة والإضافات
+   إدارة زر الرجوع للسلة والإضافات - نسخة مصححة
 ========================================= */
 
 let cartHistoryOpen = false;
 let optionHistoryOpen = false;
-let optionClosedByBack = false;
+let ignoreNextPopstate = false;
 
 // إغلاق السلة
 const closeCart = (fromBackButton = false) => {
@@ -1114,7 +1115,8 @@ const closeCart = (fromBackButton = false) => {
 
     cartDrawer.setAttribute('aria-hidden', 'true');
     cartBtn.style.display = 'block';
-document.getElementById('bottomBar').style.display = 'flex';
+    document.getElementById('bottomBar').style.display = 'flex';
+
     if (fromBackButton) {
         cartHistoryOpen = false;
         return;
@@ -1152,7 +1154,7 @@ cartOverlay.addEventListener('click', () => closeCart());
 closeCartBtn.addEventListener('click', () => closeCart());
 
 
-// مراقبة نافذة الإضافات تلقائياً
+// مراقبة نافذة الإضافات
 const optionObserver = new MutationObserver(() => {
 
     const isOpen = optionModal.style.display === 'flex';
@@ -1172,11 +1174,8 @@ const optionObserver = new MutationObserver(() => {
 
         optionHistoryOpen = false;
 
-        if (optionClosedByBack) {
-            optionClosedByBack = false;
-            return;
-        }
-
+        // تجاهل الرجوع الناتج عن إغلاق نافذة الإضافات
+        ignoreNextPopstate = true;
         history.back();
     }
 });
@@ -1190,18 +1189,22 @@ optionObserver.observe(optionModal, {
 // زر الرجوع في الهاتف
 window.addEventListener('popstate', () => {
 
-    // أولاً: نافذة الإضافات
+    // تجاهل الرجوع الخاص بإغلاق نافذة الإضافات
+    if (ignoreNextPopstate) {
+        ignoreNextPopstate = false;
+        return;
+    }
+
+    // أولاً: إغلاق نافذة الإضافات
     if (optionHistoryOpen &&
         optionModal.style.display === 'flex') {
 
         optionHistoryOpen = false;
-        optionClosedByBack = true;
-
         optionModal.style.display = 'none';
         return;
     }
 
-    // ثانياً: السلة
+    // ثانياً: إغلاق السلة
     if (cartHistoryOpen &&
         cartDrawer.classList.contains('open')) {
 
@@ -1210,6 +1213,7 @@ window.addEventListener('popstate', () => {
     }
 
 });
+
 
 /* =========================================================
    📲 إرسال الطلب إلى واتساب - التنسيق النهائي
