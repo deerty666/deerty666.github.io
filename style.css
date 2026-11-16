@@ -1519,3 +1519,19 @@ header img {
         font-size: 1rem;
     }
 }
+
+/* إصلاح خروج أسماء الأقسام من البطاقات */
+.sec-card .sec-name {
+    display: -webkit-box;
+    width: 100%;
+    max-width: 100%;
+    white-space: normal !important;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-height: 1.15;
+    font-size: .78rem;
+    text-align: center;
+}
