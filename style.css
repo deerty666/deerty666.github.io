@@ -1606,3 +1606,20 @@ header #changeBranchBtn {
     font-size: .7rem;
     white-space: nowrap;
 }
+/* تحسين توزيع الفرع وزر التغيير */
+header .header-logo {
+    flex-basis: 100px;
+}
+
+header .branch-top-bar {
+    gap: 10px;
+}
+
+header #currentBranchName {
+    font-size: .88rem;
+}
+
+header #changeBranchBtn {
+    padding: 10px 12px;
+    font-size: .78rem;
+}
