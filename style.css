@@ -1677,3 +1677,10 @@ header #changeBranchBtn {
 #deliveryTypeDelivery + .delivery-option {
     border: 2px solid #c39e6a !important;
 }
+/* أيقونة الاستلام */
+#deliveryTypePickup + .delivery-option::before {
+    content: "🏪";
+    display: block;
+    font-size: 30px;
+    margin-bottom: 8px;
+}
