@@ -1660,3 +1660,20 @@ header #changeBranchBtn {
 #deliveryTypeDelivery:checked + .delivery-option .cost {
     color: #8b1717 !important;
 }
+/* إطار ذهبي لخيار الاستلام */
+#deliveryTypePickup + .delivery-option {
+    border: 2px solid #c39e6a !important;
+}
+
+/* عند اختيار الاستلام */
+#deliveryTypePickup:checked + .delivery-option {
+    background: linear-gradient(135deg, #c39e6a, #E8C065) !important;
+    color: #1A1512 !important;
+    border-color: #fff0c9 !important;
+    box-shadow: 0 0 12px rgba(232, 192, 101, 0.4);
+}
+
+/* التوصيل يبقى مميزاً */
+#deliveryTypeDelivery + .delivery-option {
+    border: 2px solid #c39e6a !important;
+}
