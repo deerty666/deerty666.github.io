@@ -183,6 +183,7 @@ body {
 
 <body>
 
+
 <header>
     <button id="enableIosPush"
         style="display:none;background:#E8C065;color:#1A1512;font-weight:700;border:none;border-radius:8px;padding:10px 14px;margin:8px auto;width:90%;max-width:320px;">
@@ -195,24 +196,25 @@ body {
         طريقة التثبيت 🍏
     </button>
 
-    <div>
+    <div class="header-logo">
         <img src="logo-bg1.png" alt="شعار المطعم"
-             onerror="this.style.opacity=0.25; this.style.height='50px'">
+             onerror="this.style.opacity=0.25; this.style.height='42px'">
+    </div>
+
+    <div class="branch-top-bar">
+        <div class="current-branch-box">
+            <span class="branch-label">📍 الفرع الحالي</span>
+            <div id="currentBranchName">لبن الأحمدية</div>
+        </div>
+
+        <button id="changeBranchBtn">تغيير ⌄</button>
     </div>
 </header>
+
 
 <input type="search" id="searchBar"
        placeholder="ابحث عن وجبة سريعة أو صنف..."
        aria-label="البحث في القائمة">
-
-<div class="branch-top-bar">
-    <div class="current-branch-box">
-        <span class="branch-label">📍 الفرع الحالي</span>
-        <div id="currentBranchName">لبن الأحمدية</div>
-    </div>
-
-    <button id="changeBranchBtn">تغيير الفرع ⌄</button>
-</div>
 
 <div id="branchDropdown" class="branch-dropdown">
     <div class="branch-option" data-branch="branch1">لبن الأحمدية</div>
@@ -323,6 +325,6 @@ body {
     <button onclick="closeIosBanner()">مفهوم 👍</button>
 </div>
 
-<script src="Script.js?v=41.8" defer></script>
+<script src="Script.js?v=42.8" defer></script>
 </body>
 </html>
