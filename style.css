@@ -1332,3 +1332,190 @@ header img {
 #sections {
     top: 65px !important;
 }
+
+/* ==========================================
+   DEERTY LUXURY CARDS - الإصدار الجديد
+   يوضع في نهاية ملف CSS
+========================================== */
+
+#menuList .card {
+    grid-template-columns: 36% minmax(0, 64%);
+    grid-template-rows: auto auto auto auto auto 1fr;
+    min-height: 150px;
+    border: 1px solid rgba(195,158,106,.48);
+    border-radius: 15px;
+    background: linear-gradient(120deg,#211b16,#111);
+    box-shadow: 0 4px 14px rgba(0,0,0,.32);
+}
+
+#menuList .card > img {
+    grid-column: 1;
+    grid-row: 1 / 7;
+    min-height: 150px;
+    object-fit: cover;
+}
+
+#menuList .card > h3 {
+    margin: 8px 9px 2px;
+    font-size: .92rem;
+    line-height: 1.4;
+}
+
+#menuList .card > .item-name-en {
+    margin: 0 9px 2px;
+    font-size: .63rem;
+}
+
+#menuList .card > p {
+    margin: 0 9px 2px;
+    font-size: .65rem;
+}
+
+#menuList .card > .item-desc {
+    margin: 0 9px 2px;
+    font-size: .65rem;
+}
+
+#menuList .card > .price {
+    margin: 2px 9px 3px;
+    font-size: 1.08rem;
+    color: #dfb66f;
+    text-shadow: 0 0 7px rgba(195,158,106,.2);
+}
+
+#menuList .card > .add-btn {
+    grid-column: 2;
+    grid-row: 6;
+    width: calc(100% - 18px);
+    min-height: 34px;
+    height: 34px;
+    margin: 2px 9px 8px;
+    padding: 4px 7px;
+    border: 1px solid #e1bd7c;
+    border-radius: 9px;
+    background: linear-gradient(135deg,#e5c17d,#b88b4c);
+    font-size: .78rem;
+    font-weight: 900;
+    box-shadow: 0 3px 9px rgba(0,0,0,.25);
+}
+
+#menuList .card > .add-btn .luxury-cart-icon {
+    width: 25px;
+    height: 25px;
+    flex-basis: 25px;
+}
+
+#menuList .card > .add-btn .luxury-cart-icon svg {
+    width: 17px;
+    height: 17px;
+}
+
+#menuList .best-seller-badge {
+    top: 7px;
+    left: 6px;
+    padding: 3px 6px;
+    border-radius: 6px;
+    font-size: .62rem;
+    animation: none;
+}
+
+/* إطار ذهبي أنيق */
+#menuList .card:not(.discount-card) {
+    border-color: rgba(195,158,106,.5);
+}
+
+/* ==========================================
+   نافذة اختيار الأصناف
+========================================== */
+
+#optionModal {
+    padding: 16px;
+    backdrop-filter: blur(5px);
+}
+
+#optionModal .modal-content {
+    max-width: 360px;
+    padding: 19px;
+    border: 1px solid rgba(195,158,106,.7);
+    border-radius: 18px;
+    background: linear-gradient(145deg,#241d17,#111);
+    box-shadow: 0 15px 45px rgba(0,0,0,.75);
+}
+
+#modalTitle {
+    margin-bottom: 14px;
+    font-size: 1.15rem;
+    text-align: right;
+}
+
+#modalOptions {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 13px;
+}
+
+#modalOptions label {
+    min-height: 42px;
+    margin: 0 !important;
+    padding: 9px 11px;
+    border: 1px solid rgba(195,158,106,.35);
+    border-radius: 10px;
+    background: rgba(255,255,255,.035);
+    color: white;
+    font-size: .9rem;
+    cursor: pointer;
+}
+
+#modalOptions input {
+    width: 18px;
+    height: 18px;
+    accent-color: #c39e6a;
+}
+
+#modalOptions label:has(input:checked) {
+    border-color: #c39e6a;
+    background: rgba(195,158,106,.13);
+}
+
+#itemNote {
+    border-color: rgba(195,158,106,.4);
+    border-radius: 10px;
+    font-size: .88rem;
+}
+
+#modalConfirm {
+    min-height: 43px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg,#e5c17d,#b88b4c);
+    color: #21170d;
+    font-size: .95rem;
+    font-weight: 900;
+    box-shadow: 0 4px 12px rgba(195,158,106,.2);
+}
+
+/* منع تكبير البطاقات على الجوال الصغير */
+@media (max-width: 380px) {
+    #menuList {
+        padding: 0 8px;
+        gap: 10px;
+    }
+
+    #menuList .card {
+        grid-template-columns: 34% minmax(0,66%);
+        min-height: 145px;
+    }
+
+    #menuList .card > img {
+        min-height: 145px;
+    }
+
+    #menuList .card > h3 {
+        font-size: .85rem;
+    }
+
+    #menuList .card > .price {
+        font-size: 1rem;
+    }
+}
