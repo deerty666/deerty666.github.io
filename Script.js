@@ -1868,71 +1868,141 @@ function closeIosBanner() {
 /* ================================================= */
 /* 🛒 منطق "رف الاقتراحات" الذكي (استراتيجية الكاشير) */
 /* ================================================= */
+
 function renderCartSuggestions() {
     const suggestionsContainer = document.getElementById('cartSuggestions');
-    suggestionsContainer.innerHTML = ''; 
-    suggestionsContainer.style.display = 'none'; 
+    suggestionsContainer.innerHTML = '';
+    suggestionsContainer.style.display = 'none';
 
-    if (cart.length === 0) return; 
+    if (cart.length === 0) return;
 
     let suggestedCategories = new Set();
-    
-    // 1. تحديد الأقسام المقترحة
+
+    // تحديد الأقسام المقترحة حسب المنتجات الموجودة في السلة
     cart.forEach(cartItem => {
         Object.keys(dynamicSuggestionRules).forEach(ruleKey => {
             if (cartItem.name.includes(ruleKey)) {
-                dynamicSuggestionRules[ruleKey].forEach(cat => suggestedCategories.add(cat));
+                dynamicSuggestionRules[ruleKey].forEach(cat => {
+                    suggestedCategories.add(cat);
+                });
             }
         });
     });
 
     if (suggestedCategories.size === 0) return;
 
-    // 2. تجميع كل المرشحين (بدلاً من الاختيار الفوري)
+    // تجميع المنتجات المتاحة في الفرع الحالي فقط
     let allCandidates = [];
+
     processedMenuData.forEach(section => {
-        if (suggestedCategories.has(section.section)) {
-            section.items.forEach(item => {
-                const alreadyInCart = cart.some(cItem => cItem.id === item.id);
-                if (!alreadyInCart) {
-                    allCandidates.push(item);
-                }
-            });
-        }
+
+        if (!suggestedCategories.has(section.section)) return;
+
+        // التأكد من توفر القسم في الفرع
+        if (
+            section.sectionAvailableIn &&
+            !section.sectionAvailableIn.includes(currentBranchId)
+        ) return;
+
+        section.items.forEach(item => {
+
+            const alreadyInCart = cart.some(cItem => cItem.id === item.id);
+
+            const available =
+                Array.isArray(item.availableIn) &&
+                item.availableIn.includes(currentBranchId);
+
+            if (!alreadyInCart && available) {
+                allCandidates.push(item);
+            }
+        });
     });
 
     if (allCandidates.length === 0) return;
 
-    // 3. خلط المرشحين عشوائياً لضمان التنوع
+    // خلط المنتجات واختيار خمسة
     allCandidates.sort(() => Math.random() - 0.5);
 
-    // 4. أخذ أول 5 عناصر فقط
     const suggestionsToShow = allCandidates.slice(0, 5);
 
-    // 5. رسم المنتجات
-    suggestionsContainer.style.display = 'block'; 
-    suggestionsContainer.innerHTML = '<div style="font-size:0.9rem; margin-bottom:5px; color:#ccc;">أكمل وجبتك بـ... 👇</div>'; 
+    suggestionsContainer.style.display = 'block';
+
+    suggestionsContainer.innerHTML =
+        '<div style="font-size:0.9rem;margin-bottom:5px;color:#ccc;">أكمل وجبتك بـ... 👇</div>';
 
     suggestionsToShow.forEach(item => {
+
         const itemDiv = document.createElement('div');
         itemDiv.className = 'cart-suggestion-item';
+
+        // حساب الخصم الخاص بالفرع
+        const branchDiscount = item.branchDiscounts
+            ? item.branchDiscounts[currentBranchId]
+            : null;
+
+        const hasDiscount =
+            branchDiscount !== null &&
+            branchDiscount !== undefined &&
+            branchDiscount < item.basePrice;
+
+        const basePrice = hasDiscount
+            ? branchDiscount
+            : (Number(item.basePrice) || 0);
+
+        // حساب أقل سعر فعلي للخيارات
+        const options = Array.isArray(item.options) ? item.options : [];
+
+        const optionPrices = options.map(opt =>
+            Number(opt.price) || 0
+        );
+
+        const minOptionPrice = optionPrices.length
+            ? Math.min(...optionPrices)
+            : 0;
+
+        const startingPrice = basePrice + minOptionPrice;
+
+        const priceText = startingPrice > 0
+            ? (options.length > 1 && basePrice === 0
+                ? `ابتداءً من ${startingPrice} ريال`
+                : `${startingPrice} ريال`)
+            : 'السعر عند الاختيار';
+
         itemDiv.innerHTML = `
             <img src="${item.img}" onerror="this.src='logo-bg.png'">
             <h4>${item.name}</h4>
-            <span class="price">${item.basePrice} ريال</span>
-            <button>أضف +</button>
+            <span class="price">${priceText}</span>
+            <button type="button">أضف +</button>
         `;
-        
+
+        // عند الضغط نفتح نافذة الخيارات بدلاً من الإضافة المباشرة
         itemDiv.querySelector('button').onclick = () => {
-            const defaultOption = item.options.length > 0 ? item.options[0] : null;
-            addToCart({...item, qty: 1, selectedOption: defaultOption});
+
+            const itemForCart = { ...item };
+
+            // تطبيق خصم الفرع
+            if (hasDiscount) {
+                itemForCart.basePrice = branchDiscount;
+            }
+
             const img = itemDiv.querySelector('img');
-            if(typeof flyToCart === 'function') flyToCart(img);
+
+            // هل يحتاج المنتج إلى اختيار؟
+            const needsOptions =
+                options.length > 1 ||
+                (options.length === 1 && options[0].name !== "");
+
+            if (needsOptions) {
+                showOptions(itemForCart, false, img);
+            } else {
+                showOptions(itemForCart, true, img);
+            }
         };
 
         suggestionsContainer.appendChild(itemDiv);
     });
-    }
+}
+
 
 /* 🔔 نظام الإشعارات الذكي (نسخة موحدة ونظيفة) 🔔 */
 /* ================================================= */
