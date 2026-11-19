@@ -981,7 +981,7 @@ modalConfirm.onclick = ()=>{
 
             addToCart({
                 ...selectedItem,
-                qty:1,
+                qty:selectedQty,
                 selectedOptions:selectedOptions,
                 note: note || null
             });
@@ -993,7 +993,7 @@ modalConfirm.onclick = ()=>{
 
             addToCart({
                 ...selectedItem,
-                qty:1,
+                qty:selectedQty,
                 selectedOption:optionToSend,
                 note: note || null
             });
@@ -1022,22 +1022,49 @@ function flashCartButton() {
 }
 
 
-function addToCart(item){
-    const obj={...item};
-    // حذف كل الخصائص المتعلقة بالمنطق
-    delete obj.branchDiscounts; 
-    delete obj.isBestSeller; 
-    delete obj.availableIn; 
 
-    const key = obj.id + (obj.selectedOption?`-${obj.selectedOption.name}`:'') + (obj.note ? `-${obj.note}` : '');
-    const found = cart.find(i=>i.key===key);
-    if(found) found.qty+=1;
-    else cart.push({...obj,key});
+function addToCart(item){
+
+    const obj = {...item};
+
+    // حفظ الكمية المطلوبة
+    const incomingQty = Number(obj.qty) || 1;
+
+    // حذف خصائص الفروع
+    delete obj.branchDiscounts;
+    delete obj.isBestSeller;
+    delete obj.availableIn;
+
+    // تحديد هوية المنتج وخياراته وملاحظاته
+    const optionKey = obj.selectedOption
+        ? obj.selectedOption.name
+        : '';
+
+    const multiOptionsKey = obj.selectedOptions
+        ? obj.selectedOptions.map(o => o.name).sort().join('+')
+        : '';
+
+    const key = obj.id +
+        '-' + optionKey +
+        '-' + multiOptionsKey +
+        '-' + (obj.note || '');
+
+    const found = cart.find(i => i.key === key);
+
+    if(found) {
+        found.qty = (Number(found.qty) || 0) + incomingQty;
+    } else {
+        cart.push({
+            ...obj,
+            qty: incomingQty,
+            key: key
+        });
+    }
 
     saveCart();
-flashCartButton();
-
+    flashCartButton();
 }
+
 // 🚀 ———————————————
 
 
