@@ -603,6 +603,7 @@ const processedMenuData = processMenuData(menuData);
 
 /* ====== متغيرات PWA و SearchBar ====== */
 let selectedOptions = [];
+let selectedQty = 1;
 let currentSection = processedMenuData[0].section; // استخدام البيانات المعالجة لتحديد القسم الحالي
 const installAppBtn = document.getElementById('installAppBtn');
 const searchBar = document.getElementById('searchBar');
@@ -828,11 +829,14 @@ ${
 /* ====== Show options modal - لدعم الملاحظات ====== */
 // 🚀 MODIFIED: إضافة itemImage للمُعاملات
 function showOptions(item, skipOptions = false, itemImage = null){ 
-    selectedItem = item;
-    selectedItemImage = itemImage;
+selectedItem = item;
+selectedItemImage = itemImage;
 
-    selectedOption = null;
-    selectedOptions = [];
+// تصفير الكمية عند فتح وجبة جديدة
+selectedQty = 1;
+updateModalQty();
+selectedOption = null;
+selectedOptions = [];
 
     modalTitle.innerText = item.name;
     itemNoteInput.value = '';
@@ -894,6 +898,73 @@ function showOptions(item, skipOptions = false, itemImage = null){
 
     optionModal.style.display='flex';
 }
+
+/* ===== عداد الكمية داخل نافذة الطلب ===== */
+
+const modalQtyBox = document.createElement('div');
+
+modalQtyBox.id = 'modalQuantity';
+
+modalQtyBox.style.cssText = `
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:18px 0;
+    padding:15px;
+    border:1px solid #c39e6a;
+    border-radius:14px;
+    background:#211b16;
+    direction:rtl;
+`;
+
+modalQtyBox.innerHTML = `
+    <strong style="color:#d6b477;font-size:17px">
+        الكمية
+    </strong>
+
+    <div style="display:flex;align-items:center;gap:18px">
+
+        <button type="button" id="qtyMinus"
+        style="width:42px;height:42px;border:0;border-radius:10px;background:#c9a365;color:#21170e;font-size:25px">
+            −
+        </button>
+
+        <strong id="qtyValue"
+        style="font-size:24px;color:white;min-width:25px;text-align:center">
+            1
+        </strong>
+
+        <button type="button" id="qtyPlus"
+        style="width:42px;height:42px;border:0;border-radius:10px;background:#c9a365;color:#21170e;font-size:25px">
+            +
+        </button>
+
+    </div>
+`;
+
+itemNoteInput.insertAdjacentElement(
+    'beforebegin',
+    modalQtyBox
+);
+
+function updateModalQty() {
+    document.getElementById('qtyValue').innerText = selectedQty;
+}
+
+document.getElementById('qtyMinus').onclick = () => {
+    if (selectedQty > 1) {
+        selectedQty--;
+        updateModalQty();
+    }
+};
+
+document.getElementById('qtyPlus').onclick = () => {
+    if (selectedQty < 99) {
+        selectedQty++;
+        updateModalQty();
+    }
+};
+
 /* ====== Confirm modal ====== */
 optionModal.addEventListener('click', (e) => {
     if (e.target.id === 'optionModal') {
