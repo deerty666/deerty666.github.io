@@ -1754,3 +1754,7 @@ header #changeBranchBtn {
 body {
     padding-bottom: 88px !important;
 }
+/* إصلاح ظهور شريط التطبيق فوق زر إرسال الطلب */
+#cartDrawer {
+    z-index: 10001 !important;
+}
