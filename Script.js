@@ -2287,3 +2287,124 @@ document.getElementById("bottomContactBtn")?.addEventListener("click", () => {
 
     window.open(`https://wa.me/${branch.whatsapp}`, "_blank");
 });
+
+/* =========================================
+   📤 مشاركة تطبيق سحايب ديرتي
+   Android + iPhone + Fallback
+========================================= */
+
+(function initDeertyShareButton() {
+
+    const bottomBar = document.getElementById("bottomBar");
+
+    if (!bottomBar || document.getElementById("bottomShareBtn")) {
+        return;
+    }
+
+    // إنشاء زر المشاركة
+    const shareBtn = document.createElement("button");
+
+    shareBtn.id = "bottomShareBtn";
+    shareBtn.type = "button";
+    shareBtn.innerHTML = `
+        <span style="font-size:27px;line-height:1">
+            <svg width="27" height="27" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3"/>
+                <circle cx="6" cy="12" r="3"/>
+                <circle cx="18" cy="19" r="3"/>
+                <path d="M8.7 10.7l6.6-4.4M8.7 13.3l6.6 4.4"/>
+            </svg>
+        </span>
+        <span>مشاركة التطبيق</span>
+    `;
+
+    shareBtn.style.cssText = `
+        flex:1;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:8px;
+        background:transparent;
+        border:0;
+        color:#E8C065;
+        font-family:inherit;
+        font-size:16px;
+        font-weight:800;
+        cursor:pointer;
+        padding:8px 3px;
+        min-width:0;
+    `;
+
+    // إضافة الزر قبل زر تثبيت التطبيق
+    const installBtn = document.getElementById("bottomInstallBtn");
+
+    if (installBtn && installBtn.parentElement === bottomBar) {
+        bottomBar.insertBefore(shareBtn, installBtn);
+    } else {
+        bottomBar.appendChild(shareBtn);
+    }
+
+    // نسخ الرابط عند عدم دعم المشاركة
+    async function copyShareLink(text) {
+
+        try {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(text);
+            } else {
+                const textarea = document.createElement("textarea");
+                textarea.value = text;
+                textarea.style.position = "fixed";
+                textarea.style.opacity = "0";
+                document.body.appendChild(textarea);
+                textarea.select();
+
+                const copied = document.execCommand("copy");
+                textarea.remove();
+
+                if (!copied) throw new Error("Copy failed");
+            }
+
+            alert("✅ تم نسخ رابط سحايب ديرتي، شاركه مع أصدقائك");
+
+        } catch (error) {
+            alert("تعذر نسخ الرابط، يمكنك نسخه من شريط العنوان.");
+        }
+    }
+
+    // تنفيذ المشاركة
+    shareBtn.addEventListener("click", async () => {
+
+        const shareUrl = window.location.href;
+
+        const shareData = {
+            title: "مطاعم ومطابخ سحايب ديرتي",
+            text: `🍽️ جربوا سحايب ديرتي!\nأشهى الوجبات وأفضل العروض.\n📍 الفرع: ${currentBranch.name}\n`,
+            url: shareUrl
+        };
+
+        if (navigator.share) {
+
+            try {
+                await navigator.share(shareData);
+
+            } catch (error) {
+
+                // المستخدم أغلق قائمة المشاركة بنفسه
+                if (error.name === "AbortError") return;
+
+                console.error("Share Error:", error);
+                await copyShareLink(shareUrl);
+            }
+
+        } else {
+
+            await copyShareLink(shareUrl);
+
+        }
+    });
+
+})();
