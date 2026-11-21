@@ -1995,3 +1995,15 @@ body {
     padding: 4px 2px !important;
     font-size: .68rem !important;
 }
+
+/* إصلاح ظهور نافذة خيارات الأصناف فوق السلة */
+#optionModal {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 10010 !important;
+}
+
+#optionModal .modal-content {
+    position: relative;
+    z-index: 10011 !important;
+}
