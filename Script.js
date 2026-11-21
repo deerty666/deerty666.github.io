@@ -2485,7 +2485,7 @@ document.getElementById("bottomContactBtn")?.addEventListener("click", () => {
 
     // متابعة إلى القائمة
     continueBtn.addEventListener('click', function () {
-
+alert('زر ابدأ الطلب يعمل');
         const deliveryType = document.querySelector(
             'input[name="startDeliveryType"]:checked'
         )?.value;
