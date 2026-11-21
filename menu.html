@@ -1,0 +1,634 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+
+<script>
+window.OneSignalDeferred = window.OneSignalDeferred || [];
+OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+        appId: "e0889409-9aa2-415e-a8e6-c562b17d2de9",
+    });
+});
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مطاعم ومطابخ سحايب ديرتي</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1A1512">
+<link rel="stylesheet" href="style.css">
+
+<style>
+#notificationPrompt {
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    z-index:1000;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    box-sizing:border-box;
+}
+
+.notification-content {
+    background:var(--card-bg-dark);
+    color:var(--light-text);
+    padding:30px;
+    border-radius:12px;
+    max-width:350px;
+    width:90%;
+    text-align:center;
+    border:1px solid var(--gold);
+}
+
+.notification-content h3 {
+    color:var(--gold);
+    margin-top:0;
+}
+
+.notification-content button {
+    padding:12px 20px;
+    border:0;
+    border-radius:8px;
+    font-weight:700;
+    cursor:pointer;
+    margin:5px;
+    width:100%;
+}
+
+#allowNotifications {
+    background:var(--gold);
+    color:var(--old-brown);
+}
+
+#denyNotifications {
+    background:#333;
+    color:#fff;
+}
+
+@media(min-width:480px) {
+    .notification-content button {width:45%}
+}
+
+/* الشريط السفلي */
+#bottomBar {
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    min-height:65px;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    background:#1A1512;
+    border-top:1px solid #c39e6a;
+    box-shadow:0 -3px 15px rgba(0,0,0,.35);
+    padding:5px 8px;
+    padding-bottom:max(5px,env(safe-area-inset-bottom));
+    box-sizing:border-box;
+    z-index:9999;
+}
+
+#bottomBar button {
+    flex:1;
+    min-height:52px;
+    border:0;
+    background:transparent;
+    color:#E8C065;
+    font-family:'Cairo',sans-serif;
+    font-size:22px;
+    font-weight:700;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+}
+
+#bottomBar button small {
+    font-size:11px;
+    color:#fff;
+}
+
+#bottomBar #cartBtn {
+    position:relative;
+    width:auto;
+    height:auto;
+    border-radius:0;
+    padding:0;
+    box-shadow:none;
+    display:flex;
+}
+
+#bottomBar #cartBtn .cart-icon {
+    width:25px;
+    height:25px;
+    fill:#E8C065;
+}
+
+#bottomBar #cartCount {
+    position:absolute;
+    top:0;
+    right:calc(50% - 24px);
+    background:#d62828;
+    color:white;
+    border-radius:50%;
+    min-width:17px;
+    height:17px;
+    font-size:10px;
+    line-height:17px;
+    text-align:center;
+}
+
+body {padding-bottom:85px}
+
+/* شاشة البداية */
+#customerStartScreen {
+    position:fixed;
+    inset:0;
+    z-index:20000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    background:radial-gradient(circle at top,rgba(195,158,106,.13),transparent 42%),#080604;
+    overflow-y:auto;
+}
+
+.customer-start-card {
+    width:100%;
+    max-width:520px;
+    min-height:min(820px,calc(100dvh - 36px));
+    padding:clamp(22px,5vh,48px) clamp(18px,5vw,38px);
+    border:2px solid #b99a69;
+    border-radius:38px;
+    background:linear-gradient(145deg,#24180f,#100b08);
+    box-shadow:0 15px 55px #000b;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:clamp(12px,2.5vh,22px);
+}
+
+.customer-start-icon {
+    font-size:54px;
+    line-height:1.2;
+}
+
+.customer-start-card h2 {
+    margin:0;
+    color:#e8c065;
+    font-size:clamp(27px,6vw,38px);
+    font-weight:900;
+}
+
+.customer-start-subtitle {
+    margin:0 0 4px;
+    color:#eee;
+    font-size:clamp(17px,4vw,22px);
+}
+
+.customer-field {text-align:right}
+
+.customer-field label {
+    display:block;
+    margin:0 4px 7px;
+    color:#e8c065;
+    font-weight:800;
+}
+
+.customer-field input {
+    width:100%;
+    height:54px;
+    padding:10px 15px;
+    border:1px solid #b99a69;
+    border-radius:14px;
+    background:#17100b;
+    color:#fff;
+    font:700 17px Cairo,sans-serif;
+    outline:none;
+    box-sizing:border-box;
+}
+
+.customer-field input:focus {
+    box-shadow:0 0 0 3px #c39e6a44;
+}
+
+.customer-choice {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.customer-choice input {
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+}
+
+.customer-choice label {
+    min-height:150px;
+    border:2px solid #b99a69;
+    border-radius:22px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    color:#fff;
+    background:#21170f;
+    cursor:pointer;
+    padding:12px;
+}
+
+.customer-choice label .choice-icon {font-size:38px}
+
+.customer-choice label strong {
+    font-size:clamp(16px,4vw,21px);
+}
+
+.customer-choice label small {
+    font-size:13px;
+    color:inherit;
+}
+
+.customer-choice input:checked+label {
+    background:linear-gradient(135deg,#f0d292,#c39e6a,#a77b43);
+    color:#211309;
+    border-color:#ffe3a4;
+}
+
+.customer-choice input:checked+label small {
+    color:#302010;
+}
+
+#continueToMenu {
+    width:100%;
+    min-height:56px;
+    border:0;
+    border-radius:16px;
+    background:linear-gradient(135deg,#f0d292,#c39e6a,#a77b43);
+    color:#211309;
+    font:900 19px Cairo,sans-serif;
+    box-shadow:0 6px 18px #c39e6a44;
+    cursor:pointer;
+}
+
+.customer-start-note {
+    margin:0;
+    color:#c9ad7d;
+    font-size:14px;
+}
+
+@media(max-height:700px) {
+    .customer-start-card {
+        min-height:auto;
+        padding:18px;
+        gap:10px;
+        border-radius:25px;
+    }
+
+    .customer-start-icon {font-size:36px}
+    .customer-choice label {min-height:105px}
+    .customer-choice label .choice-icon {font-size:29px}
+    .customer-field input {height:46px}
+}
+
+/* تغيير طريقة الاستلام من السلة */
+.cart-delivery-switch {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin:12px 0;
+}
+
+.cart-delivery-switch label {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:3px;
+    padding:10px 6px;
+    border:1px solid var(--gold);
+    border-radius:12px;
+    background:#21170f;
+    color:#fff;
+    font-weight:800;
+    cursor:pointer;
+    text-align:center;
+}
+
+.cart-delivery-switch input {accent-color:var(--gold)}
+
+.cart-delivery-switch label:has(input:checked) {
+    background:linear-gradient(135deg,#f0d292,#c39e6a);
+    color:#211309;
+}
+
+.cart-delivery-switch small {font-size:11px}
+
+.cart-delivery-details {
+    padding:10px;
+    margin:8px 0;
+    border:1px solid rgba(195,158,106,.45);
+    border-radius:12px;
+    background:#17100b;
+}
+
+.cart-delivery-details label {
+    display:block;
+    color:var(--gold);
+    font-weight:800;
+    margin-bottom:6px;
+}
+
+.cart-delivery-details textarea {
+    width:100%;
+    padding:10px;
+    border:1px solid var(--gold);
+    border-radius:9px;
+    background:#24180f;
+    color:#fff;
+    font:600 14px Cairo,sans-serif;
+    resize:vertical;
+    box-sizing:border-box;
+}
+
+.cart-delivery-details p {
+    font-size:12px;
+    line-height:1.7;
+    margin:8px 0;
+    color:#e8c065;
+}
+
+.cart-delivery-details button {
+    padding:8px 12px;
+    border:1px solid var(--gold);
+    border-radius:9px;
+    background:transparent;
+    color:var(--gold);
+    font:700 13px Cairo,sans-serif;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <button id="enableIosPush"
+        style="display:none;background:#E8C065;color:#1A1512;font-weight:700;border:none;border-radius:8px;padding:10px 14px;margin:8px auto;width:90%;max-width:320px;">
+        📢 اضغط هنا لتفعيل الإشعارات
+    </button>
+
+    <button id="installAppBtn" style="display:none;">تثبيت التطبيق 📲</button>
+
+    <button id="iosHelpBtn" style="display:none;" class="ios-btn">
+        طريقة التثبيت 🍏
+    </button>
+
+    <div class="header-logo">
+        <img src="logo-bg1.png" alt="شعار المطعم"
+             onerror="this.style.opacity=0.25; this.style.height='42px'">
+    </div>
+
+    <div class="branch-top-bar">
+        <div class="current-branch-box">
+            <span class="branch-label">📍 الفرع الحالي</span>
+            <div id="currentBranchName">لبن الأحمدية</div>
+        </div>
+
+        <button id="changeBranchBtn">تغيير ⌄</button>
+    </div>
+</header>
+
+<input type="search" id="searchBar"
+       placeholder="ابحث عن وجبة سريعة أو صنف..."
+       aria-label="البحث في القائمة">
+
+<div id="branchDropdown" class="branch-dropdown">
+    <div class="branch-option" data-branch="branch1">لبن الأحمدية</div>
+    <div class="branch-option" data-branch="branch2">شمال الرياض مخرج ٦</div>
+    <div class="branch-option" data-branch="branch3">الروضة خالد بن الوليد</div>
+</div>
+
+<div id="sections" aria-hidden="false"></div>
+<main id="menuList" role="list"></main>
+
+<div id="cartOverlay"></div>
+
+<div id="cartDrawer" aria-hidden="true">
+    <div class="cart-header">
+        <div>سلة الطلبات</div>
+        <button id="closeCartBtn" class="back-to-menu-btn" title="الرجوع للقائمة">
+            <span>الرجوع للقائمة</span>
+            <span class="back-cart-icon">🛒</span>
+        </button>
+    </div>
+
+    <div id="cartItems"></div>
+    <div id="cartSuggestions"></div>
+
+    <!-- اختيار نوع الطلب -->
+    <div class="cart-delivery-switch" aria-label="تغيير طريقة الاستلام">
+
+        <label>
+            <input type="radio" name="deliveryType" value="delivery">
+            🚚 توصيل للمنزل
+            <small>5 ريال</small>
+        </label>
+
+        <label>
+            <input type="radio" name="deliveryType" value="pickup">
+            🏪 استلام من الفرع
+            <small>مجاناً</small>
+        </label>
+
+    </div>
+
+    <div id="cartOrderType" class="cart-order-type"></div>
+
+    <!-- تفاصيل التوصيل -->
+    <div id="cartDeliveryDetails" class="cart-delivery-details" style="display:none">
+
+        <label for="manualAddress">🏠 الحي والعنوان التفصيلي</label>
+
+        <textarea id="manualAddress" rows="2"
+            placeholder="اكتب الحي والشارع ورقم المنزل أو وصف الموقع"></textarea>
+
+        <p id="locationStatus" aria-live="polite">
+            📍 سيتم تحديد موقعك عند اختيار التوصيل
+        </p>
+
+        <button type="button" id="getLocationBtn">
+            📍 تحديث موقعي
+        </button>
+
+    </div>
+
+    <div class="cart-footer">
+        <div id="totalBreakdown"></div>
+
+        <div style="display:flex;gap:8px;">
+            <button id="sendWhatsapp" class="primary-btn" style="flex:1;">
+                إرسال عبر واتساب
+            </button>
+
+            <button id="clearCart" class="danger-btn" style="width:120px;">
+                مسح السلة
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- الشريط السفلي -->
+<nav id="bottomBar" aria-label="القائمة السفلية">
+
+    <button id="cartBtn" aria-label="عرض السلة">
+        <svg viewBox="0 0 24 24" class="cart-icon">
+            <path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.44C7.52 16.37 8 17 8.7 17H19v-2H9.42c-.14 0-.25-.11-.25-.25l.03-.12L10.1 13h6.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 21 4H7z"/>
+        </svg>
+
+        <span id="cartCount">0</span>
+        <small>السلة</small>
+    </button>
+
+    <button id="bottomContactBtn" type="button">
+        📞
+        <small>تواصل معنا</small>
+    </button>
+
+    <button id="bottomInstallBtn" type="button">
+        📲
+        <small>تثبيت التطبيق</small>
+    </button>
+
+</nav>
+
+<!-- نافذة خيارات المنتجات -->
+<div id="optionModal">
+    <div class="modal-content">
+        <h3 id="modalTitle"></h3>
+        <div id="modalOptions"></div>
+
+        <textarea id="itemNote"
+            placeholder="ملاحظات خاصة على هذا الصنف (مثل: بدون ملح، فلفل خفيف)..."
+            rows="3"></textarea>
+
+        <button id="modalConfirm" class="primary-btn">
+            تأكيد
+        </button>
+    </div>
+</div>
+
+<!-- نافذة الإشعارات -->
+<div id="notificationPrompt">
+    <div class="notification-content">
+        <h3>هل تريد أن يصلك جديد عروضنا؟ 📢</h3>
+
+        <p>
+            قم بتفعيل الإشعارات لتكون أول من يعلم عند إضافة أطباق جديدة أو خصومات مميزة!
+        </p>
+
+        <button id="allowNotifications">نعم، أريد ذلك</button>
+        <button id="denyNotifications">لا شكراً</button>
+    </div>
+</div>
+
+<!-- تعليمات تثبيت الآيفون -->
+<div id="iosInstallBanner" class="ios-install-banner">
+    <h3 style="color:var(--gold);margin-top:0;">
+        📱 تثبيت التطبيق على الآيفون
+    </h3>
+
+    <ul class="ios-steps">
+        <li>1️⃣ اضغط على زر <strong>المشاركة</strong> <span class="ios-icon">⏏️</span> في الأسفل.</li>
+        <li>2️⃣ انزل بالقائمة واختر <strong>"إضافة إلى الصفحة الرئيسية"</strong> <span class="ios-icon">➕</span>.</li>
+        <li>3️⃣ اضغط <strong>"إضافة"</strong> في الزاوية العلوية.</li>
+    </ul>
+
+    <button onclick="closeIosBanner()">مفهوم 👍</button>
+</div>
+
+<!-- شاشة البداية بعد اختيار الفرع -->
+<div id="customerStartScreen">
+    <section class="customer-start-card">
+
+        <div class="customer-start-icon">🍽️</div>
+
+        <h2>أهلاً بك في ديرتي</h2>
+
+        <p class="customer-start-subtitle">
+            كيف تحب تستلم طلبك اليوم؟
+        </p>
+
+        <div class="customer-field">
+            <label for="customerName">اسم العميل</label>
+
+            <input id="customerName" type="text"
+                maxlength="60" autocomplete="name"
+                placeholder="اكتب اسمك هنا">
+        </div>
+
+        <div class="customer-field">
+            <label for="customerPhone">رقم الجوال</label>
+
+            <input id="customerPhone" type="tel"
+                inputmode="tel" maxlength="15"
+                autocomplete="tel" placeholder="05xxxxxxxx">
+        </div>
+
+        <div class="customer-field" id="startAddressField" style="display:none">
+            <label for="customerAddress">الحي والعنوان التفصيلي للتوصيل</label>
+
+            <input id="customerAddress" type="text"
+                maxlength="180" autocomplete="street-address"
+                placeholder="مثال: حي لبن، شارع ...، منزل رقم ...">
+        </div>
+
+        <div class="customer-choice">
+
+            <div>
+                <input type="radio" id="startDelivery"
+                    name="startDeliveryType" value="delivery">
+
+                <label for="startDelivery">
+                    <span class="choice-icon">🚚</span>
+                    <strong>توصيل للمنزل</strong>
+                    <small>رسوم التوصيل 5 ريال</small>
+                </label>
+            </div>
+
+            <div>
+                <input type="radio" id="startPickup"
+                    name="startDeliveryType" value="pickup">
+
+                <label for="startPickup">
+                    <span class="choice-icon">🏪</span>
+                    <strong>استلام من الفرع</strong>
+                    <small>بدون رسوم توصيل</small>
+                </label>
+            </div>
+
+        </div>
+
+        <button id="continueToMenu" type="button">
+            ابدأ الطلب ←
+        </button>
+
+        <p class="customer-start-note">
+            ✨ يسعدنا خدمتكم في سحايب ديرتي
+        </p>
+
+    </section>
+</div>
+
+<script src="Script.js?v=1.1" defer></script>
+
+</body>
+</html>
