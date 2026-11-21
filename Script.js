@@ -2423,11 +2423,15 @@ document.getElementById("bottomContactBtn")?.addEventListener("click", () => {
 
 })();
 
+
 /* =========================================
    بيانات العميل وشاشة البداية - ديرتي
+   الاسم والجوال والعنوان اختيارية
+   الاختيار الإلزامي فقط: توصيل أو استلام
 ========================================= */
 
 (function () {
+
     const startScreen = document.getElementById('customerStartScreen');
     const nameInput = document.getElementById('customerName');
     const phoneInput = document.getElementById('customerPhone');
@@ -2440,26 +2444,26 @@ document.getElementById("bottomContactBtn")?.addEventListener("click", () => {
 
     const manualAddress = document.getElementById('manualAddress');
 
-    if (!startScreen || !continueBtn) return;
+    if (!startScreen || !continueBtn || !startDelivery || !startPickup) {
+        return;
+    }
 
     const STORAGE_KEY = 'deerty_customer_info';
 
     let customer = {};
+
     try {
         customer = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
     } catch (e) {
         customer = {};
     }
 
-    // استعادة بيانات العميل المحفوظة
-    nameInput.value = customer.name || '';
-    phoneInput.value = customer.phone || '';
+    // استعادة البيانات السابقة إن وجدت
+    if (nameInput) nameInput.value = customer.name || '';
+    if (phoneInput) phoneInput.value = customer.phone || '';
+    if (addressInput) addressInput.value = customer.address || '';
 
-    if (addressInput) {
-        addressInput.value = customer.address || '';
-    }
-
-    // إظهار حقل العنوان عند اختيار التوصيل
+    // إظهار العنوان عند اختيار التوصيل فقط
     function updateStartAddress() {
         if (addressField) {
             addressField.style.display =
@@ -2470,7 +2474,7 @@ document.getElementById("bottomContactBtn")?.addEventListener("click", () => {
     startDelivery.addEventListener('change', updateStartAddress);
     startPickup.addEventListener('change', updateStartAddress);
 
-    // استعادة طريقة الطلب السابقة
+    // استعادة نوع الطلب السابق
     if (customer.deliveryType === 'delivery') {
         startDelivery.checked = true;
     } else if (customer.deliveryType === 'pickup') {
@@ -2479,35 +2483,25 @@ document.getElementById("bottomContactBtn")?.addEventListener("click", () => {
 
     updateStartAddress();
 
-    // متابعة إلى المنيو
+    // متابعة إلى القائمة
     continueBtn.addEventListener('click', function () {
-
-        const name = nameInput.value.trim();
-        const phone = phoneInput.value.trim();
-        const address = addressInput ? addressInput.value.trim() : '';
 
         const deliveryType = document.querySelector(
             'input[name="startDeliveryType"]:checked'
         )?.value;
 
-        if (!name) {
-            alert('فضلاً اكتب اسمك');
-            nameInput.focus();
-            return;
-        }
-
-        if (!phone || phone.replace(/\D/g, '').length < 9) {
-            alert('فضلاً أدخل رقم جوال صحيح');
-            phoneInput.focus();
-            return;
-        }
-
+        // الشرط الإلزامي الوحيد
         if (!deliveryType) {
-            alert('اختر التوصيل أو الاستلام من الفرع');
+            alert('فضلاً اختر توصيل للمنزل أو استلام من الفرع');
             return;
         }
 
-        // حفظ بيانات العميل على جهازه فقط
+        // جميع بيانات العميل اختيارية
+        const name = nameInput?.value.trim() || '';
+        const phone = phoneInput?.value.trim() || '';
+        const address = addressInput?.value.trim() || '';
+
+        // حفظ البيانات المتوفرة على جهاز العميل
         customer = {
             name,
             phone,
@@ -2515,24 +2509,29 @@ document.getElementById("bottomContactBtn")?.addEventListener("click", () => {
             deliveryType
         };
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(customer));
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(customer)
+        );
 
-        // نقل العنوان إلى حقل السلة
+        // نقل العنوان إلى السلة إن وُجد
         if (manualAddress) {
             manualAddress.value = address;
         }
 
-        // مزامنة اختيار شاشة البداية مع اختيار السلة
+        // مزامنة نوع الطلب مع السلة
         const cartRadio = document.querySelector(
             `input[name="deliveryType"][value="${deliveryType}"]`
         );
 
         if (cartRadio) {
             cartRadio.checked = true;
-            cartRadio.dispatchEvent(new Event('change', { bubbles: true }));
+            cartRadio.dispatchEvent(
+                new Event('change', { bubbles: true })
+            );
         }
 
-        // إخفاء شاشة البداية
+        // الدخول إلى القائمة
         startScreen.style.display = 'none';
 
     });
