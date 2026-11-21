@@ -1938,3 +1938,132 @@ body {
 #cartDrawer > * {
     min-width: 0;
 }
+
+/* =========================================
+   DEERTY - إصلاح قسم أكمل وجبتك
+========================================= */
+
+#cartDrawer #cartSuggestions {
+    display: none;
+    flex: 0 0 auto !important;
+    width: 100%;
+    max-height: 190px !important;
+    padding: 8px 8px 10px;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    white-space: nowrap;
+    background: #111;
+    border-bottom: 1px solid rgba(195,158,106,.35);
+    -webkit-overflow-scrolling: touch;
+}
+
+/* عنوان أكمل وجبتك */
+#cartSuggestions > div:first-child:not(.cart-suggestion-item) {
+    display: block;
+    width: 100%;
+    margin: 0 0 8px;
+    padding: 0 5px;
+    color: #e8c065 !important;
+    font-size: 14px !important;
+    font-weight: 800;
+}
+
+/* بطاقة الوجبة المقترحة */
+#cartSuggestions .cart-suggestion-item {
+    display: inline-flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    vertical-align: top;
+    width: 105px !important;
+    min-width: 105px;
+    height: 140px;
+    margin: 0 3px;
+    padding: 5px;
+    overflow: hidden;
+    white-space: normal;
+    border: 1px solid #8f7048;
+    border-radius: 11px;
+    background: linear-gradient(145deg,#292018,#15110e);
+    text-align: center;
+}
+
+/* صورة الوجبة */
+#cartSuggestions .cart-suggestion-item img {
+    display: block;
+    width: 100%;
+    height: 58px;
+    min-height: 58px;
+    margin: 0 0 4px;
+    border-radius: 7px;
+    object-fit: cover;
+}
+
+/* اسم الوجبة */
+#cartSuggestions .cart-suggestion-item h4 {
+    display: -webkit-box;
+    width: 100%;
+    min-height: 28px;
+    max-height: 28px;
+    margin: 0 0 3px;
+    overflow: hidden;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.4;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+/* السعر */
+#cartSuggestions .cart-suggestion-item .price {
+    display: block;
+    width: 100%;
+    margin: 0 0 4px;
+    color: #e8c065;
+    font-size: 11px;
+    font-weight: 800;
+    white-space: normal;
+}
+
+/* زر الإضافة */
+#cartSuggestions .cart-suggestion-item button {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 100% !important;
+    min-height: 29px;
+    height: 29px;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 3px 5px;
+    border: 1px solid #f1d49b;
+    border-radius: 7px;
+    background: linear-gradient(135deg,#f0d292,#c39e6a);
+    color: #211309;
+    font-family: 'Cairo',sans-serif;
+    font-size: 12px;
+    font-weight: 900;
+    cursor: pointer;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+#cartSuggestions .cart-suggestion-item button:active {
+    transform: scale(.95);
+}
+
+/* تحسين عرض السلة في الجوال الصغير */
+@media(max-width:380px) {
+    #cartDrawer #cartSuggestions {
+        max-height: 180px !important;
+    }
+
+    #cartSuggestions .cart-suggestion-item {
+        width: 98px !important;
+        min-width: 98px;
+        height: 135px;
+    }
+}
